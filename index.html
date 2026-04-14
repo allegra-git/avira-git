@@ -3,31 +3,40 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Allegra Mauri</title>
+  <title>Trace — Objects of Purpose</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@300;400;600&family=Inter:wght@300;400&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@200;300&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --navy:  #09142a;
-      --deep:  #0d1f3c;
-      --mid:   #1a3a5c;
-      --gold:  #c9a84c;
-      --cream: #f0ead8;
-      --white: #faf9f6;
-      --muted: rgba(240,234,216,0.45);
+      --bg:      #f7f6f2;
+      --ink:     #0d0d0d;
+      --mid:     #6b6b6b;
+      --rule:    rgba(13,13,13,0.12);
     }
 
     html { scroll-behavior: smooth; }
 
     body {
-      background: var(--navy);
-      color: var(--cream);
-      font-family: 'Inter', sans-serif;
-      font-weight: 300;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'Jost', sans-serif;
+      font-weight: 200;
       overflow-x: hidden;
+    }
+
+    /* ─── CURSOR ──────────────────────────────────── */
+    .cursor {
+      position: fixed;
+      width: 6px; height: 6px;
+      background: var(--ink);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: transform 0.1s;
     }
 
     /* ─── NAV ─────────────────────────────────────── */
@@ -38,370 +47,371 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 1.5rem 3rem;
-      background: linear-gradient(to bottom, rgba(9,20,42,0.9) 0%, transparent 100%);
-      backdrop-filter: blur(2px);
+      padding: 2rem 3.5rem;
+      mix-blend-mode: multiply;
     }
 
     .nav-logo {
-      font-family: 'Cinzel', serif;
-      font-size: 1rem;
-      letter-spacing: 0.25em;
-      color: var(--gold);
+      font-family: 'Jost', sans-serif;
+      font-weight: 200;
+      font-size: 0.75rem;
+      letter-spacing: 0.55em;
       text-transform: uppercase;
+      color: var(--ink);
     }
 
     .nav-links {
       display: flex;
-      gap: 2.5rem;
+      gap: 3rem;
       list-style: none;
     }
 
     .nav-links a {
-      font-size: 0.75rem;
-      letter-spacing: 0.2em;
+      font-size: 0.65rem;
+      letter-spacing: 0.3em;
       text-transform: uppercase;
-      color: var(--cream);
+      color: var(--mid);
       text-decoration: none;
-      opacity: 0.7;
-      transition: opacity 0.3s;
+      transition: color 0.3s;
     }
 
-    .nav-links a:hover { opacity: 1; }
+    .nav-links a:hover { color: var(--ink); }
 
     /* ─── HERO ────────────────────────────────────── */
     .hero {
-      position: relative;
       height: 100vh;
+      display: grid;
+      grid-template-rows: 1fr auto;
+      padding: 0 3.5rem 3.5rem;
+      position: relative;
+    }
+
+    .hero-center {
       display: flex;
       flex-direction: column;
       justify-content: center;
-      align-items: center;
-      text-align: center;
-      overflow: hidden;
+      align-items: flex-start;
+      padding-top: 6rem;
     }
 
-    .hero-bg {
-      position: absolute;
-      inset: 0;
-      background:
-        radial-gradient(ellipse 80% 60% at 50% 70%, rgba(26,58,92,0.5) 0%, transparent 70%),
-        radial-gradient(ellipse 50% 40% at 50% 100%, rgba(201,168,76,0.08) 0%, transparent 60%);
-    }
-
-    /* water horizon line */
-    .horizon {
-      position: absolute;
-      bottom: 28%;
-      left: 0; right: 0;
-      height: 1px;
-      background: linear-gradient(to right, transparent, rgba(201,168,76,0.3), transparent);
-    }
-
-    .hero-yacht {
-      position: absolute;
-      bottom: 22%;
-      left: 50%;
-      transform: translateX(-50%);
-      width: min(600px, 80vw);
-      opacity: 0.18;
-    }
-
-    .hero-content {
-      position: relative;
-      z-index: 2;
-    }
-
-    .hero-eyebrow {
-      font-size: 0.7rem;
-      letter-spacing: 0.4em;
+    .hero-tag {
+      font-size: 0.6rem;
+      letter-spacing: 0.5em;
       text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 1.5rem;
+      color: var(--mid);
+      margin-bottom: 2rem;
       opacity: 0;
-      animation: fadeUp 1s 0.3s forwards;
+      animation: fadeUp 1s 0.4s forwards;
     }
 
     .hero-title {
-      font-family: 'Cinzel', serif;
-      font-size: clamp(2.8rem, 6vw, 5.5rem);
+      font-family: 'Cormorant Garamond', serif;
       font-weight: 300;
-      line-height: 1.1;
-      letter-spacing: 0.05em;
-      color: var(--white);
+      font-size: clamp(5rem, 14vw, 14rem);
+      line-height: 0.88;
+      letter-spacing: -0.01em;
+      color: var(--ink);
       opacity: 0;
-      animation: fadeUp 1s 0.55s forwards;
+      animation: fadeUp 1.2s 0.5s forwards;
     }
 
-    .hero-title span { color: var(--gold); }
+    .hero-title em {
+      font-style: italic;
+      font-weight: 300;
+    }
 
     .hero-sub {
-      margin-top: 1.5rem;
-      font-size: 0.85rem;
-      letter-spacing: 0.15em;
-      color: var(--muted);
+      margin-top: 3rem;
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      line-height: 1.9;
+      color: var(--mid);
+      max-width: 360px;
       opacity: 0;
       animation: fadeUp 1s 0.8s forwards;
     }
 
-    .hero-cta {
-      margin-top: 3rem;
-      display: inline-block;
-      font-size: 0.7rem;
-      letter-spacing: 0.35em;
-      text-transform: uppercase;
-      color: var(--cream);
-      text-decoration: none;
-      border: 1px solid rgba(201,168,76,0.4);
-      padding: 1rem 2.5rem;
-      transition: background 0.3s, border-color 0.3s;
+    /* sketch in hero — wine vessel */
+    .hero-sketch {
+      position: absolute;
+      right: 3.5rem;
+      top: 50%;
+      transform: translateY(-48%);
+      width: clamp(200px, 28vw, 420px);
       opacity: 0;
-      animation: fadeUp 1s 1.05s forwards;
+      animation: fadeIn 1.4s 1s forwards;
     }
 
-    .hero-cta:hover {
-      background: rgba(201,168,76,0.1);
-      border-color: var(--gold);
-    }
-
-    .scroll-hint {
-      position: absolute;
-      bottom: 2.5rem;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0.5rem;
-      font-size: 0.65rem;
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
-      color: var(--muted);
-      animation: fadeIn 1s 1.5s both;
-    }
-
-    .scroll-line {
-      width: 1px;
-      height: 50px;
-      background: linear-gradient(to bottom, var(--gold), transparent);
-      animation: scrollPulse 2s 1.5s infinite;
-    }
-
-    /* ─── SECTIONS ────────────────────────────────── */
-    section {
-      position: relative;
-      padding: 10rem 3rem;
-      overflow: hidden;
-    }
-
-    .section-inner {
-      max-width: 900px;
-      margin: 0 auto;
-    }
-
-    /* ─── ABOUT ───────────────────────────────────── */
-    .about {
-      background: var(--deep);
-    }
-
-    .section-label {
-      font-size: 0.65rem;
-      letter-spacing: 0.4em;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 2rem;
-    }
-
-    .about-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 5rem;
-      align-items: center;
-    }
-
-    .about-heading {
-      font-family: 'Cinzel', serif;
-      font-size: clamp(2rem, 3.5vw, 3rem);
-      font-weight: 300;
-      line-height: 1.2;
-      color: var(--white);
-    }
-
-    .about-text {
-      font-size: 0.9rem;
-      line-height: 1.9;
-      color: var(--muted);
-    }
-
-    .about-text + .about-text { margin-top: 1.2rem; }
-
-    .about-yacht {
-      position: absolute;
-      right: -5%;
-      bottom: -2%;
-      width: 35%;
-      opacity: 0.06;
-      pointer-events: none;
-    }
-
-    /* ─── WORK ────────────────────────────────────── */
-    .work {
-      background: var(--navy);
-    }
-
-    .work-header {
+    .hero-bottom {
       display: flex;
       justify-content: space-between;
       align-items: flex-end;
-      margin-bottom: 4rem;
     }
 
-    .work-heading {
-      font-family: 'Cinzel', serif;
-      font-size: clamp(2rem, 3.5vw, 3rem);
-      font-weight: 300;
-      color: var(--white);
-    }
-
-    .work-link {
-      font-size: 0.7rem;
-      letter-spacing: 0.25em;
+    .hero-scroll {
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+      font-size: 0.6rem;
+      letter-spacing: 0.35em;
       text-transform: uppercase;
-      color: var(--gold);
-      text-decoration: none;
-      opacity: 0.8;
-      transition: opacity 0.3s;
+      color: var(--mid);
     }
-    .work-link:hover { opacity: 1; }
 
-    .cards {
+    .scroll-bar {
+      width: 40px;
+      height: 1px;
+      background: var(--ink);
+      transform-origin: left;
+      animation: expandBar 1s 1.5s both;
+    }
+
+    .hero-index {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      color: var(--mid);
+    }
+
+    /* ─── DIVIDER ─────────────────────────────────── */
+    hr {
+      border: none;
+      border-top: 1px solid var(--rule);
+      margin: 0 3.5rem;
+    }
+
+    /* ─── CONCEPT ─────────────────────────────────── */
+    .concept {
+      padding: 10rem 3.5rem;
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 6rem;
+      align-items: start;
+    }
+
+    .concept-label {
+      font-size: 0.6rem;
+      letter-spacing: 0.45em;
+      text-transform: uppercase;
+      color: var(--mid);
+      padding-top: 0.4rem;
+    }
+
+    .concept-body h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: clamp(1.9rem, 3.5vw, 3.2rem);
+      line-height: 1.25;
+      color: var(--ink);
+      margin-bottom: 2.5rem;
+    }
+
+    .concept-body h2 em { font-style: italic; }
+
+    .concept-body p {
+      font-size: 0.82rem;
+      line-height: 2;
+      color: var(--mid);
+      max-width: 560px;
+    }
+
+    .concept-body p + p { margin-top: 1.2rem; }
+
+    /* ─── OBJECTS ─────────────────────────────────── */
+    .objects {
+      padding: 6rem 3.5rem 10rem;
+    }
+
+    .objects-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 5rem;
+    }
+
+    .objects-header h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: clamp(1.5rem, 2.5vw, 2.2rem);
+      color: var(--ink);
+    }
+
+    .objects-count {
+      font-size: 0.6rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--mid);
+    }
+
+    .objects-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 1.5rem;
+      gap: 0;
+      border-top: 1px solid var(--rule);
     }
 
-    .card {
-      background: rgba(26,58,92,0.25);
-      border: 1px solid rgba(201,168,76,0.12);
-      padding: 2.5rem 2rem;
-      transition: border-color 0.3s, transform 0.3s;
+    .object-item {
+      padding: 4rem 2.5rem 4rem 0;
+      border-right: 1px solid var(--rule);
+      position: relative;
     }
 
-    .card:hover {
-      border-color: rgba(201,168,76,0.4);
-      transform: translateY(-4px);
+    .object-item:last-child { border-right: none; padding-right: 0; }
+    .object-item:not(:first-child) { padding-left: 2.5rem; }
+
+    .object-sketch {
+      width: 100%;
+      max-width: 220px;
+      margin-bottom: 3rem;
+      display: block;
     }
 
-    .card-num {
-      font-family: 'Cinzel', serif;
+    .object-num {
+      font-family: 'Cormorant Garamond', serif;
       font-size: 0.7rem;
-      color: var(--gold);
       letter-spacing: 0.3em;
-      margin-bottom: 1.5rem;
+      color: var(--mid);
+      margin-bottom: 0.8rem;
     }
 
-    .card-title {
-      font-family: 'Cinzel', serif;
-      font-size: 1.1rem;
+    .object-name {
+      font-family: 'Cormorant Garamond', serif;
       font-weight: 300;
-      color: var(--white);
-      margin-bottom: 1rem;
-      line-height: 1.3;
+      font-size: 1.35rem;
+      color: var(--ink);
+      margin-bottom: 0.6rem;
+      letter-spacing: 0.04em;
     }
 
-    .card-desc {
-      font-size: 0.8rem;
-      line-height: 1.8;
-      color: var(--muted);
+    .object-detail {
+      font-size: 0.72rem;
+      line-height: 1.85;
+      color: var(--mid);
+      letter-spacing: 0.05em;
     }
 
-    .work-yacht {
-      position: absolute;
-      left: -3%;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 30%;
-      opacity: 0.05;
-      pointer-events: none;
+    /* ─── MATERIAL ────────────────────────────────── */
+    .material {
+      padding: 8rem 3.5rem;
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 6rem;
+      align-items: center;
+      background: var(--ink);
+      color: var(--bg);
+    }
+
+    .material h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: clamp(2.2rem, 4vw, 4rem);
+      line-height: 1.15;
+      color: var(--bg);
+    }
+
+    .material h2 em { font-style: italic; }
+
+    .material-right {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .material-stat {
+      border-top: 1px solid rgba(247,246,242,0.12);
+      padding-top: 1.5rem;
+    }
+
+    .material-stat-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: 2.5rem;
+      color: var(--bg);
+      line-height: 1;
+      margin-bottom: 0.4rem;
+    }
+
+    .material-stat-label {
+      font-size: 0.65rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: rgba(247,246,242,0.45);
     }
 
     /* ─── CONTACT ─────────────────────────────────── */
     .contact {
-      background: var(--deep);
-      text-align: center;
+      padding: 12rem 3.5rem 10rem;
+      position: relative;
     }
 
-    .contact-heading {
-      font-family: 'Cinzel', serif;
-      font-size: clamp(2.2rem, 4vw, 3.8rem);
+    .contact-sketch {
+      position: absolute;
+      right: 3.5rem;
+      top: 50%;
+      transform: translateY(-50%);
+      width: clamp(150px, 22vw, 320px);
+      opacity: 0.35;
+    }
+
+    .contact-label {
+      font-size: 0.6rem;
+      letter-spacing: 0.45em;
+      text-transform: uppercase;
+      color: var(--mid);
+      margin-bottom: 2.5rem;
+    }
+
+    .contact h2 {
+      font-family: 'Cormorant Garamond', serif;
       font-weight: 300;
-      color: var(--white);
-      margin-bottom: 1.5rem;
-      line-height: 1.15;
+      font-size: clamp(2.5rem, 5.5vw, 5.5rem);
+      line-height: 1.1;
+      color: var(--ink);
+      max-width: 700px;
+      margin-bottom: 3.5rem;
     }
 
-    .contact-heading span { color: var(--gold); }
-
-    .contact-sub {
-      font-size: 0.85rem;
-      letter-spacing: 0.1em;
-      color: var(--muted);
-      margin-bottom: 3rem;
-    }
+    .contact h2 em { font-style: italic; }
 
     .contact-email {
-      font-family: 'Cinzel', serif;
-      font-size: clamp(1rem, 2vw, 1.4rem);
-      color: var(--cream);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1rem, 1.8vw, 1.5rem);
+      font-weight: 300;
+      letter-spacing: 0.08em;
+      color: var(--ink);
       text-decoration: none;
-      letter-spacing: 0.1em;
-      border-bottom: 1px solid rgba(201,168,76,0.4);
-      padding-bottom: 0.3rem;
-      transition: color 0.3s, border-color 0.3s;
+      border-bottom: 1px solid var(--ink);
+      padding-bottom: 0.2rem;
+      transition: opacity 0.3s;
     }
 
-    .contact-email:hover {
-      color: var(--gold);
-      border-color: var(--gold);
-    }
-
-    .contact-yacht {
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-      bottom: -1%;
-      width: 55%;
-      opacity: 0.05;
-      pointer-events: none;
-    }
+    .contact-email:hover { opacity: 0.45; }
 
     /* ─── FOOTER ──────────────────────────────────── */
     footer {
-      background: var(--navy);
-      padding: 2rem 3rem;
+      padding: 2rem 3.5rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      border-top: 1px solid rgba(201,168,76,0.1);
+      border-top: 1px solid var(--rule);
     }
 
     .footer-logo {
-      font-family: 'Cinzel', serif;
-      font-size: 0.75rem;
-      letter-spacing: 0.3em;
-      color: var(--gold);
+      font-size: 0.65rem;
+      letter-spacing: 0.5em;
       text-transform: uppercase;
+      color: var(--mid);
     }
 
     .footer-copy {
-      font-size: 0.7rem;
-      letter-spacing: 0.15em;
-      color: var(--muted);
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      color: var(--mid);
     }
 
     /* ─── ANIMATIONS ──────────────────────────────── */
     @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(24px); }
+      from { opacity: 0; transform: translateY(20px); }
       to   { opacity: 1; transform: translateY(0); }
     }
 
@@ -410,16 +420,20 @@
       to   { opacity: 1; }
     }
 
-    @keyframes scrollPulse {
-      0%, 100% { opacity: 0.4; transform: scaleY(1); }
-      50%       { opacity: 1;   transform: scaleY(1.15); }
+    @keyframes expandBar {
+      from { transform: scaleX(0); }
+      to   { transform: scaleX(1); }
     }
 
-    /* scroll-reveal */
+    @keyframes drawLine {
+      from { stroke-dashoffset: 1; }
+      to   { stroke-dashoffset: 0; }
+    }
+
     .reveal {
       opacity: 0;
-      transform: translateY(30px);
-      transition: opacity 0.8s ease, transform 0.8s ease;
+      transform: translateY(24px);
+      transition: opacity 0.9s ease, transform 0.9s ease;
     }
 
     .reveal.visible {
@@ -427,170 +441,268 @@
       transform: translateY(0);
     }
 
-    .reveal-delay-1 { transition-delay: 0.15s; }
-    .reveal-delay-2 { transition-delay: 0.3s; }
-    .reveal-delay-3 { transition-delay: 0.45s; }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.22s; }
+    .reveal-delay-3 { transition-delay: 0.34s; }
+
+    .draw {
+      stroke-dasharray: 1;
+      stroke-dashoffset: 1;
+      vector-effect: non-scaling-stroke;
+      transition: stroke-dashoffset 1.6s cubic-bezier(0.4,0,0.2,1);
+    }
+
+    .draw.visible { stroke-dashoffset: 0; }
   </style>
 </head>
 <body>
 
+  <div class="cursor" id="cursor"></div>
+
   <!-- NAV -->
   <nav>
-    <div class="nav-logo">A · M</div>
+    <div class="nav-logo">Trace</div>
     <ul class="nav-links">
-      <li><a href="#about">About</a></li>
-      <li><a href="#work">Work</a></li>
+      <li><a href="#concept">Concept</a></li>
+      <li><a href="#objects">Objects</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
   </nav>
 
   <!-- HERO -->
   <section class="hero">
-    <div class="hero-bg"></div>
-    <div class="horizon"></div>
-
-    <!-- Sailing yacht silhouette -->
-    <svg class="hero-yacht" viewBox="0 0 800 300" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <!-- hull -->
-      <path d="M120 220 Q400 240 680 220 L660 250 Q400 265 140 250 Z" fill="var(--cream)"/>
-      <!-- mast -->
-      <line x1="400" y1="220" x2="400" y2="20" stroke="var(--cream)" stroke-width="3"/>
-      <!-- main sail -->
-      <path d="M400 25 L400 215 L200 215 Z" fill="var(--cream)" opacity="0.9"/>
-      <!-- jib -->
-      <path d="M400 60 L400 215 L560 190 Z" fill="var(--cream)" opacity="0.6"/>
-      <!-- boom -->
-      <line x1="400" y1="215" x2="240" y2="225" stroke="var(--cream)" stroke-width="2"/>
-      <!-- reflection -->
-      <path d="M120 255 Q400 270 680 255 L660 265 Q400 278 140 265 Z" fill="var(--cream)" opacity="0.12"/>
-    </svg>
-
-    <div class="hero-content">
-      <p class="hero-eyebrow">Portfolio</p>
-      <h1 class="hero-title">Allegra<br /><span>Mauri</span></h1>
-      <p class="hero-sub">Design &nbsp;·&nbsp; Development &nbsp;·&nbsp; Vision</p>
-      <a href="#about" class="hero-cta">Explore</a>
+    <div class="hero-center">
+      <p class="hero-tag">Objects of purpose</p>
+      <h1 class="hero-title">Trace<em>.</em></h1>
+      <p class="hero-sub">Luxury tableware and service objects — each piece carried forward from the life of a vessel.</p>
     </div>
 
-    <div class="scroll-hint">
-      <div class="scroll-line"></div>
-      <span>Scroll</span>
+    <!-- Wine vessel sketch -->
+    <svg class="hero-sketch" viewBox="0 0 340 520" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <!-- bottle in holder -->
+      <!-- holder base -->
+      <ellipse cx="170" cy="470" rx="72" ry="12" stroke="#0d0d0d" stroke-width="0.8" pathLength="1" class="draw"/>
+      <!-- holder sides -->
+      <path d="M98 470 L88 310" stroke="#0d0d0d" stroke-width="0.8" pathLength="1" class="draw"/>
+      <path d="M242 470 L252 310" stroke="#0d0d0d" stroke-width="0.8" pathLength="1" class="draw"/>
+      <!-- holder crosspiece bottom -->
+      <path d="M88 380 Q170 368 252 380" stroke="#0d0d0d" stroke-width="0.8" pathLength="1" class="draw"/>
+      <!-- holder crosspiece top -->
+      <path d="M92 320 Q170 308 248 320" stroke="#0d0d0d" stroke-width="0.8" pathLength="1" class="draw"/>
+      <!-- holder detail lines -->
+      <line x1="88" y1="310" x2="110" y2="290" stroke="#0d0d0d" stroke-width="0.5" pathLength="1" class="draw"/>
+      <line x1="252" y1="310" x2="230" y2="290" stroke="#0d0d0d" stroke-width="0.5" pathLength="1" class="draw"/>
+      <line x1="110" y1="290" x2="230" y2="290" stroke="#0d0d0d" stroke-width="0.5" pathLength="1" class="draw"/>
+      <!-- material texture lines on holder (suggesting weave/carbon) -->
+      <line x1="100" y1="340" x2="115" y2="420" stroke="#0d0d0d" stroke-width="0.4" opacity="0.3" pathLength="1" class="draw"/>
+      <line x1="118" y1="336" x2="130" y2="418" stroke="#0d0d0d" stroke-width="0.4" opacity="0.3" pathLength="1" class="draw"/>
+      <line x1="136" y1="334" x2="146" y2="416" stroke="#0d0d0d" stroke-width="0.4" opacity="0.3" pathLength="1" class="draw"/>
+      <line x1="204" y1="334" x2="194" y2="416" stroke="#0d0d0d" stroke-width="0.4" opacity="0.3" pathLength="1" class="draw"/>
+      <line x1="222" y1="336" x2="210" y2="418" stroke="#0d0d0d" stroke-width="0.4" opacity="0.3" pathLength="1" class="draw"/>
+      <line x1="240" y1="340" x2="225" y2="420" stroke="#0d0d0d" stroke-width="0.4" opacity="0.3" pathLength="1" class="draw"/>
+      <!-- bottle body -->
+      <path d="M148 440 L148 180 Q148 160 162 148 L162 80" stroke="#0d0d0d" stroke-width="0.9" pathLength="1" class="draw"/>
+      <path d="M192 440 L192 180 Q192 160 178 148 L178 80" stroke="#0d0d0d" stroke-width="0.9" pathLength="1" class="draw"/>
+      <path d="M148 440 Q170 448 192 440" stroke="#0d0d0d" stroke-width="0.9" pathLength="1" class="draw"/>
+      <!-- bottle shoulder -->
+      <path d="M162 148 Q170 142 178 148" stroke="#0d0d0d" stroke-width="0.8" pathLength="1" class="draw"/>
+      <!-- bottle neck -->
+      <path d="M162 148 L162 80 Q162 68 165 64 L165 42" stroke="#0d0d0d" stroke-width="0.8" pathLength="1" class="draw"/>
+      <path d="M178 148 L178 80 Q178 68 175 64 L175 42" stroke="#0d0d0d" stroke-width="0.8" pathLength="1" class="draw"/>
+      <!-- capsule -->
+      <path d="M165 42 L165 22 Q170 18 175 22 L175 42" stroke="#0d0d0d" stroke-width="0.7" pathLength="1" class="draw"/>
+      <!-- label lines -->
+      <line x1="152" y1="260" x2="188" y2="260" stroke="#0d0d0d" stroke-width="0.5" opacity="0.5" pathLength="1" class="draw"/>
+      <line x1="154" y1="272" x2="186" y2="272" stroke="#0d0d0d" stroke-width="0.5" opacity="0.5" pathLength="1" class="draw"/>
+      <line x1="156" y1="284" x2="184" y2="284" stroke="#0d0d0d" stroke-width="0.5" opacity="0.5" pathLength="1" class="draw"/>
+    </svg>
+
+    <div class="hero-bottom">
+      <div class="hero-scroll">
+        <div class="scroll-bar"></div>
+        <span>Scroll to discover</span>
+      </div>
+      <div class="hero-index">2026</div>
     </div>
   </section>
 
-  <!-- ABOUT -->
-  <section class="about" id="about">
-    <div class="section-inner">
-      <p class="section-label reveal">About</p>
-      <div class="about-grid">
-        <h2 class="about-heading reveal reveal-delay-1">Crafting<br />with purpose<br />&amp; precision.</h2>
-        <div>
-          <p class="about-text reveal reveal-delay-2">
-            I build things for the web — thoughtfully, with attention to detail and a love for clean, purposeful design. Every project starts with listening and ends with something that feels exactly right.
-          </p>
-          <p class="about-text reveal reveal-delay-3">
-            Based wherever the horizon meets the sea.
-          </p>
-        </div>
-      </div>
-    </div>
+  <hr />
 
-    <!-- Decorative yacht -->
-    <svg class="about-yacht" viewBox="0 0 500 400" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <path d="M60 300 Q250 320 440 300 L420 330 Q250 345 80 330 Z" fill="var(--cream)"/>
-      <line x1="250" y1="300" x2="250" y2="40" stroke="var(--cream)" stroke-width="2.5"/>
-      <path d="M250 45 L250 295 L80 295 Z" fill="var(--cream)" opacity="0.9"/>
-      <path d="M250 90 L250 295 L380 270 Z" fill="var(--cream)" opacity="0.6"/>
-    </svg>
+  <!-- CONCEPT -->
+  <section class="concept" id="concept">
+    <p class="concept-label reveal">Concept</p>
+    <div class="concept-body">
+      <h2 class="reveal">Nothing is wasted.<br /><em>Everything is made.</em></h2>
+      <p class="reveal reveal-delay-1">
+        Trace begins where the vessel ends. Every rope, every teak plank, every off-cut of carbon — material with a history of wind, salt, and precision — is selected, stripped back, and reformed into objects designed for exceptional service.
+      </p>
+      <p class="reveal reveal-delay-2">
+        The result is tableware and accessories that carry meaning before they are ever used. Pieces that belong on a table set for eight, passed by white-gloved hands, and noticed without knowing why.
+      </p>
+    </div>
   </section>
 
-  <!-- WORK -->
-  <section class="work" id="work">
-    <div class="section-inner">
-      <div class="work-header reveal">
-        <div>
-          <p class="section-label">Work</p>
-          <h2 class="work-heading">Selected Projects</h2>
-        </div>
-        <a href="#contact" class="work-link">Get in touch →</a>
-      </div>
+  <hr />
 
-      <div class="cards">
-        <div class="card reveal reveal-delay-1">
-          <p class="card-num">01</p>
-          <h3 class="card-title">Brand Identity</h3>
-          <p class="card-desc">Visual systems built to last — mark, type, colour, and motion.</p>
-        </div>
-        <div class="card reveal reveal-delay-2">
-          <p class="card-num">02</p>
-          <h3 class="card-title">Web Design</h3>
-          <p class="card-desc">Minimal, high-performance sites crafted with care from concept to launch.</p>
-        </div>
-        <div class="card reveal reveal-delay-3">
-          <p class="card-num">03</p>
-          <h3 class="card-title">Digital Strategy</h3>
-          <p class="card-desc">Clarity in the noise — positioning and direction for brands that matter.</p>
-        </div>
-      </div>
+  <!-- OBJECTS -->
+  <section class="objects" id="objects">
+    <div class="objects-header reveal">
+      <h2>The Collection</h2>
+      <span class="objects-count">Three objects — one material</span>
     </div>
 
-    <!-- Decorative yacht -->
-    <svg class="work-yacht" viewBox="0 0 400 500" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <path d="M40 380 Q200 400 360 380 L345 410 Q200 425 55 410 Z" fill="var(--cream)"/>
-      <line x1="200" y1="380" x2="200" y2="60" stroke="var(--cream)" stroke-width="2.5"/>
-      <path d="M200 65 L200 375 L55 375 Z" fill="var(--cream)" opacity="0.9"/>
-      <path d="M200 100 L200 375 L330 355 Z" fill="var(--cream)" opacity="0.6"/>
-    </svg>
+    <div class="objects-grid">
+
+      <!-- 01 Bottle vessel -->
+      <div class="object-item">
+        <!-- Coaster sketch -->
+        <svg class="object-sketch" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <!-- outer ring -->
+          <circle cx="100" cy="100" r="82" stroke="#0d0d0d" stroke-width="0.7" pathLength="1" class="draw"/>
+          <!-- inner ring -->
+          <circle cx="100" cy="100" r="60" stroke="#0d0d0d" stroke-width="0.5" pathLength="1" class="draw"/>
+          <!-- detail ring -->
+          <circle cx="100" cy="100" r="40" stroke="#0d0d0d" stroke-width="0.4" opacity="0.45" pathLength="1" class="draw"/>
+          <!-- radial texture lines -->
+          <line x1="100" y1="18" x2="100" y2="40" stroke="#0d0d0d" stroke-width="0.5" opacity="0.35" pathLength="1" class="draw"/>
+          <line x1="100" y1="160" x2="100" y2="182" stroke="#0d0d0d" stroke-width="0.5" opacity="0.35" pathLength="1" class="draw"/>
+          <line x1="18" y1="100" x2="40" y2="100" stroke="#0d0d0d" stroke-width="0.5" opacity="0.35" pathLength="1" class="draw"/>
+          <line x1="160" y1="100" x2="182" y2="100" stroke="#0d0d0d" stroke-width="0.5" opacity="0.35" pathLength="1" class="draw"/>
+          <line x1="35" y1="42" x2="52" y2="58" stroke="#0d0d0d" stroke-width="0.5" opacity="0.25" pathLength="1" class="draw"/>
+          <line x1="148" y1="142" x2="165" y2="158" stroke="#0d0d0d" stroke-width="0.5" opacity="0.25" pathLength="1" class="draw"/>
+          <line x1="165" y1="42" x2="148" y2="58" stroke="#0d0d0d" stroke-width="0.5" opacity="0.25" pathLength="1" class="draw"/>
+          <line x1="52" y1="142" x2="35" y2="158" stroke="#0d0d0d" stroke-width="0.5" opacity="0.25" pathLength="1" class="draw"/>
+          <!-- centre dot -->
+          <circle cx="100" cy="100" r="3" fill="#0d0d0d" opacity="0.3"/>
+        </svg>
+        <p class="object-num reveal">01</p>
+        <h3 class="object-name reveal reveal-delay-1">Coaster</h3>
+        <p class="object-detail reveal reveal-delay-2">Turned from teak and carbon off-cuts. The grain of the original hull reads through the surface — no two identical.</p>
+      </div>
+
+      <!-- 02 Wine vessel -->
+      <div class="object-item">
+        <!-- small vessel / carafe holder sketch -->
+        <svg class="object-sketch" viewBox="0 0 200 240" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <!-- vessel body -->
+          <path d="M68 210 Q62 180 58 140 Q54 100 66 76 Q76 56 100 50 Q124 56 134 76 Q146 100 142 140 Q138 180 132 210" stroke="#0d0d0d" stroke-width="0.8" pathLength="1" class="draw"/>
+          <!-- base -->
+          <path d="M68 210 Q100 218 132 210" stroke="#0d0d0d" stroke-width="0.8" pathLength="1" class="draw"/>
+          <!-- neck -->
+          <path d="M84 76 Q84 60 88 50 Q94 36 100 32" stroke="#0d0d0d" stroke-width="0.7" pathLength="1" class="draw"/>
+          <path d="M116 76 Q116 60 112 50 Q106 36 100 32" stroke="#0d0d0d" stroke-width="0.7" pathLength="1" class="draw"/>
+          <!-- rim -->
+          <ellipse cx="100" cy="32" rx="12" ry="4" stroke="#0d0d0d" stroke-width="0.6" pathLength="1" class="draw"/>
+          <!-- body line detail -->
+          <path d="M72 150 Q100 158 128 150" stroke="#0d0d0d" stroke-width="0.4" opacity="0.4" pathLength="1" class="draw"/>
+          <path d="M70 170 Q100 178 130 170" stroke="#0d0d0d" stroke-width="0.4" opacity="0.3" pathLength="1" class="draw"/>
+          <!-- material weave marks -->
+          <line x1="80" y1="100" x2="82" y2="140" stroke="#0d0d0d" stroke-width="0.35" opacity="0.25" pathLength="1" class="draw"/>
+          <line x1="92" y1="94" x2="93" y2="144" stroke="#0d0d0d" stroke-width="0.35" opacity="0.25" pathLength="1" class="draw"/>
+          <line x1="108" y1="94" x2="107" y2="144" stroke="#0d0d0d" stroke-width="0.35" opacity="0.25" pathLength="1" class="draw"/>
+          <line x1="120" y1="100" x2="118" y2="140" stroke="#0d0d0d" stroke-width="0.35" opacity="0.25" pathLength="1" class="draw"/>
+        </svg>
+        <p class="object-num reveal">02</p>
+        <h3 class="object-name reveal reveal-delay-1">Wine Vessel</h3>
+        <p class="object-detail reveal reveal-delay-2">A holder formed from woven rope and resin — the original line preserved, suspended, made permanent around the glass.</p>
+      </div>
+
+      <!-- 03 Service tray -->
+      <div class="object-item">
+        <!-- tray sketch -->
+        <svg class="object-sketch" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <!-- tray top face -->
+          <path d="M40 90 L100 62 L160 90 L160 120 L100 148 L40 120 Z" stroke="#0d0d0d" stroke-width="0.8" pathLength="1" class="draw"/>
+          <!-- tray depth left -->
+          <path d="M40 90 L40 120" stroke="#0d0d0d" stroke-width="0.6" pathLength="1" class="draw"/>
+          <!-- tray depth right -->
+          <path d="M160 90 L160 120" stroke="#0d0d0d" stroke-width="0.6" pathLength="1" class="draw"/>
+          <!-- internal grid lines horizontal -->
+          <path d="M40 100 L160 100" stroke="#0d0d0d" stroke-width="0.35" opacity="0.3" pathLength="1" class="draw"/>
+          <path d="M40 110 L160 110" stroke="#0d0d0d" stroke-width="0.35" opacity="0.3" pathLength="1" class="draw"/>
+          <!-- internal grid lines diagonal -->
+          <path d="M70 62 L70 148" stroke="#0d0d0d" stroke-width="0.35" opacity="0.2" pathLength="1" class="draw" stroke-dasharray="2 4"/>
+          <path d="M100 62 L100 148" stroke="#0d0d0d" stroke-width="0.35" opacity="0.2" pathLength="1" class="draw" stroke-dasharray="2 4"/>
+          <path d="M130 62 L130 148" stroke="#0d0d0d" stroke-width="0.35" opacity="0.2" pathLength="1" class="draw" stroke-dasharray="2 4"/>
+          <!-- handle left -->
+          <path d="M40 105 Q22 105 20 90 Q18 76 30 72" stroke="#0d0d0d" stroke-width="0.6" pathLength="1" class="draw"/>
+          <!-- handle right -->
+          <path d="M160 105 Q178 105 180 90 Q182 76 170 72" stroke="#0d0d0d" stroke-width="0.6" pathLength="1" class="draw"/>
+        </svg>
+        <p class="object-num reveal">03</p>
+        <h3 class="object-name reveal reveal-delay-1">Service Tray</h3>
+        <p class="object-detail reveal reveal-delay-2">Flat-pressed panels of reclaimed composite, edged with polished hardware salvaged from deck fittings. Balanced for one-handed service.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- MATERIAL -->
+  <section class="material">
+    <h2 class="reveal">Material<br />that has<br /><em>already lived.</em></h2>
+    <div class="material-right">
+      <div class="material-stat reveal reveal-delay-1">
+        <div class="material-stat-num">100%</div>
+        <div class="material-stat-label">Reclaimed from decommissioned vessels</div>
+      </div>
+      <div class="material-stat reveal reveal-delay-2">
+        <div class="material-stat-num">0</div>
+        <div class="material-stat-label">Surplus material — every off-cut has a future piece</div>
+      </div>
+      <div class="material-stat reveal reveal-delay-3">
+        <div class="material-stat-num">Each</div>
+        <div class="material-stat-label">Object is singular — numbered, not replicated</div>
+      </div>
+    </div>
   </section>
 
   <!-- CONTACT -->
   <section class="contact" id="contact">
-    <div class="section-inner">
-      <p class="section-label reveal">Contact</p>
-      <h2 class="contact-heading reveal reveal-delay-1">
-        Let's build<br />something <span>beautiful.</span>
-      </h2>
-      <p class="contact-sub reveal reveal-delay-2">Open to new projects and conversations.</p>
-      <a href="mailto:allegra.mauri@gmail.com" class="contact-email reveal reveal-delay-3">
-        allegra.mauri@gmail.com
-      </a>
-    </div>
-
-    <!-- Wide decorative yacht -->
-    <svg class="contact-yacht" viewBox="0 0 900 200" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <path d="M100 140 Q450 160 800 140 L780 165 Q450 180 120 165 Z" fill="var(--cream)"/>
-      <line x1="450" y1="140" x2="450" y2="10" stroke="var(--cream)" stroke-width="2"/>
-      <path d="M450 12 L450 138 L250 138 Z" fill="var(--cream)" opacity="0.9"/>
-      <path d="M450 40 L450 138 L620 120 Z" fill="var(--cream)" opacity="0.6"/>
+    <!-- coaster sketch faint -->
+    <svg class="contact-sketch" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <circle cx="100" cy="100" r="82" stroke="#0d0d0d" stroke-width="0.6"/>
+      <circle cx="100" cy="100" r="60" stroke="#0d0d0d" stroke-width="0.4"/>
+      <circle cx="100" cy="100" r="40" stroke="#0d0d0d" stroke-width="0.3"/>
+      <circle cx="100" cy="100" r="22" stroke="#0d0d0d" stroke-width="0.3"/>
+      <line x1="100" y1="18" x2="100" y2="182" stroke="#0d0d0d" stroke-width="0.3"/>
+      <line x1="18" y1="100" x2="182" y2="100" stroke="#0d0d0d" stroke-width="0.3"/>
+      <line x1="42" y1="42" x2="158" y2="158" stroke="#0d0d0d" stroke-width="0.3"/>
+      <line x1="158" y1="42" x2="42" y2="158" stroke="#0d0d0d" stroke-width="0.3"/>
     </svg>
+
+    <p class="contact-label reveal">Enquire</p>
+    <h2 class="reveal"><em>Every object</em><br />begins with<br />a conversation.</h2>
+    <a href="mailto:allegra.mauri@gmail.com" class="contact-email reveal reveal-delay-1">allegra.mauri@gmail.com</a>
   </section>
 
   <!-- FOOTER -->
   <footer>
-    <div class="footer-logo">Allegra Mauri</div>
+    <div class="footer-logo">Trace — Objects of Purpose</div>
     <p class="footer-copy">&copy; 2026</p>
   </footer>
 
   <script>
-    // Scroll reveal
+    // Cursor
+    const cursor = document.getElementById('cursor');
+    document.addEventListener('mousemove', e => {
+      cursor.style.left = e.clientX + 'px';
+      cursor.style.top  = e.clientY + 'px';
+    });
+
+    // Scroll reveal + SVG line draw
     const reveals = document.querySelectorAll('.reveal');
-    const observer = new IntersectionObserver((entries) => {
+    const draws   = document.querySelectorAll('.draw');
+
+    const observer = new IntersectionObserver(entries => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           entry.target.classList.add('visible');
           observer.unobserve(entry.target);
         }
       });
-    }, { threshold: 0.12 });
+    }, { threshold: 0.1 });
 
-    reveals.forEach(el => observer.observe(el));
-
-    // Subtle parallax on hero yacht
-    const heroYacht = document.querySelector('.hero-yacht');
-    window.addEventListener('scroll', () => {
-      const y = window.scrollY;
-      if (heroYacht) heroYacht.style.transform = `translateX(-50%) translateY(${y * 0.15}px)`;
-    }, { passive: true });
+    [...reveals, ...draws].forEach(el => observer.observe(el));
   </script>
 </body>
 </html>
