@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Allegra Mauri</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@300;400;600&family=Inter:wght@300;400&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:  #09142a;
+      --deep:  #0d1f3c;
+      --mid:   #1a3a5c;
+      --gold:  #c9a84c;
+      --cream: #f0ead8;
+      --white: #faf9f6;
+      --muted: rgba(240,234,216,0.45);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--navy);
+      color: var(--cream);
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      overflow-x: hidden;
+    }
+
+    /* ─── NAV ─────────────────────────────────────── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem 3rem;
+      background: linear-gradient(to bottom, rgba(9,20,42,0.9) 0%, transparent 100%);
+      backdrop-filter: blur(2px);
+    }
+
+    .nav-logo {
+      font-family: 'Cinzel', serif;
+      font-size: 1rem;
+      letter-spacing: 0.25em;
+      color: var(--gold);
+      text-transform: uppercase;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--cream);
+      text-decoration: none;
+      opacity: 0.7;
+      transition: opacity 0.3s;
+    }
+
+    .nav-links a:hover { opacity: 1; }
+
+    /* ─── HERO ────────────────────────────────────── */
+    .hero {
+      position: relative;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 50% 70%, rgba(26,58,92,0.5) 0%, transparent 70%),
+        radial-gradient(ellipse 50% 40% at 50% 100%, rgba(201,168,76,0.08) 0%, transparent 60%);
+    }
+
+    /* water horizon line */
+    .horizon {
+      position: absolute;
+      bottom: 28%;
+      left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(to right, transparent, rgba(201,168,76,0.3), transparent);
+    }
+
+    .hero-yacht {
+      position: absolute;
+      bottom: 22%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: min(600px, 80vw);
+      opacity: 0.18;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-eyebrow {
+      font-size: 0.7rem;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fadeUp 1s 0.3s forwards;
+    }
+
+    .hero-title {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(2.8rem, 6vw, 5.5rem);
+      font-weight: 300;
+      line-height: 1.1;
+      letter-spacing: 0.05em;
+      color: var(--white);
+      opacity: 0;
+      animation: fadeUp 1s 0.55s forwards;
+    }
+
+    .hero-title span { color: var(--gold); }
+
+    .hero-sub {
+      margin-top: 1.5rem;
+      font-size: 0.85rem;
+      letter-spacing: 0.15em;
+      color: var(--muted);
+      opacity: 0;
+      animation: fadeUp 1s 0.8s forwards;
+    }
+
+    .hero-cta {
+      margin-top: 3rem;
+      display: inline-block;
+      font-size: 0.7rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--cream);
+      text-decoration: none;
+      border: 1px solid rgba(201,168,76,0.4);
+      padding: 1rem 2.5rem;
+      transition: background 0.3s, border-color 0.3s;
+      opacity: 0;
+      animation: fadeUp 1s 1.05s forwards;
+    }
+
+    .hero-cta:hover {
+      background: rgba(201,168,76,0.1);
+      border-color: var(--gold);
+    }
+
+    .scroll-hint {
+      position: absolute;
+      bottom: 2.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.65rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--muted);
+      animation: fadeIn 1s 1.5s both;
+    }
+
+    .scroll-line {
+      width: 1px;
+      height: 50px;
+      background: linear-gradient(to bottom, var(--gold), transparent);
+      animation: scrollPulse 2s 1.5s infinite;
+    }
+
+    /* ─── SECTIONS ────────────────────────────────── */
+    section {
+      position: relative;
+      padding: 10rem 3rem;
+      overflow: hidden;
+    }
+
+    .section-inner {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    /* ─── ABOUT ───────────────────────────────────── */
+    .about {
+      background: var(--deep);
+    }
+
+    .section-label {
+      font-size: 0.65rem;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 2rem;
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+    }
+
+    .about-heading {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      font-weight: 300;
+      line-height: 1.2;
+      color: var(--white);
+    }
+
+    .about-text {
+      font-size: 0.9rem;
+      line-height: 1.9;
+      color: var(--muted);
+    }
+
+    .about-text + .about-text { margin-top: 1.2rem; }
+
+    .about-yacht {
+      position: absolute;
+      right: -5%;
+      bottom: -2%;
+      width: 35%;
+      opacity: 0.06;
+      pointer-events: none;
+    }
+
+    /* ─── WORK ────────────────────────────────────── */
+    .work {
+      background: var(--navy);
+    }
+
+    .work-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 4rem;
+    }
+
+    .work-heading {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      font-weight: 300;
+      color: var(--white);
+    }
+
+    .work-link {
+      font-size: 0.7rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gold);
+      text-decoration: none;
+      opacity: 0.8;
+      transition: opacity 0.3s;
+    }
+    .work-link:hover { opacity: 1; }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+
+    .card {
+      background: rgba(26,58,92,0.25);
+      border: 1px solid rgba(201,168,76,0.12);
+      padding: 2.5rem 2rem;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+
+    .card:hover {
+      border-color: rgba(201,168,76,0.4);
+      transform: translateY(-4px);
+    }
+
+    .card-num {
+      font-family: 'Cinzel', serif;
+      font-size: 0.7rem;
+      color: var(--gold);
+      letter-spacing: 0.3em;
+      margin-bottom: 1.5rem;
+    }
+
+    .card-title {
+      font-family: 'Cinzel', serif;
+      font-size: 1.1rem;
+      font-weight: 300;
+      color: var(--white);
+      margin-bottom: 1rem;
+      line-height: 1.3;
+    }
+
+    .card-desc {
+      font-size: 0.8rem;
+      line-height: 1.8;
+      color: var(--muted);
+    }
+
+    .work-yacht {
+      position: absolute;
+      left: -3%;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 30%;
+      opacity: 0.05;
+      pointer-events: none;
+    }
+
+    /* ─── CONTACT ─────────────────────────────────── */
+    .contact {
+      background: var(--deep);
+      text-align: center;
+    }
+
+    .contact-heading {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(2.2rem, 4vw, 3.8rem);
+      font-weight: 300;
+      color: var(--white);
+      margin-bottom: 1.5rem;
+      line-height: 1.15;
+    }
+
+    .contact-heading span { color: var(--gold); }
+
+    .contact-sub {
+      font-size: 0.85rem;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      margin-bottom: 3rem;
+    }
+
+    .contact-email {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(1rem, 2vw, 1.4rem);
+      color: var(--cream);
+      text-decoration: none;
+      letter-spacing: 0.1em;
+      border-bottom: 1px solid rgba(201,168,76,0.4);
+      padding-bottom: 0.3rem;
+      transition: color 0.3s, border-color 0.3s;
+    }
+
+    .contact-email:hover {
+      color: var(--gold);
+      border-color: var(--gold);
+    }
+
+    .contact-yacht {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: -1%;
+      width: 55%;
+      opacity: 0.05;
+      pointer-events: none;
+    }
+
+    /* ─── FOOTER ──────────────────────────────────── */
+    footer {
+      background: var(--navy);
+      padding: 2rem 3rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid rgba(201,168,76,0.1);
+    }
+
+    .footer-logo {
+      font-family: 'Cinzel', serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.3em;
+      color: var(--gold);
+      text-transform: uppercase;
+    }
+
+    .footer-copy {
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      color: var(--muted);
+    }
+
+    /* ─── ANIMATIONS ──────────────────────────────── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    @keyframes scrollPulse {
+      0%, 100% { opacity: 0.4; transform: scaleY(1); }
+      50%       { opacity: 1;   transform: scaleY(1.15); }
+    }
+
+    /* scroll-reveal */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .reveal-delay-1 { transition-delay: 0.15s; }
+    .reveal-delay-2 { transition-delay: 0.3s; }
+    .reveal-delay-3 { transition-delay: 0.45s; }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-logo">A · M</div>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#work">Work</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="horizon"></div>
+
+    <!-- Sailing yacht silhouette -->
+    <svg class="hero-yacht" viewBox="0 0 800 300" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <!-- hull -->
+      <path d="M120 220 Q400 240 680 220 L660 250 Q400 265 140 250 Z" fill="var(--cream)"/>
+      <!-- mast -->
+      <line x1="400" y1="220" x2="400" y2="20" stroke="var(--cream)" stroke-width="3"/>
+      <!-- main sail -->
+      <path d="M400 25 L400 215 L200 215 Z" fill="var(--cream)" opacity="0.9"/>
+      <!-- jib -->
+      <path d="M400 60 L400 215 L560 190 Z" fill="var(--cream)" opacity="0.6"/>
+      <!-- boom -->
+      <line x1="400" y1="215" x2="240" y2="225" stroke="var(--cream)" stroke-width="2"/>
+      <!-- reflection -->
+      <path d="M120 255 Q400 270 680 255 L660 265 Q400 278 140 265 Z" fill="var(--cream)" opacity="0.12"/>
+    </svg>
+
+    <div class="hero-content">
+      <p class="hero-eyebrow">Portfolio</p>
+      <h1 class="hero-title">Allegra<br /><span>Mauri</span></h1>
+      <p class="hero-sub">Design &nbsp;·&nbsp; Development &nbsp;·&nbsp; Vision</p>
+      <a href="#about" class="hero-cta">Explore</a>
+    </div>
+
+    <div class="scroll-hint">
+      <div class="scroll-line"></div>
+      <span>Scroll</span>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="about" id="about">
+    <div class="section-inner">
+      <p class="section-label reveal">About</p>
+      <div class="about-grid">
+        <h2 class="about-heading reveal reveal-delay-1">Crafting<br />with purpose<br />&amp; precision.</h2>
+        <div>
+          <p class="about-text reveal reveal-delay-2">
+            I build things for the web — thoughtfully, with attention to detail and a love for clean, purposeful design. Every project starts with listening and ends with something that feels exactly right.
+          </p>
+          <p class="about-text reveal reveal-delay-3">
+            Based wherever the horizon meets the sea.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Decorative yacht -->
+    <svg class="about-yacht" viewBox="0 0 500 400" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <path d="M60 300 Q250 320 440 300 L420 330 Q250 345 80 330 Z" fill="var(--cream)"/>
+      <line x1="250" y1="300" x2="250" y2="40" stroke="var(--cream)" stroke-width="2.5"/>
+      <path d="M250 45 L250 295 L80 295 Z" fill="var(--cream)" opacity="0.9"/>
+      <path d="M250 90 L250 295 L380 270 Z" fill="var(--cream)" opacity="0.6"/>
+    </svg>
+  </section>
+
+  <!-- WORK -->
+  <section class="work" id="work">
+    <div class="section-inner">
+      <div class="work-header reveal">
+        <div>
+          <p class="section-label">Work</p>
+          <h2 class="work-heading">Selected Projects</h2>
+        </div>
+        <a href="#contact" class="work-link">Get in touch →</a>
+      </div>
+
+      <div class="cards">
+        <div class="card reveal reveal-delay-1">
+          <p class="card-num">01</p>
+          <h3 class="card-title">Brand Identity</h3>
+          <p class="card-desc">Visual systems built to last — mark, type, colour, and motion.</p>
+        </div>
+        <div class="card reveal reveal-delay-2">
+          <p class="card-num">02</p>
+          <h3 class="card-title">Web Design</h3>
+          <p class="card-desc">Minimal, high-performance sites crafted with care from concept to launch.</p>
+        </div>
+        <div class="card reveal reveal-delay-3">
+          <p class="card-num">03</p>
+          <h3 class="card-title">Digital Strategy</h3>
+          <p class="card-desc">Clarity in the noise — positioning and direction for brands that matter.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Decorative yacht -->
+    <svg class="work-yacht" viewBox="0 0 400 500" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <path d="M40 380 Q200 400 360 380 L345 410 Q200 425 55 410 Z" fill="var(--cream)"/>
+      <line x1="200" y1="380" x2="200" y2="60" stroke="var(--cream)" stroke-width="2.5"/>
+      <path d="M200 65 L200 375 L55 375 Z" fill="var(--cream)" opacity="0.9"/>
+      <path d="M200 100 L200 375 L330 355 Z" fill="var(--cream)" opacity="0.6"/>
+    </svg>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="contact" id="contact">
+    <div class="section-inner">
+      <p class="section-label reveal">Contact</p>
+      <h2 class="contact-heading reveal reveal-delay-1">
+        Let's build<br />something <span>beautiful.</span>
+      </h2>
+      <p class="contact-sub reveal reveal-delay-2">Open to new projects and conversations.</p>
+      <a href="mailto:allegra.mauri@gmail.com" class="contact-email reveal reveal-delay-3">
+        allegra.mauri@gmail.com
+      </a>
+    </div>
+
+    <!-- Wide decorative yacht -->
+    <svg class="contact-yacht" viewBox="0 0 900 200" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <path d="M100 140 Q450 160 800 140 L780 165 Q450 180 120 165 Z" fill="var(--cream)"/>
+      <line x1="450" y1="140" x2="450" y2="10" stroke="var(--cream)" stroke-width="2"/>
+      <path d="M450 12 L450 138 L250 138 Z" fill="var(--cream)" opacity="0.9"/>
+      <path d="M450 40 L450 138 L620 120 Z" fill="var(--cream)" opacity="0.6"/>
+    </svg>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">Allegra Mauri</div>
+    <p class="footer-copy">&copy; 2026</p>
+  </footer>
+
+  <script>
+    // Scroll reveal
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    reveals.forEach(el => observer.observe(el));
+
+    // Subtle parallax on hero yacht
+    const heroYacht = document.querySelector('.hero-yacht');
+    window.addEventListener('scroll', () => {
+      const y = window.scrollY;
+      if (heroYacht) heroYacht.style.transform = `translateX(-50%) translateY(${y * 0.15}px)`;
+    }, { passive: true });
+  </script>
+</body>
+</html>
