@@ -650,7 +650,7 @@
   const canvas  = document.getElementById('tray-canvas');
   const section = canvas.parentElement;
 
-  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false });
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   renderer.setSize(section.clientWidth, section.clientHeight);
   renderer.outputColorSpace    = THREE.SRGBColorSpace;
@@ -658,8 +658,8 @@
   renderer.toneMappingExposure = 1.15;
   renderer.shadowMap.enabled   = true;
   renderer.shadowMap.type      = THREE.PCFSoftShadowMap;
-  /* Match the mid satin steel background — 0xb2b6b9 */
-  renderer.setClearColor(0xb2b6b9, 1);
+  /* Transparent — CSS steel texture shows through, tray floats on top */
+  renderer.setClearColor(0x000000, 0);
 
   const scene  = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(32, section.clientWidth / section.clientHeight, 0.01, 100);
@@ -667,7 +667,7 @@
   camera.lookAt(0, 0.18, 0);
 
   /* ── LIGHTING ─────────────────────────────────────── */
-  scene.add(new THREE.AmbientLight(0xb8bcbf, 1.8));  /* steel-tinted ambient */
+  scene.add(new THREE.AmbientLight(0xffffff, 1.2));  /* neutral ambient */
 
   const keyLight = new THREE.DirectionalLight(0xffffff, 2.8);
   keyLight.position.set(-3, 6, 3);
@@ -684,9 +684,9 @@
 
   /* ── STEEL MATERIAL — 316L brushed ───────────────── */
   const steelMat = new THREE.MeshStandardMaterial({
-    color:     new THREE.Color(0xc8ccc8),  /* slightly lighter than bg → pops off steel surface */
-    metalness: 0.93,
-    roughness: 0.15,
+    color:     new THREE.Color(0xe2e5e2),  /* noticeably lighter — stands out from steel bg */
+    metalness: 0.90,
+    roughness: 0.14,
     side: THREE.DoubleSide,
   });
 
