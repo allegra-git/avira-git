@@ -8,7 +8,6 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@200;300&display=swap" rel="stylesheet" />
 
-  <!-- Three.js ES module imports -->
   <script type="importmap">
   {
     "imports": {
@@ -22,138 +21,135 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg:   #f7f6f2;
-      --ink:  #0d0d0d;
-      --mid:  #6b6b6b;
-      --rule: rgba(13,13,13,0.12);
+      --steel:  #b2b6b9;   /* mid satin 316L */
+      --ink:    #0a0a0a;
+      --mid:    #36393b;   /* darkened so it reads on steel */
+      --light:  #dfe1e2;   /* light steel — for subtle highlights */
+      --rule:   rgba(10,10,10,0.18);
+      --bg:     var(--steel);
     }
 
     html { scroll-behavior: smooth; }
 
+    /*
+      BRUSHED STEEL TEXTURE — whole page background.
+      Three layers composited:
+        1. Base steel color
+        2. Fine horizontal grain (brush marks, 3px pitch)
+        3. Diagonal sheen band (the specular highlight roll)
+      background-attachment: fixed keeps the grain locked to the viewport
+      as content scrolls — feels like sitting on a real steel surface.
+    */
     body {
-      background: var(--bg);
       color: var(--ink);
       font-family: 'Jost', sans-serif;
       font-weight: 200;
       overflow-x: hidden;
+
+      background-color: var(--steel);
+      background-image:
+        /* ① Sheen — diagonal highlight sweep */
+        linear-gradient(
+          108deg,
+          rgba(0,0,0,0.07)    0%,
+          rgba(255,255,255,0.11) 22%,
+          rgba(255,255,255,0.18) 40%,
+          rgba(255,255,255,0.08) 54%,
+          rgba(255,255,255,0.13) 72%,
+          rgba(0,0,0,0.06)   100%
+        ),
+        /* ② Fine horizontal brush grain */
+        repeating-linear-gradient(
+          180deg,
+          rgba(255,255,255,0.048) 0px,
+          rgba(255,255,255,0.048) 1px,
+          rgba(0,0,0,0.022)       1px,
+          rgba(0,0,0,0.022)       2px,
+          transparent             2px,
+          transparent             3px
+        );
+      background-size: 100vw 100vh, 100vw 3px;
+      background-attachment: fixed;
     }
 
+    /* ── CURSOR ──────────────────────────────────────── */
     .cursor {
-      position: fixed;
-      width: 5px; height: 5px;
-      background: var(--ink);
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: 9999;
+      position: fixed; width: 5px; height: 5px;
+      background: var(--ink); border-radius: 50%;
+      pointer-events: none; z-index: 9999;
       transform: translate(-50%,-50%);
     }
 
     /* ── NAV ─────────────────────────────────────────── */
     nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
+      position: fixed; top: 0; left: 0; right: 0;
       z-index: 100;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      display: flex; justify-content: space-between; align-items: center;
       padding: 2rem 3.5rem;
     }
     .nav-logo {
-      font-family: 'Jost', sans-serif;
-      font-weight: 200;
-      font-size: 0.75rem;
-      letter-spacing: 0.55em;
-      text-transform: uppercase;
+      font-family: 'Jost', sans-serif; font-weight: 200;
+      font-size: 0.75rem; letter-spacing: 0.55em; text-transform: uppercase;
+      color: var(--ink);
     }
     .nav-links { display: flex; gap: 3rem; list-style: none; }
     .nav-links a {
-      font-size: 0.65rem;
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
-      color: var(--mid);
-      text-decoration: none;
-      transition: color 0.3s;
+      font-size: 0.65rem; letter-spacing: 0.3em; text-transform: uppercase;
+      color: var(--mid); text-decoration: none; transition: color 0.3s;
     }
     .nav-links a:hover { color: var(--ink); }
 
     /* ── HERO ────────────────────────────────────────── */
     .hero {
       height: 100vh;
-      display: grid;
-      grid-template-rows: 1fr auto;
+      display: grid; grid-template-rows: 1fr auto;
       padding: 0 3.5rem 3.5rem;
       position: relative;
     }
     .hero-center {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: flex-start;
+      display: flex; flex-direction: column;
+      justify-content: center; align-items: flex-start;
       padding-top: 6rem;
     }
     .hero-tag {
-      font-size: 0.6rem;
-      letter-spacing: 0.5em;
-      text-transform: uppercase;
-      color: var(--mid);
-      margin-bottom: 2rem;
-      opacity: 0;
-      animation: fadeUp 1s 0.4s forwards;
+      font-size: 0.6rem; letter-spacing: 0.5em; text-transform: uppercase;
+      color: var(--mid); margin-bottom: 2rem;
+      opacity: 0; animation: fadeUp 1s 0.4s forwards;
     }
     .hero-title {
-      font-family: 'Cormorant Garamond', serif;
-      font-weight: 300;
-      font-size: clamp(5rem, 13vw, 13rem);
-      line-height: 0.88;
-      letter-spacing: -0.01em;
-      opacity: 0;
-      animation: fadeUp 1.2s 0.5s forwards;
+      font-family: 'Cormorant Garamond', serif; font-weight: 300;
+      font-size: clamp(5rem, 13vw, 13rem); line-height: 0.88;
+      letter-spacing: -0.01em; color: var(--ink);
+      opacity: 0; animation: fadeUp 1.2s 0.5s forwards;
     }
     .hero-title em { font-style: italic; font-weight: 300; }
     .hero-sub {
-      margin-top: 3rem;
-      font-size: 0.75rem;
-      letter-spacing: 0.18em;
-      line-height: 1.9;
-      color: var(--mid);
-      max-width: 340px;
-      opacity: 0;
-      animation: fadeUp 1s 0.8s forwards;
+      margin-top: 3rem; font-size: 0.75rem; letter-spacing: 0.18em;
+      line-height: 1.9; color: var(--mid); max-width: 340px;
+      opacity: 0; animation: fadeUp 1s 0.8s forwards;
     }
+    /* Hero SVG sketch — tray in perspective */
     .hero-sketch {
-      position: absolute;
-      right: 3.5rem;
-      top: 50%;
+      position: absolute; right: 3.5rem; top: 50%;
       transform: translateY(-50%);
       width: clamp(200px, 30vw, 440px);
-      opacity: 0;
-      animation: fadeIn 1.4s 1s forwards;
+      opacity: 0; animation: fadeIn 1.4s 1s forwards;
     }
     .hero-bottom {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-end;
+      display: flex; justify-content: space-between; align-items: flex-end;
     }
     .hero-scroll {
-      display: flex;
-      align-items: center;
-      gap: 1.2rem;
-      font-size: 0.6rem;
-      letter-spacing: 0.35em;
-      text-transform: uppercase;
+      display: flex; align-items: center; gap: 1.2rem;
+      font-size: 0.6rem; letter-spacing: 0.35em; text-transform: uppercase;
       color: var(--mid);
     }
     .scroll-bar {
-      width: 40px; height: 1px;
-      background: var(--ink);
-      transform-origin: left;
-      animation: expandBar 1s 1.5s both;
+      width: 40px; height: 1px; background: var(--ink);
+      transform-origin: left; animation: expandBar 1s 1.5s both;
     }
     .hero-index {
       font-family: 'Cormorant Garamond', serif;
-      font-size: 0.75rem;
-      letter-spacing: 0.15em;
-      color: var(--mid);
+      font-size: 0.75rem; letter-spacing: 0.15em; color: var(--mid);
     }
 
     /* ── DIVIDERS ────────────────────────────────────── */
@@ -162,136 +158,76 @@
     /* ── CONCEPT ─────────────────────────────────────── */
     .concept {
       padding: 10rem 3.5rem;
-      display: grid;
-      grid-template-columns: 1fr 2fr;
-      gap: 6rem;
-      align-items: start;
+      display: grid; grid-template-columns: 1fr 2fr; gap: 6rem; align-items: start;
     }
     .concept-label {
-      font-size: 0.6rem;
-      letter-spacing: 0.45em;
-      text-transform: uppercase;
-      color: var(--mid);
-      padding-top: 0.4rem;
+      font-size: 0.6rem; letter-spacing: 0.45em; text-transform: uppercase;
+      color: var(--mid); padding-top: 0.4rem;
     }
     .concept-body h2 {
-      font-family: 'Cormorant Garamond', serif;
-      font-weight: 300;
-      font-size: clamp(1.9rem, 3.5vw, 3.2rem);
-      line-height: 1.25;
-      margin-bottom: 2.5rem;
+      font-family: 'Cormorant Garamond', serif; font-weight: 300;
+      font-size: clamp(1.9rem, 3.5vw, 3.2rem); line-height: 1.25;
+      margin-bottom: 2.5rem; color: var(--ink);
     }
     .concept-body h2 em { font-style: italic; }
     .concept-body p {
-      font-size: 0.82rem;
-      line-height: 2;
-      color: var(--mid);
-      max-width: 560px;
+      font-size: 0.82rem; line-height: 2; color: var(--mid); max-width: 560px;
     }
     .concept-body p + p { margin-top: 1.2rem; }
 
     /* ── 3D PRODUCT VIEWER ───────────────────────────── */
     .product3d {
-      position: relative;
-      height: 80vh;
-      background: var(--bg);
+      position: relative; height: 80vh;
       overflow: hidden;
-      border-top: 1px solid var(--rule);
-      border-bottom: 1px solid var(--rule);
+      border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule);
     }
-
     #tray-canvas {
-      position: absolute;
-      inset: 0;
-      width: 100% !important;
-      height: 100% !important;
+      position: absolute; inset: 0;
+      width: 100% !important; height: 100% !important;
       cursor: grab;
     }
-
     #tray-canvas:active { cursor: grabbing; }
-
     .product3d-meta {
-      position: absolute;
-      bottom: 3.5rem;
-      left: 3.5rem;
-      z-index: 10;
-      pointer-events: none;
+      position: absolute; bottom: 3.5rem; left: 3.5rem;
+      z-index: 10; pointer-events: none;
     }
-
     .product3d-name {
-      font-family: 'Cormorant Garamond', serif;
-      font-weight: 300;
-      font-size: clamp(1.2rem, 2vw, 1.8rem);
-      letter-spacing: 0.04em;
-      margin-bottom: 1.8rem;
+      font-family: 'Cormorant Garamond', serif; font-weight: 300;
+      font-size: clamp(1.2rem, 2vw, 1.8rem); letter-spacing: 0.04em;
+      margin-bottom: 1.8rem; color: var(--ink);
     }
-
-    .product3d-specs {
-      display: flex;
-      flex-direction: column;
-      gap: 0.55rem;
-      margin-bottom: 1.8rem;
-    }
-
+    .product3d-specs { display: flex; flex-direction: column; gap: 0.55rem; margin-bottom: 1.8rem; }
     .spec-row {
-      display: flex;
-      align-items: baseline;
-      gap: 0;
-      font-size: 0.65rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
+      display: flex; align-items: baseline;
+      font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase;
     }
-
-    .spec-row .spec-key {
-      color: var(--mid);
-      width: 110px;
-      flex-shrink: 0;
-    }
-
-    .spec-row .spec-val { color: var(--ink); }
-
+    .spec-key { color: var(--mid); width: 110px; flex-shrink: 0; }
+    .spec-val  { color: var(--ink); }
     .product3d-hint {
-      font-size: 0.58rem;
-      letter-spacing: 0.35em;
-      text-transform: uppercase;
-      color: var(--mid);
-      opacity: 0.55;
+      font-size: 0.58rem; letter-spacing: 0.35em; text-transform: uppercase;
+      color: var(--mid); opacity: 0.65;
     }
-
     .product3d-tag {
-      position: absolute;
-      top: 3.5rem;
-      left: 3.5rem;
-      font-size: 0.6rem;
-      letter-spacing: 0.45em;
-      text-transform: uppercase;
-      color: var(--mid);
-      z-index: 10;
-      pointer-events: none;
+      position: absolute; top: 3.5rem; left: 3.5rem;
+      font-size: 0.6rem; letter-spacing: 0.45em; text-transform: uppercase;
+      color: var(--mid); z-index: 10; pointer-events: none;
     }
 
     /* ── OBJECTS ─────────────────────────────────────── */
     .objects { padding: 6rem 3.5rem 10rem; }
     .objects-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
+      display: flex; justify-content: space-between; align-items: baseline;
       margin-bottom: 5rem;
     }
     .objects-header h2 {
-      font-family: 'Cormorant Garamond', serif;
-      font-weight: 300;
-      font-size: clamp(1.5rem, 2.5vw, 2.2rem);
+      font-family: 'Cormorant Garamond', serif; font-weight: 300;
+      font-size: clamp(1.5rem, 2.5vw, 2.2rem); color: var(--ink);
     }
     .objects-count {
-      font-size: 0.6rem;
-      letter-spacing: 0.35em;
-      text-transform: uppercase;
-      color: var(--mid);
+      font-size: 0.6rem; letter-spacing: 0.35em; text-transform: uppercase; color: var(--mid);
     }
     .objects-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      display: grid; grid-template-columns: repeat(3,1fr);
       border-top: 1px solid var(--rule);
     }
     .object-item {
@@ -300,109 +236,65 @@
     }
     .object-item:last-child { border-right: none; padding-right: 0; }
     .object-item:not(:first-child) { padding-left: 2.5rem; }
-    .object-sketch {
-      width: 100%;
-      max-width: 240px;
-      margin-bottom: 3rem;
-      display: block;
-    }
+    .object-sketch { width: 100%; max-width: 240px; margin-bottom: 3rem; display: block; }
     .object-num {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 0.7rem;
-      letter-spacing: 0.3em;
-      color: var(--mid);
-      margin-bottom: 0.8rem;
+      font-family: 'Cormorant Garamond', serif; font-size: 0.7rem;
+      letter-spacing: 0.3em; color: var(--mid); margin-bottom: 0.8rem;
     }
     .object-name {
-      font-family: 'Cormorant Garamond', serif;
-      font-weight: 300;
-      font-size: 1.35rem;
-      margin-bottom: 0.5rem;
-      letter-spacing: 0.04em;
+      font-family: 'Cormorant Garamond', serif; font-weight: 300;
+      font-size: 1.35rem; margin-bottom: 0.5rem;
+      letter-spacing: 0.04em; color: var(--ink);
     }
     .object-material {
-      font-size: 0.6rem;
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
-      color: var(--mid);
-      margin-bottom: 0.9rem;
+      font-size: 0.6rem; letter-spacing: 0.3em; text-transform: uppercase;
+      color: var(--mid); margin-bottom: 0.9rem;
     }
-    .object-detail {
-      font-size: 0.72rem;
-      line-height: 1.85;
-      color: var(--mid);
-    }
+    .object-detail { font-size: 0.72rem; line-height: 1.85; color: var(--mid); }
 
-    /* ── MATERIAL SECTION ────────────────────────────── */
+    /* ── MATERIAL DARK SECTION ───────────────────────── */
     .material {
       padding: 8rem 3.5rem;
-      display: grid;
-      grid-template-columns: 2fr 1fr;
-      gap: 6rem;
-      align-items: center;
-      background: var(--ink);
-      color: var(--bg);
+      display: grid; grid-template-columns: 2fr 1fr; gap: 6rem; align-items: center;
+      background: var(--ink); color: var(--light);
     }
     .material h2 {
-      font-family: 'Cormorant Garamond', serif;
-      font-weight: 300;
-      font-size: clamp(2.2rem, 4vw, 4rem);
-      line-height: 1.15;
-      color: var(--bg);
+      font-family: 'Cormorant Garamond', serif; font-weight: 300;
+      font-size: clamp(2.2rem, 4vw, 4rem); line-height: 1.15; color: var(--light);
     }
     .material h2 em { font-style: italic; }
     .material-right { display: flex; flex-direction: column; gap: 2rem; }
-    .material-stat { border-top: 1px solid rgba(247,246,242,0.12); padding-top: 1.5rem; }
+    .material-stat { border-top: 1px solid rgba(223,225,226,0.14); padding-top: 1.5rem; }
     .material-stat-num {
-      font-family: 'Cormorant Garamond', serif;
-      font-weight: 300;
-      font-size: 2.5rem;
-      color: var(--bg);
-      line-height: 1;
-      margin-bottom: 0.4rem;
+      font-family: 'Cormorant Garamond', serif; font-weight: 300;
+      font-size: 2.5rem; color: var(--light); line-height: 1; margin-bottom: 0.4rem;
     }
     .material-stat-label {
-      font-size: 0.65rem;
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
-      color: rgba(247,246,242,0.45);
+      font-size: 0.65rem; letter-spacing: 0.3em; text-transform: uppercase;
+      color: rgba(223,225,226,0.45);
     }
 
     /* ── CONTACT ─────────────────────────────────────── */
     .contact { padding: 12rem 3.5rem 10rem; position: relative; }
     .contact-sketch {
-      position: absolute;
-      right: 3.5rem;
-      top: 50%;
-      transform: translateY(-50%);
-      width: clamp(140px, 20vw, 280px);
-      opacity: 0.28;
+      position: absolute; right: 3.5rem; top: 50%; transform: translateY(-50%);
+      width: clamp(140px, 20vw, 280px); opacity: 0.22;
     }
     .contact-label {
-      font-size: 0.6rem;
-      letter-spacing: 0.45em;
-      text-transform: uppercase;
-      color: var(--mid);
-      margin-bottom: 2.5rem;
+      font-size: 0.6rem; letter-spacing: 0.45em; text-transform: uppercase;
+      color: var(--mid); margin-bottom: 2.5rem;
     }
     .contact h2 {
-      font-family: 'Cormorant Garamond', serif;
-      font-weight: 300;
-      font-size: clamp(2.5rem, 5.5vw, 5.5rem);
-      line-height: 1.1;
-      max-width: 680px;
-      margin-bottom: 3.5rem;
+      font-family: 'Cormorant Garamond', serif; font-weight: 300;
+      font-size: clamp(2.5rem, 5.5vw, 5.5rem); line-height: 1.1;
+      max-width: 680px; margin-bottom: 3.5rem; color: var(--ink);
     }
     .contact h2 em { font-style: italic; }
     .contact-email {
       font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(1rem, 1.8vw, 1.5rem);
-      font-weight: 300;
-      letter-spacing: 0.08em;
-      color: var(--ink);
-      text-decoration: none;
-      border-bottom: 1px solid var(--ink);
-      padding-bottom: 0.2rem;
+      font-size: clamp(1rem, 1.8vw, 1.5rem); font-weight: 300;
+      letter-spacing: 0.08em; color: var(--ink); text-decoration: none;
+      border-bottom: 1px solid var(--ink); padding-bottom: 0.2rem;
       transition: opacity 0.3s;
     }
     .contact-email:hover { opacity: 0.4; }
@@ -410,9 +302,7 @@
     /* ── FOOTER ──────────────────────────────────────── */
     footer {
       padding: 2rem 3.5rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      display: flex; justify-content: space-between; align-items: center;
       border-top: 1px solid var(--rule);
     }
     .footer-logo { font-size: 0.65rem; letter-spacing: 0.5em; text-transform: uppercase; color: var(--mid); }
@@ -424,16 +314,13 @@
       to   { opacity: 1; transform: translateY(0); }
     }
     @keyframes fadeIn {
-      from { opacity: 0; }
-      to   { opacity: 1; }
+      from { opacity: 0; } to { opacity: 1; }
     }
     @keyframes expandBar {
-      from { transform: scaleX(0); }
-      to   { transform: scaleX(1); }
+      from { transform: scaleX(0); } to { transform: scaleX(1); }
     }
     .reveal {
-      opacity: 0;
-      transform: translateY(22px);
+      opacity: 0; transform: translateY(22px);
       transition: opacity 0.9s ease, transform 0.9s ease;
     }
     .reveal.visible { opacity: 1; transform: translateY(0); }
@@ -441,8 +328,7 @@
     .reveal-delay-2 { transition-delay: 0.24s; }
     .reveal-delay-3 { transition-delay: 0.36s; }
     .draw {
-      stroke-dasharray: 1;
-      stroke-dashoffset: 1;
+      stroke-dasharray: 1; stroke-dashoffset: 1;
       vector-effect: non-scaling-stroke;
       transition: stroke-dashoffset 1.8s cubic-bezier(0.4,0,0.2,1);
     }
@@ -474,31 +360,57 @@
     <p class="hero-sub">Luxury tableware and service objects — each piece carried forward from the life of a vessel.</p>
   </div>
 
-  <!-- Hero sketch: precise tray in cabinet perspective -->
+  <!--
+    Hero tray sketch — strokes in dark ink.
+    Face fills use rgba to tint slightly lighter/darker than
+    the steel background, giving depth without hiding the grain.
+  -->
   <svg class="hero-sketch" viewBox="0 0 320 230" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
     <defs>
+      <!-- Carbon-fibre weave on inner surface — same pattern as tray detail -->
       <pattern id="hero-carbon" x="0" y="0" width="7" height="7" patternUnits="userSpaceOnUse">
-        <line x1="0" y1="7" x2="7" y2="0" stroke="#0d0d0d" stroke-width="0.45"/>
-        <line x1="-7" y1="7" x2="0" y2="0" stroke="#0d0d0d" stroke-width="0.45"/>
-        <line x1="7" y1="7" x2="14" y2="0" stroke="#0d0d0d" stroke-width="0.45"/>
-        <line x1="0" y1="0" x2="7" y2="7" stroke="#0d0d0d" stroke-width="0.45"/>
-        <line x1="-7" y1="0" x2="0" y2="7" stroke="#0d0d0d" stroke-width="0.45"/>
-        <line x1="7" y1="0" x2="14" y2="7" stroke="#0d0d0d" stroke-width="0.45"/>
+        <line x1="0" y1="7" x2="7" y2="0" stroke="#0a0a0a" stroke-width="0.4"/>
+        <line x1="-7" y1="7" x2="0" y2="0" stroke="#0a0a0a" stroke-width="0.4"/>
+        <line x1="7" y1="7" x2="14" y2="0" stroke="#0a0a0a" stroke-width="0.4"/>
+        <line x1="0" y1="0" x2="7" y2="7" stroke="#0a0a0a" stroke-width="0.4"/>
+        <line x1="-7" y1="0" x2="0" y2="7" stroke="#0a0a0a" stroke-width="0.4"/>
+        <line x1="7" y1="0" x2="14" y2="7" stroke="#0a0a0a" stroke-width="0.4"/>
       </pattern>
       <clipPath id="hero-top-clip">
         <polygon points="22,108 258,80 280,148 44,176"/>
       </clipPath>
     </defs>
-    <polygon points="22,108 258,80 280,148 44,176" fill="var(--bg)" stroke="#0d0d0d" stroke-width="0.9" pathLength="1" class="draw"/>
-    <polygon points="22,108 258,80 280,148 44,176" fill="url(#hero-carbon)" opacity="0.13" clip-path="url(#hero-top-clip)"/>
-    <polygon points="38,115 242,89 262,143 58,169" fill="none" stroke="#0d0d0d" stroke-width="0.5" opacity="0.6" pathLength="1" class="draw draw-delay-1"/>
-    <polygon points="44,176 280,148 280,162 44,190" fill="#eeede9" stroke="#0d0d0d" stroke-width="0.8" pathLength="1" class="draw"/>
-    <polygon points="258,80 280,148 280,162 258,94" fill="#e6e5e1" stroke="#0d0d0d" stroke-width="0.8" pathLength="1" class="draw"/>
-    <line x1="52" y1="190" x2="52" y2="199" stroke="#0d0d0d" stroke-width="1" pathLength="1" class="draw draw-delay-2"/>
-    <line x1="62" y1="189" x2="62" y2="198" stroke="#0d0d0d" stroke-width="1" pathLength="1" class="draw draw-delay-2"/>
-    <line x1="267" y1="162" x2="267" y2="171" stroke="#0d0d0d" stroke-width="1" pathLength="1" class="draw draw-delay-2"/>
-    <line x1="277" y1="161" x2="277" y2="170" stroke="#0d0d0d" stroke-width="1" pathLength="1" class="draw draw-delay-2"/>
-    <line x1="60" y1="124" x2="255" y2="100" stroke="#0d0d0d" stroke-width="0.3" opacity="0.2" pathLength="1" class="draw draw-delay-3"/>
+
+    <!-- Top face — slightly lighter than steel bg to catch light -->
+    <polygon points="22,108 258,80 280,148 44,176"
+      fill="rgba(255,255,255,0.14)" stroke="#0a0a0a" stroke-width="0.9"
+      pathLength="1" class="draw"/>
+    <!-- Carbon pattern on inner surface -->
+    <polygon points="22,108 258,80 280,148 44,176"
+      fill="url(#hero-carbon)" opacity="0.11" clip-path="url(#hero-top-clip)"/>
+    <!-- Inner rim step -->
+    <polygon points="38,115 242,89 262,143 58,169"
+      fill="none" stroke="#0a0a0a" stroke-width="0.5" opacity="0.5"
+      pathLength="1" class="draw draw-delay-1"/>
+
+    <!-- Front face — slightly darker (in shadow) -->
+    <polygon points="44,176 280,148 280,162 44,190"
+      fill="rgba(0,0,0,0.10)" stroke="#0a0a0a" stroke-width="0.8"
+      pathLength="1" class="draw"/>
+    <!-- Right face — darkest (most shadow) -->
+    <polygon points="258,80 280,148 280,162 258,94"
+      fill="rgba(0,0,0,0.16)" stroke="#0a0a0a" stroke-width="0.8"
+      pathLength="1" class="draw"/>
+
+    <!-- Feet -->
+    <line x1="52" y1="190" x2="52" y2="199" stroke="#0a0a0a" stroke-width="1" pathLength="1" class="draw draw-delay-2"/>
+    <line x1="62" y1="189" x2="62" y2="198" stroke="#0a0a0a" stroke-width="1" pathLength="1" class="draw draw-delay-2"/>
+    <line x1="267" y1="162" x2="267" y2="171" stroke="#0a0a0a" stroke-width="1" pathLength="1" class="draw draw-delay-2"/>
+    <line x1="277" y1="161" x2="277" y2="170" stroke="#0a0a0a" stroke-width="1" pathLength="1" class="draw draw-delay-2"/>
+
+    <!-- Sheen line across top -->
+    <line x1="60" y1="124" x2="255" y2="100" stroke="rgba(255,255,255,0.35)" stroke-width="0.5"
+      pathLength="1" class="draw draw-delay-3"/>
   </svg>
 
   <div class="hero-bottom">
@@ -529,34 +441,15 @@
 <!-- ── 3D PRODUCT VIEWER ─────────────────────────────── -->
 <section class="product3d" id="tray">
   <p class="product3d-tag reveal">Service Tray — 01</p>
-
-  <!-- Three.js renders here -->
   <canvas id="tray-canvas"></canvas>
-
-  <!-- Specs overlay (bottom-left) -->
   <div class="product3d-meta reveal">
     <h3 class="product3d-name">Service Tray</h3>
     <div class="product3d-specs">
-      <div class="spec-row">
-        <span class="spec-key">Material</span>
-        <span class="spec-val">Stainless Steel 316L</span>
-      </div>
-      <div class="spec-row">
-        <span class="spec-key">Dimensions</span>
-        <span class="spec-val">320 × 240 mm</span>
-      </div>
-      <div class="spec-row">
-        <span class="spec-key">Wall height</span>
-        <span class="spec-val">40 mm</span>
-      </div>
-      <div class="spec-row">
-        <span class="spec-key">Thickness</span>
-        <span class="spec-val">1.5 mm</span>
-      </div>
-      <div class="spec-row">
-        <span class="spec-key">Finish</span>
-        <span class="spec-val">Brushed, marine grade</span>
-      </div>
+      <div class="spec-row"><span class="spec-key">Material</span><span class="spec-val">Stainless Steel 316L</span></div>
+      <div class="spec-row"><span class="spec-key">Dimensions</span><span class="spec-val">320 × 240 mm</span></div>
+      <div class="spec-row"><span class="spec-key">Wall height</span><span class="spec-val">40 mm</span></div>
+      <div class="spec-row"><span class="spec-key">Thickness</span><span class="spec-val">1.5 mm</span></div>
+      <div class="spec-row"><span class="spec-key">Finish</span><span class="spec-val">Brushed, marine grade</span></div>
     </div>
     <p class="product3d-hint">Drag to rotate &nbsp;·&nbsp; Scroll to zoom</p>
   </div>
@@ -568,7 +461,6 @@
     <h2>The Collection</h2>
     <span class="objects-count">Three objects — one material language</span>
   </div>
-
   <div class="objects-grid">
 
     <!-- 01 COASTER -->
@@ -576,22 +468,28 @@
       <svg class="object-sketch" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
         <defs>
           <pattern id="teak-grain" x="0" y="0" width="200" height="6" patternUnits="userSpaceOnUse">
-            <line x1="0" y1="0" x2="200" y2="0" stroke="#0d0d0d" stroke-width="0.35"/>
+            <line x1="0" y1="0" x2="200" y2="0" stroke="#0a0a0a" stroke-width="0.35"/>
           </pattern>
           <clipPath id="coaster-clip"><rect x="12" y="12" width="176" height="176" rx="2"/></clipPath>
         </defs>
-        <rect x="12" y="12" width="176" height="176" rx="2" fill="url(#teak-grain)" opacity="0.12" clip-path="url(#coaster-clip)"/>
-        <rect x="12" y="12" width="176" height="176" rx="2" stroke="#0d0d0d" stroke-width="0.85" pathLength="1" class="draw"/>
-        <rect x="22" y="22" width="156" height="156" stroke="#0d0d0d" stroke-width="0.6" pathLength="1" class="draw draw-delay-1"/>
-        <rect x="38" y="38" width="124" height="124" stroke="#0d0d0d" stroke-width="0.5" opacity="0.7" pathLength="1" class="draw draw-delay-1"/>
-        <rect x="58" y="58" width="84"  height="84"  stroke="#0d0d0d" stroke-width="0.4" opacity="0.5" pathLength="1" class="draw draw-delay-2"/>
-        <rect x="78" y="78" width="44"  height="44"  stroke="#0d0d0d" stroke-width="0.35" opacity="0.35" pathLength="1" class="draw draw-delay-2"/>
-        <line x1="96" y1="100" x2="104" y2="100" stroke="#0d0d0d" stroke-width="0.4" opacity="0.4" pathLength="1" class="draw draw-delay-3"/>
-        <line x1="100" y1="96" x2="100" y2="104" stroke="#0d0d0d" stroke-width="0.4" opacity="0.4" pathLength="1" class="draw draw-delay-3"/>
-        <line x1="12" y1="36" x2="22" y2="36" stroke="#0d0d0d" stroke-width="0.4" opacity="0.3"/>
-        <line x1="36" y1="12" x2="36" y2="22" stroke="#0d0d0d" stroke-width="0.4" opacity="0.3"/>
-        <line x1="164" y1="12" x2="164" y2="22" stroke="#0d0d0d" stroke-width="0.4" opacity="0.3"/>
-        <line x1="178" y1="36" x2="188" y2="36" stroke="#0d0d0d" stroke-width="0.4" opacity="0.3"/>
+        <rect x="12" y="12" width="176" height="176" rx="2"
+          fill="rgba(255,255,255,0.12)" clip-path="url(#coaster-clip)"/>
+        <rect x="12" y="12" width="176" height="176" rx="2"
+          fill="url(#teak-grain)" opacity="0.1" clip-path="url(#coaster-clip)"/>
+        <rect x="12" y="12" width="176" height="176" rx="2" stroke="#0a0a0a" stroke-width="0.85" pathLength="1" class="draw"/>
+        <rect x="22" y="22" width="156" height="156" stroke="#0a0a0a" stroke-width="0.6" pathLength="1" class="draw draw-delay-1"/>
+        <rect x="38" y="38" width="124" height="124" stroke="#0a0a0a" stroke-width="0.5" opacity="0.65" pathLength="1" class="draw draw-delay-1"/>
+        <rect x="58" y="58" width="84"  height="84"  stroke="#0a0a0a" stroke-width="0.4" opacity="0.45" pathLength="1" class="draw draw-delay-2"/>
+        <rect x="78" y="78" width="44"  height="44"  stroke="#0a0a0a" stroke-width="0.35" opacity="0.3" pathLength="1" class="draw draw-delay-2"/>
+        <line x1="96" y1="100" x2="104" y2="100" stroke="#0a0a0a" stroke-width="0.4" opacity="0.35" pathLength="1" class="draw draw-delay-3"/>
+        <line x1="100" y1="96"  x2="100" y2="104" stroke="#0a0a0a" stroke-width="0.4" opacity="0.35" pathLength="1" class="draw draw-delay-3"/>
+        <!-- Corner routing marks -->
+        <line x1="12" y1="36"  x2="22" y2="36"  stroke="#0a0a0a" stroke-width="0.4" opacity="0.28"/>
+        <line x1="36" y1="12"  x2="36" y2="22"  stroke="#0a0a0a" stroke-width="0.4" opacity="0.28"/>
+        <line x1="164" y1="12" x2="164" y2="22" stroke="#0a0a0a" stroke-width="0.4" opacity="0.28"/>
+        <line x1="178" y1="36" x2="188" y2="36" stroke="#0a0a0a" stroke-width="0.4" opacity="0.28"/>
+        <!-- Sheen highlight -->
+        <line x1="22" y1="22" x2="178" y2="22" stroke="rgba(255,255,255,0.3)" stroke-width="0.4"/>
       </svg>
       <p class="object-num reveal">01</p>
       <h3 class="object-name reveal reveal-delay-1">Coaster</h3>
@@ -604,36 +502,44 @@
       <svg class="object-sketch" viewBox="0 0 200 260" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
         <defs>
           <pattern id="rope-weave" x="0" y="0" width="8" height="8" patternUnits="userSpaceOnUse">
-            <line x1="0" y1="8" x2="8" y2="0" stroke="#0d0d0d" stroke-width="0.5"/>
-            <line x1="-8" y1="8" x2="0" y2="0" stroke="#0d0d0d" stroke-width="0.5"/>
-            <line x1="8" y1="8" x2="16" y2="0" stroke="#0d0d0d" stroke-width="0.5"/>
-            <line x1="0" y1="0" x2="8" y2="8" stroke="#0d0d0d" stroke-width="0.5"/>
-            <line x1="-8" y1="0" x2="0" y2="8" stroke="#0d0d0d" stroke-width="0.5"/>
-            <line x1="8" y1="0" x2="16" y2="8" stroke="#0d0d0d" stroke-width="0.5"/>
+            <line x1="0" y1="8" x2="8" y2="0" stroke="#0a0a0a" stroke-width="0.5"/>
+            <line x1="-8" y1="8" x2="0" y2="0" stroke="#0a0a0a" stroke-width="0.5"/>
+            <line x1="8" y1="8" x2="16" y2="0" stroke="#0a0a0a" stroke-width="0.5"/>
+            <line x1="0" y1="0" x2="8" y2="8" stroke="#0a0a0a" stroke-width="0.5"/>
+            <line x1="-8" y1="0" x2="0" y2="8" stroke="#0a0a0a" stroke-width="0.5"/>
+            <line x1="8" y1="0" x2="16" y2="8" stroke="#0a0a0a" stroke-width="0.5"/>
           </pattern>
-          <clipPath id="holder-front-clip"><rect x="52" y="98" width="104" height="142"/></clipPath>
+          <clipPath id="holder-clip"><rect x="52" y="98" width="104" height="142"/></clipPath>
         </defs>
-        <rect x="52" y="98" width="104" height="142" fill="var(--bg)" stroke="#0d0d0d" stroke-width="0.85" pathLength="1" class="draw"/>
-        <rect x="52" y="98" width="104" height="142" fill="url(#rope-weave)" opacity="0.14" clip-path="url(#holder-front-clip)"/>
-        <polygon points="156,98 174,86 174,228 156,240" fill="#e8e7e3" stroke="#0d0d0d" stroke-width="0.8" pathLength="1" class="draw draw-delay-1"/>
-        <polygon points="52,98 156,98 174,86 70,86" fill="#eeede9" stroke="#0d0d0d" stroke-width="0.8" pathLength="1" class="draw draw-delay-1"/>
-        <line x1="52" y1="108" x2="156" y2="108" stroke="#0d0d0d" stroke-width="0.4" opacity="0.4" pathLength="1" class="draw draw-delay-2"/>
-        <line x1="52" y1="230" x2="156" y2="230" stroke="#0d0d0d" stroke-width="0.4" opacity="0.4" pathLength="1" class="draw draw-delay-2"/>
-        <line x1="62" y1="240" x2="62" y2="249" stroke="#0d0d0d" stroke-width="1" pathLength="1" class="draw draw-delay-3"/>
-        <line x1="72" y1="240" x2="72" y2="249" stroke="#0d0d0d" stroke-width="1" pathLength="1" class="draw draw-delay-3"/>
-        <line x1="140" y1="240" x2="140" y2="249" stroke="#0d0d0d" stroke-width="1" pathLength="1" class="draw draw-delay-3"/>
-        <line x1="150" y1="240" x2="150" y2="249" stroke="#0d0d0d" stroke-width="1" pathLength="1" class="draw draw-delay-3"/>
-        <path d="M 90,98 Q 88,56 92,46 L 92,26" stroke="#0d0d0d" stroke-width="0.75" pathLength="1" class="draw draw-delay-1"/>
-        <path d="M 118,98 Q 120,56 108,46 L 108,26" stroke="#0d0d0d" stroke-width="0.75" pathLength="1" class="draw draw-delay-1"/>
-        <path d="M 92,46 Q 100,40 108,46" stroke="#0d0d0d" stroke-width="0.65" pathLength="1" class="draw draw-delay-2"/>
-        <line x1="92" y1="46" x2="92" y2="26" stroke="#0d0d0d" stroke-width="0.65" pathLength="1" class="draw draw-delay-2"/>
-        <line x1="108" y1="46" x2="108" y2="26" stroke="#0d0d0d" stroke-width="0.65" pathLength="1" class="draw draw-delay-2"/>
-        <path d="M 92,26 L 92,14 Q 100,10 108,14 L 108,26" stroke="#0d0d0d" stroke-width="0.65" pathLength="1" class="draw draw-delay-3"/>
+        <rect x="52" y="98" width="104" height="142"
+          fill="rgba(255,255,255,0.12)" pathLength="1" class="draw"
+          stroke="#0a0a0a" stroke-width="0.85"/>
+        <rect x="52" y="98" width="104" height="142"
+          fill="url(#rope-weave)" opacity="0.12" clip-path="url(#holder-clip)"/>
+        <polygon points="156,98 174,86 174,228 156,240"
+          fill="rgba(0,0,0,0.1)" stroke="#0a0a0a" stroke-width="0.8" pathLength="1" class="draw draw-delay-1"/>
+        <polygon points="52,98 156,98 174,86 70,86"
+          fill="rgba(255,255,255,0.18)" stroke="#0a0a0a" stroke-width="0.8" pathLength="1" class="draw draw-delay-1"/>
+        <!-- Steel rim strips -->
+        <line x1="52" y1="108" x2="156" y2="108" stroke="rgba(255,255,255,0.4)" stroke-width="0.5" pathLength="1" class="draw draw-delay-2"/>
+        <line x1="52" y1="230" x2="156" y2="230" stroke="rgba(255,255,255,0.3)" stroke-width="0.4" pathLength="1" class="draw draw-delay-2"/>
+        <!-- Feet -->
+        <line x1="62" y1="240" x2="62" y2="249" stroke="#0a0a0a" stroke-width="1" pathLength="1" class="draw draw-delay-3"/>
+        <line x1="72" y1="240" x2="72" y2="249" stroke="#0a0a0a" stroke-width="1" pathLength="1" class="draw draw-delay-3"/>
+        <line x1="140" y1="240" x2="140" y2="249" stroke="#0a0a0a" stroke-width="1" pathLength="1" class="draw draw-delay-3"/>
+        <line x1="150" y1="240" x2="150" y2="249" stroke="#0a0a0a" stroke-width="1" pathLength="1" class="draw draw-delay-3"/>
+        <!-- Bottle -->
+        <path d="M 90,98 Q 88,56 92,46 L 92,26" stroke="#0a0a0a" stroke-width="0.75" pathLength="1" class="draw draw-delay-1"/>
+        <path d="M 118,98 Q 120,56 108,46 L 108,26" stroke="#0a0a0a" stroke-width="0.75" pathLength="1" class="draw draw-delay-1"/>
+        <path d="M 92,46 Q 100,40 108,46" stroke="#0a0a0a" stroke-width="0.65" pathLength="1" class="draw draw-delay-2"/>
+        <line x1="92" y1="46" x2="92" y2="26" stroke="#0a0a0a" stroke-width="0.65" pathLength="1" class="draw draw-delay-2"/>
+        <line x1="108" y1="46" x2="108" y2="26" stroke="#0a0a0a" stroke-width="0.65" pathLength="1" class="draw draw-delay-2"/>
+        <path d="M 92,26 L 92,14 Q 100,10 108,14 L 108,26" stroke="#0a0a0a" stroke-width="0.65" pathLength="1" class="draw draw-delay-3"/>
       </svg>
       <p class="object-num reveal">02</p>
       <h3 class="object-name reveal reveal-delay-1">Bottle Container</h3>
       <p class="object-material reveal reveal-delay-1">Woven rigging rope &amp; steel hardware</p>
-      <p class="object-detail reveal reveal-delay-2">A vessel for the vessel. Braided yacht rope — originally load-bearing at sea — woven tight around a stainless frame and finished with salvaged deck hardware. Made to hold a single bottle.</p>
+      <p class="object-detail reveal reveal-delay-2">Braided yacht rope — originally load-bearing at sea — woven tight around a stainless frame and finished with salvaged deck hardware. Made to hold a single bottle.</p>
     </div>
 
     <!-- 03 SERVICE TRAY -->
@@ -641,24 +547,32 @@
       <svg class="object-sketch" viewBox="0 0 240 180" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
         <defs>
           <pattern id="carbon-fine" x="0" y="0" width="6" height="6" patternUnits="userSpaceOnUse">
-            <line x1="0" y1="6" x2="6" y2="0" stroke="#0d0d0d" stroke-width="0.4"/>
-            <line x1="-6" y1="6" x2="0" y2="0" stroke="#0d0d0d" stroke-width="0.4"/>
-            <line x1="6" y1="6" x2="12" y2="0" stroke="#0d0d0d" stroke-width="0.4"/>
-            <line x1="0" y1="0" x2="6" y2="6" stroke="#0d0d0d" stroke-width="0.4"/>
-            <line x1="-6" y1="0" x2="0" y2="6" stroke="#0d0d0d" stroke-width="0.4"/>
-            <line x1="6" y1="0" x2="12" y2="6" stroke="#0d0d0d" stroke-width="0.4"/>
+            <line x1="0" y1="6" x2="6" y2="0" stroke="#0a0a0a" stroke-width="0.4"/>
+            <line x1="-6" y1="6" x2="0" y2="0" stroke="#0a0a0a" stroke-width="0.4"/>
+            <line x1="6" y1="6" x2="12" y2="0" stroke="#0a0a0a" stroke-width="0.4"/>
+            <line x1="0" y1="0" x2="6" y2="6" stroke="#0a0a0a" stroke-width="0.4"/>
+            <line x1="-6" y1="0" x2="0" y2="6" stroke="#0a0a0a" stroke-width="0.4"/>
+            <line x1="6" y1="0" x2="12" y2="6" stroke="#0a0a0a" stroke-width="0.4"/>
           </pattern>
-          <clipPath id="tray-top-clip"><polygon points="18,100 208,72 226,138 36,166"/></clipPath>
+          <clipPath id="tray-top-clip2"><polygon points="18,100 208,72 226,138 36,166"/></clipPath>
         </defs>
-        <polygon points="18,100 208,72 226,138 36,166" fill="var(--bg)" stroke="#0d0d0d" stroke-width="0.85" pathLength="1" class="draw"/>
-        <polygon points="18,100 208,72 226,138 36,166" fill="url(#carbon-fine)" opacity="0.15" clip-path="url(#tray-top-clip)"/>
-        <polygon points="33,108 193,81 209,132 49,159" fill="none" stroke="#0d0d0d" stroke-width="0.5" opacity="0.55" pathLength="1" class="draw draw-delay-1"/>
-        <polygon points="36,166 226,138 226,152 36,180" fill="#e8e7e3" stroke="#0d0d0d" stroke-width="0.8" pathLength="1" class="draw"/>
-        <polygon points="208,72 226,138 226,152 208,86" fill="#dddcda" stroke="#0d0d0d" stroke-width="0.8" pathLength="1" class="draw draw-delay-1"/>
-        <line x1="44" y1="180" x2="44" y2="189" stroke="#0d0d0d" stroke-width="1.1" pathLength="1" class="draw draw-delay-2"/>
-        <line x1="54" y1="179" x2="54" y2="188" stroke="#0d0d0d" stroke-width="1.1" pathLength="1" class="draw draw-delay-2"/>
-        <line x1="213" y1="152" x2="213" y2="161" stroke="#0d0d0d" stroke-width="1.1" pathLength="1" class="draw draw-delay-2"/>
-        <line x1="223" y1="151" x2="223" y2="160" stroke="#0d0d0d" stroke-width="1.1" pathLength="1" class="draw draw-delay-2"/>
+        <polygon points="18,100 208,72 226,138 36,166"
+          fill="rgba(255,255,255,0.14)" stroke="#0a0a0a" stroke-width="0.85" pathLength="1" class="draw"/>
+        <polygon points="18,100 208,72 226,138 36,166"
+          fill="url(#carbon-fine)" opacity="0.13" clip-path="url(#tray-top-clip2)"/>
+        <polygon points="33,108 193,81 209,132 49,159"
+          fill="none" stroke="#0a0a0a" stroke-width="0.5" opacity="0.5" pathLength="1" class="draw draw-delay-1"/>
+        <!-- Sheen line on top face -->
+        <line x1="30" y1="112" x2="210" y2="84" stroke="rgba(255,255,255,0.38)" stroke-width="0.5" pathLength="1" class="draw draw-delay-2"/>
+        <polygon points="36,166 226,138 226,152 36,180"
+          fill="rgba(0,0,0,0.10)" stroke="#0a0a0a" stroke-width="0.8" pathLength="1" class="draw"/>
+        <polygon points="208,72 226,138 226,152 208,86"
+          fill="rgba(0,0,0,0.16)" stroke="#0a0a0a" stroke-width="0.8" pathLength="1" class="draw draw-delay-1"/>
+        <!-- Feet -->
+        <line x1="44" y1="180" x2="44" y2="189" stroke="#0a0a0a" stroke-width="1.1" pathLength="1" class="draw draw-delay-2"/>
+        <line x1="54" y1="179" x2="54" y2="188" stroke="#0a0a0a" stroke-width="1.1" pathLength="1" class="draw draw-delay-2"/>
+        <line x1="213" y1="152" x2="213" y2="161" stroke="#0a0a0a" stroke-width="1.1" pathLength="1" class="draw draw-delay-2"/>
+        <line x1="223" y1="151" x2="223" y2="160" stroke="#0a0a0a" stroke-width="1.1" pathLength="1" class="draw draw-delay-2"/>
       </svg>
       <p class="object-num reveal">03</p>
       <h3 class="object-name reveal reveal-delay-1">Service Tray</h3>
@@ -669,7 +583,7 @@
   </div>
 </section>
 
-<!-- ── MATERIAL ──────────────────────────────────────── -->
+<!-- ── MATERIAL DARK SECTION ─────────────────────────── -->
 <section class="material">
   <h2 class="reveal">Material<br />that has<br /><em>already lived.</em></h2>
   <div class="material-right">
@@ -691,13 +605,13 @@
 <!-- ── CONTACT ───────────────────────────────────────── -->
 <section class="contact" id="contact">
   <svg class="contact-sketch" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-    <rect x="12" y="12" width="176" height="176" rx="2" stroke="#0d0d0d" stroke-width="0.6"/>
-    <rect x="22" y="22" width="156" height="156" stroke="#0d0d0d" stroke-width="0.45"/>
-    <rect x="38" y="38" width="124" height="124" stroke="#0d0d0d" stroke-width="0.35"/>
-    <rect x="58" y="58" width="84"  height="84"  stroke="#0d0d0d" stroke-width="0.3"/>
-    <rect x="78" y="78" width="44"  height="44"  stroke="#0d0d0d" stroke-width="0.25"/>
-    <line x1="96" y1="100" x2="104" y2="100" stroke="#0d0d0d" stroke-width="0.3" opacity="0.5"/>
-    <line x1="100" y1="96" x2="100" y2="104" stroke="#0d0d0d" stroke-width="0.3" opacity="0.5"/>
+    <rect x="12" y="12" width="176" height="176" rx="2" stroke="#0a0a0a" stroke-width="0.6"/>
+    <rect x="22" y="22" width="156" height="156" stroke="#0a0a0a" stroke-width="0.45"/>
+    <rect x="38" y="38" width="124" height="124" stroke="#0a0a0a" stroke-width="0.35"/>
+    <rect x="58" y="58" width="84"  height="84"  stroke="#0a0a0a" stroke-width="0.3"/>
+    <rect x="78" y="78" width="44"  height="44"  stroke="#0a0a0a" stroke-width="0.25"/>
+    <line x1="96" y1="100" x2="104" y2="100" stroke="#0a0a0a" stroke-width="0.3" opacity="0.5"/>
+    <line x1="100" y1="96"  x2="100" y2="104" stroke="#0a0a0a" stroke-width="0.3" opacity="0.5"/>
   </svg>
   <p class="contact-label reveal">Enquire</p>
   <h2 class="reveal"><em>Every object</em><br />begins with<br />a conversation.</h2>
@@ -733,153 +647,104 @@
   import * as THREE from 'three';
   import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
-  const canvas   = document.getElementById('tray-canvas');
-  const section  = canvas.parentElement;
-  const W_sect   = section.clientWidth;
-  const H_sect   = section.clientHeight;
+  const canvas  = document.getElementById('tray-canvas');
+  const section = canvas.parentElement;
 
-  // Renderer
   const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false });
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-  renderer.setSize(W_sect, H_sect);
-  renderer.outputColorSpace = THREE.SRGBColorSpace;
-  renderer.toneMapping      = THREE.ACESFilmicToneMapping;
+  renderer.setSize(section.clientWidth, section.clientHeight);
+  renderer.outputColorSpace    = THREE.SRGBColorSpace;
+  renderer.toneMapping         = THREE.ACESFilmicToneMapping;
   renderer.toneMappingExposure = 1.15;
   renderer.shadowMap.enabled   = true;
   renderer.shadowMap.type      = THREE.PCFSoftShadowMap;
-  renderer.setClearColor(0xf7f6f2, 1);
+  /* Match the mid satin steel background — 0xb2b6b9 */
+  renderer.setClearColor(0xb2b6b9, 1);
 
-  // Scene
-  const scene = new THREE.Scene();
-
-  // Camera  — 3/4 view matching the reference photo
-  const aspect = W_sect / H_sect;
-  const camera = new THREE.PerspectiveCamera(32, aspect, 0.01, 100);
+  const scene  = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(32, section.clientWidth / section.clientHeight, 0.01, 100);
   camera.position.set(5.5, 3.2, 4.2);
   camera.lookAt(0, 0.18, 0);
 
-  // ── LIGHTING ─────────────────────────────────────────
-  // Ambient — base fill
-  scene.add(new THREE.AmbientLight(0xf0efec, 1.4));
+  /* ── LIGHTING ─────────────────────────────────────── */
+  scene.add(new THREE.AmbientLight(0xb8bcbf, 1.8));  /* steel-tinted ambient */
 
-  // Key light — top-left warm (like the reference photo)
   const keyLight = new THREE.DirectionalLight(0xffffff, 2.8);
   keyLight.position.set(-3, 6, 3);
   keyLight.castShadow = true;
   keyLight.shadow.mapSize.set(2048, 2048);
-  keyLight.shadow.camera.near = 0.1;
-  keyLight.shadow.camera.far  = 20;
   keyLight.shadow.camera.left = keyLight.shadow.camera.bottom = -4;
-  keyLight.shadow.camera.right = keyLight.shadow.camera.top  =  4;
+  keyLight.shadow.camera.right = keyLight.shadow.camera.top   =  4;
   keyLight.shadow.bias = -0.0004;
   scene.add(keyLight);
 
-  // Fill light — right side, cool
-  const fillLight = new THREE.DirectionalLight(0xe8eef5, 0.9);
-  fillLight.position.set(5, 1.5, -2);
-  scene.add(fillLight);
+  scene.add(Object.assign(new THREE.DirectionalLight(0xe0e8f0, 0.9), { position: new THREE.Vector3(5, 1.5, -2) }));
+  scene.add(Object.assign(new THREE.DirectionalLight(0xffffff, 0.5), { position: new THREE.Vector3(0, -2, -5) }));
+  scene.add(Object.assign(new THREE.DirectionalLight(0xb8bcbf, 0.3), { position: new THREE.Vector3(0, -4, 1) }));
 
-  // Rim / back light — adds depth
-  const rimLight = new THREE.DirectionalLight(0xffffff, 0.5);
-  rimLight.position.set(0, -2, -5);
-  scene.add(rimLight);
-
-  // Under bounce
-  const bounceLight = new THREE.DirectionalLight(0xf0efec, 0.25);
-  bounceLight.position.set(0, -4, 1);
-  scene.add(bounceLight);
-
-  // ── MATERIAL — brushed 316L stainless steel ───────────
+  /* ── STEEL MATERIAL — 316L brushed ───────────────── */
   const steelMat = new THREE.MeshStandardMaterial({
-    color:     new THREE.Color(0xc6c5c0),  // cool silver, slightly warm
+    color:     new THREE.Color(0xc8ccc8),  /* slightly lighter than bg → pops off steel surface */
     metalness: 0.93,
-    roughness: 0.16,
+    roughness: 0.15,
     side: THREE.DoubleSide,
   });
 
-  // ── TRAY GEOMETRY ─────────────────────────────────────
-  // Real dimensions (1 Three.js unit = 100 mm):
-  //   Width (X): 3.20   → 320 mm
-  //   Depth (Z): 2.40   → 240 mm
-  //   Wall H(Y): 0.40   → 40 mm
-  //   Thickness: 0.015  → 1.5 mm
+  /* ── TRAY GEOMETRY ────────────────────────────────── */
+  /* 1 Three.js unit = 100 mm  →  320×240 mm, 40mm wall, 1.5mm thick */
   const TW = 3.20, TD = 2.40, TH = 0.40, TT = 0.015;
-
   const tray = new THREE.Group();
 
   function addBox(w, h, d, x, y, z) {
-    const mesh = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), steelMat);
-    mesh.position.set(x, y, z);
-    mesh.castShadow    = true;
-    mesh.receiveShadow = true;
-    tray.add(mesh);
+    const m = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), steelMat);
+    m.position.set(x, y, z);
+    m.castShadow = m.receiveShadow = true;
+    tray.add(m);
   }
 
-  // Bottom plate — lies flat at y = TT/2
-  addBox(TW, TT, TD,  0,  TT/2,  0);
+  addBox(TW, TT, TD,           0,          TT/2,         0);          // bottom
+  addBox(TW, TH, TT,           0,   TT + TH/2,   TD/2 - TT/2);       // front wall
+  addBox(TW, TH, TT,           0,   TT + TH/2,  -(TD/2 - TT/2));     // back wall
+  addBox(TT, TH, TD - 2*TT, -(TW/2 - TT/2),  TT + TH/2,  0);        // left wall
+  addBox(TT, TH, TD - 2*TT,  (TW/2 - TT/2),  TT + TH/2,  0);        // right wall
 
-  // Front wall  (outer face at +Z = TD/2)
-  addBox(TW, TH, TT,  0,  TT + TH/2,  TD/2 - TT/2);
-
-  // Back wall   (outer face at -Z = -TD/2)
-  addBox(TW, TH, TT,  0,  TT + TH/2, -(TD/2 - TT/2));
-
-  // Left wall   (outer face at -X = -TW/2) — fits between front/back walls
-  addBox(TT, TH, TD - 2*TT,  -(TW/2 - TT/2),  TT + TH/2,  0);
-
-  // Right wall  (outer face at +X = TW/2)
-  addBox(TT, TH, TD - 2*TT,   (TW/2 - TT/2),  TT + TH/2,  0);
-
-  // ── FEET — 4 small stainless cylindrical nubs ──────────
-  const footMat = new THREE.MeshStandardMaterial({
-    color: 0xaaa9a4, metalness: 0.75, roughness: 0.35,
-  });
+  /* Feet */
+  const footMat = new THREE.MeshStandardMaterial({ color: 0xb0b4b0, metalness: 0.75, roughness: 0.35 });
   const footGeo = new THREE.CylinderGeometry(0.035, 0.038, 0.055, 16);
-  const footInset = 0.12;
-  const footPositions = [
-    [ TW/2 - footInset, -0.0275, -(TD/2 - footInset) ],
-    [-TW/2 + footInset, -0.0275, -(TD/2 - footInset) ],
-    [ TW/2 - footInset, -0.0275,   TD/2 - footInset  ],
-    [-TW/2 + footInset, -0.0275,   TD/2 - footInset  ],
-  ];
-  footPositions.forEach(([x, y, z]) => {
-    const foot = new THREE.Mesh(footGeo, footMat);
-    foot.position.set(x, y, z);
-    foot.castShadow = true;
-    tray.add(foot);
+  const fi = 0.12;
+  [[ TW/2-fi, -(TD/2-fi)], [-TW/2+fi, -(TD/2-fi)],
+   [ TW/2-fi,  TD/2-fi  ], [-TW/2+fi,  TD/2-fi  ]].forEach(([x, z]) => {
+    const f = new THREE.Mesh(footGeo, footMat);
+    f.position.set(x, -0.0275, z);
+    f.castShadow = true;
+    tray.add(f);
   });
 
-  // Centre tray in view — Y offset so camera framing is balanced
   tray.position.y = -(TT + TH) * 0.48;
   scene.add(tray);
 
-  // ── GROUND PLANE — receives soft shadow only ───────────
-  const shadowGround = new THREE.Mesh(
-    new THREE.PlaneGeometry(14, 14),
-    new THREE.ShadowMaterial({ opacity: 0.055 })
-  );
-  shadowGround.rotation.x = -Math.PI / 2;
-  shadowGround.position.y = tray.position.y - 0.055;
-  shadowGround.receiveShadow = true;
-  scene.add(shadowGround);
+  /* Ground shadow plane */
+  const ground = new THREE.Mesh(new THREE.PlaneGeometry(14, 14), new THREE.ShadowMaterial({ opacity: 0.05 }));
+  ground.rotation.x = -Math.PI / 2;
+  ground.position.y = tray.position.y - 0.056;
+  ground.receiveShadow = true;
+  scene.add(ground);
 
-  // ── ORBIT CONTROLS ────────────────────────────────────
+  /* ── CONTROLS ─────────────────────────────────────── */
   const controls = new OrbitControls(camera, renderer.domElement);
-  controls.enableDamping    = true;
-  controls.dampingFactor    = 0.06;
-  controls.enablePan        = false;
-  controls.minPolarAngle    = Math.PI * 0.12;
-  controls.maxPolarAngle    = Math.PI * 0.52;
-  controls.minDistance      = 3.5;
-  controls.maxDistance      = 11;
+  controls.enableDamping  = true;
+  controls.dampingFactor  = 0.06;
+  controls.enablePan      = false;
+  controls.minPolarAngle  = Math.PI * 0.12;
+  controls.maxPolarAngle  = Math.PI * 0.52;
+  controls.minDistance    = 3.5;
+  controls.maxDistance    = 11;
   controls.target.set(0, 0.1, 0);
   controls.update();
 
-  // Auto-rotate — stops when user touches
   let autoSpin = true;
   controls.addEventListener('start', () => { autoSpin = false; });
 
-  // ── RESIZE ────────────────────────────────────────────
   window.addEventListener('resize', () => {
     const w = section.clientWidth, h = section.clientHeight;
     camera.aspect = w / h;
@@ -887,7 +752,6 @@
     renderer.setSize(w, h);
   });
 
-  // ── RENDER LOOP ───────────────────────────────────────
   (function animate() {
     requestAnimationFrame(animate);
     if (autoSpin) tray.rotation.y += 0.004;
