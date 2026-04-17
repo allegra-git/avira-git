@@ -6,7 +6,7 @@
   <title>Avira — Objects of Purpose</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@200;300&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Jost:wght@200;300&display=swap" rel="stylesheet" />
 
   <!-- Three.js UMD — global script tags, works in all browsers including Safari -->
   <script src="https://cdn.jsdelivr.net/npm/three@0.134.0/build/three.min.js"></script>
@@ -16,10 +16,10 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg:   #7e8285;
-      --ink:  #0d0d0d;
-      --mid:  #1e2022;
-      --rule: rgba(10,10,10,0.22);
+      --bg:    #7e8285;
+      --ink:   #0d0d0d;
+      --mid:   #1e2022;
+      --rule:  rgba(10,10,10,0.22);
       --light: #dfe1e2;
     }
 
@@ -57,6 +57,15 @@
       background-attachment: fixed;
     }
 
+    /* ── PAGE SWITCHING ──────────────────────────────────── */
+    .page { display: none; }
+    .page.active { display: block; }
+
+    /* non-home pages need top padding for the fixed nav */
+    #page-concept,
+    #page-products,
+    #page-contact { padding-top: 5rem; }
+
     .cursor {
       position: fixed;
       width: 5px; height: 5px;
@@ -67,7 +76,7 @@
       transform: translate(-50%,-50%);
     }
 
-    /* ── NAV ─────────────────────────────────────────── */
+    /* ── NAV ─────────────────────────────────────────────── */
     nav {
       position: fixed;
       top: 0; left: 0; right: 0;
@@ -83,6 +92,9 @@
       font-size: 0.75rem;
       letter-spacing: 0.55em;
       text-transform: uppercase;
+      color: var(--ink);
+      text-decoration: none;
+      cursor: pointer;
     }
     .nav-links { display: flex; gap: 3rem; list-style: none; }
     .nav-links a {
@@ -91,11 +103,13 @@
       text-transform: uppercase;
       color: var(--mid);
       text-decoration: none;
+      cursor: pointer;
       transition: color 0.3s;
     }
-    .nav-links a:hover { color: var(--ink); }
+    .nav-links a:hover,
+    .nav-links a.nav-active { color: var(--ink); }
 
-    /* ── HERO ────────────────────────────────────────── */
+    /* ── HERO ────────────────────────────────────────────── */
     .hero {
       height: 100vh;
       display: grid;
@@ -176,12 +190,12 @@
       color: var(--mid);
     }
 
-    /* ── DIVIDERS ────────────────────────────────────── */
+    /* ── DIVIDERS ────────────────────────────────────────── */
     hr { border: none; border-top: 1px solid var(--rule); margin: 0 3.5rem; }
 
-    /* ── CONCEPT ─────────────────────────────────────── */
+    /* ── CONCEPT ─────────────────────────────────────────── */
     .concept {
-      padding: 10rem 3.5rem;
+      padding: 6rem 3.5rem 10rem;
       display: grid;
       grid-template-columns: 1fr 2fr;
       gap: 6rem;
@@ -211,7 +225,7 @@
     }
     .concept-body p + p { margin-top: 1.2rem; }
 
-    /* ── 3D PRODUCT VIEWER ───────────────────────────── */
+    /* ── 3D PRODUCT VIEWER ───────────────────────────────── */
     .product3d {
       position: relative;
       height: 80vh;
@@ -220,7 +234,6 @@
       border-top: 1px solid var(--rule);
       border-bottom: 1px solid var(--rule);
     }
-
     #tray-canvas {
       position: absolute;
       inset: 0;
@@ -228,9 +241,7 @@
       height: 100% !important;
       cursor: grab;
     }
-
     #tray-canvas:active { cursor: grabbing; }
-
     .product3d-meta {
       position: absolute;
       bottom: 3.5rem;
@@ -238,7 +249,6 @@
       z-index: 10;
       pointer-events: none;
     }
-
     .product3d-name {
       font-family: 'Jost', sans-serif;
       font-weight: 200;
@@ -248,38 +258,31 @@
       margin-bottom: 1.8rem;
       color: var(--light);
     }
-
     .product3d-specs {
       display: flex;
       flex-direction: column;
       gap: 0.55rem;
       margin-bottom: 1.8rem;
     }
-
     .spec-row {
       display: flex;
       align-items: baseline;
-      gap: 0;
       font-size: 0.65rem;
       letter-spacing: 0.2em;
       text-transform: uppercase;
     }
-
     .spec-row .spec-key {
       color: rgba(223,225,226,0.5);
       width: 110px;
       flex-shrink: 0;
     }
-
     .spec-row .spec-val { color: var(--light); }
-
     .product3d-hint {
       font-size: 0.58rem;
       letter-spacing: 0.35em;
       text-transform: uppercase;
       color: rgba(223,225,226,0.4);
     }
-
     .product3d-tag {
       position: absolute;
       top: 3.5rem;
@@ -292,7 +295,7 @@
       pointer-events: none;
     }
 
-    /* ── OBJECTS ─────────────────────────────────────── */
+    /* ── PRODUCTS (collection) ───────────────────────────── */
     .objects { padding: 6rem 3.5rem 10rem; }
     .objects-header {
       display: flex;
@@ -357,7 +360,7 @@
       color: var(--mid);
     }
 
-    /* ── MATERIAL SECTION ────────────────────────────── */
+    /* ── MATERIAL BAND ───────────────────────────────────── */
     .material {
       padding: 8rem 3.5rem;
       display: grid;
@@ -394,8 +397,8 @@
       color: rgba(247,246,242,0.45);
     }
 
-    /* ── CONTACT ─────────────────────────────────────── */
-    .contact { padding: 12rem 3.5rem 10rem; position: relative; }
+    /* ── CONTACT ─────────────────────────────────────────── */
+    .contact { padding: 7rem 3.5rem 10rem; position: relative; }
     .contact-sketch {
       position: absolute;
       right: 3.5rem;
@@ -434,7 +437,7 @@
     }
     .contact-email:hover { opacity: 0.4; }
 
-    /* ── FOOTER ──────────────────────────────────────── */
+    /* ── FOOTER ──────────────────────────────────────────── */
     footer {
       padding: 2rem 3.5rem;
       display: flex;
@@ -445,7 +448,7 @@
     .footer-logo { font-size: 0.65rem; letter-spacing: 0.5em; text-transform: uppercase; color: var(--mid); }
     .footer-copy { font-size: 0.65rem; letter-spacing: 0.2em; color: var(--mid); }
 
-    /* ── ANIMATIONS ──────────────────────────────────── */
+    /* ── ANIMATIONS ──────────────────────────────────────── */
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(20px); }
       to   { opacity: 1; transform: translateY(0); }
@@ -475,7 +478,7 @@
     }
     .draw.visible { stroke-dashoffset: 0; }
     .draw-delay-1 { transition-delay: 0.15s; }
-    .draw-delay-2 { transition-delay: 0.3s; }
+    .draw-delay-2 { transition-delay: 0.30s; }
     .draw-delay-3 { transition-delay: 0.45s; }
   </style>
 </head>
@@ -483,267 +486,262 @@
 
 <div class="cursor" id="cursor"></div>
 
-<!-- ── NAV ───────────────────────────────────────────── -->
+<!-- ── NAV ───────────────────────────────────────────────── -->
 <nav>
-  <div class="nav-logo">Avira</div>
+  <a class="nav-logo" onclick="showPage('home')">Avira</a>
   <ul class="nav-links">
-    <li><a href="#concept">Concept</a></li>
-    <li><a href="#tray">Objects</a></li>
-    <li><a href="#contact">Contact</a></li>
+    <li><a onclick="showPage('concept',this)">Concept</a></li>
+    <li><a onclick="showPage('products',this)">Products</a></li>
+    <li><a onclick="showPage('contact',this)">Contact</a></li>
   </ul>
 </nav>
 
-<!-- ── HERO ──────────────────────────────────────────── -->
-<section class="hero">
-  <div class="hero-center">
-    <p class="hero-tag">Objects of Purpose</p>
-    <h1 class="hero-title">Avira<em>.</em></h1>
-    <p class="hero-sub">Luxury tableware and service objects — each piece carried forward from the life of a vessel.</p>
-  </div>
 
-  <!-- Hero sketch: precise tray in cabinet perspective -->
-  <svg class="hero-sketch" viewBox="0 0 320 230" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-    <defs>
-      <pattern id="hero-carbon" x="0" y="0" width="7" height="7" patternUnits="userSpaceOnUse">
-        <line x1="0" y1="7" x2="7" y2="0" stroke="#0d0d0d" stroke-width="0.45"/>
-        <line x1="-7" y1="7" x2="0" y2="0" stroke="#0d0d0d" stroke-width="0.45"/>
-        <line x1="7" y1="7" x2="14" y2="0" stroke="#0d0d0d" stroke-width="0.45"/>
-        <line x1="0" y1="0" x2="7" y2="7" stroke="#0d0d0d" stroke-width="0.45"/>
-        <line x1="-7" y1="0" x2="0" y2="7" stroke="#0d0d0d" stroke-width="0.45"/>
-        <line x1="7" y1="0" x2="14" y2="7" stroke="#0d0d0d" stroke-width="0.45"/>
-      </pattern>
-      <clipPath id="hero-top-clip">
-        <polygon points="22,108 258,80 280,148 44,176"/>
-      </clipPath>
-    </defs>
-    <polygon points="22,108 258,80 280,148 44,176" fill="var(--bg)" stroke="#0d0d0d" stroke-width="0.9" pathLength="1" class="draw"/>
-    <polygon points="22,108 258,80 280,148 44,176" fill="url(#hero-carbon)" opacity="0.13" clip-path="url(#hero-top-clip)"/>
-    <polygon points="38,115 242,89 262,143 58,169" fill="none" stroke="#0d0d0d" stroke-width="0.5" opacity="0.6" pathLength="1" class="draw draw-delay-1"/>
-    <polygon points="44,176 280,148 280,162 44,190" fill="#eeede9" stroke="#0d0d0d" stroke-width="0.8" pathLength="1" class="draw"/>
-    <polygon points="258,80 280,148 280,162 258,94" fill="#e6e5e1" stroke="#0d0d0d" stroke-width="0.8" pathLength="1" class="draw"/>
-    <line x1="52" y1="190" x2="52" y2="199" stroke="#0d0d0d" stroke-width="1" pathLength="1" class="draw draw-delay-2"/>
-    <line x1="62" y1="189" x2="62" y2="198" stroke="#0d0d0d" stroke-width="1" pathLength="1" class="draw draw-delay-2"/>
-    <line x1="267" y1="162" x2="267" y2="171" stroke="#0d0d0d" stroke-width="1" pathLength="1" class="draw draw-delay-2"/>
-    <line x1="277" y1="161" x2="277" y2="170" stroke="#0d0d0d" stroke-width="1" pathLength="1" class="draw draw-delay-2"/>
-    <line x1="60" y1="124" x2="255" y2="100" stroke="#0d0d0d" stroke-width="0.3" opacity="0.2" pathLength="1" class="draw draw-delay-3"/>
-  </svg>
+<!-- ════════════════════════════════════════════════════════ -->
+<!-- HOME PAGE — click AVIRA to come here                    -->
+<!-- ════════════════════════════════════════════════════════ -->
+<div id="page-home" class="page active">
 
-  <div class="hero-bottom">
-    <div class="hero-scroll">
-      <div class="scroll-bar"></div>
-      <span>Scroll to discover</span>
+  <section class="hero">
+    <div class="hero-center">
+      <p class="hero-tag">Objects of Purpose</p>
+      <h1 class="hero-title">Avira<em>.</em></h1>
+      <p class="hero-sub">Luxury tableware and service objects — each piece carried forward from the life of a vessel.</p>
     </div>
-    <div class="hero-index">2026</div>
-  </div>
-</section>
 
-<hr />
+    <!-- Hero sketch: tray in cabinet perspective — clean outline only -->
+    <svg class="hero-sketch" viewBox="0 0 320 230" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <!-- Top face -->
+      <polygon points="22,108 258,80 280,148 44,176" fill="none" stroke="#0d0d0d" stroke-width="0.9" pathLength="1" class="draw"/>
+      <!-- Inner rim line on top face -->
+      <polygon points="38,115 242,89 262,143 58,169" fill="none" stroke="#0d0d0d" stroke-width="0.45" pathLength="1" class="draw draw-delay-1"/>
+      <!-- Front face -->
+      <polygon points="44,176 280,148 280,162 44,190" fill="none" stroke="#0d0d0d" stroke-width="0.8" pathLength="1" class="draw"/>
+      <!-- Right side face -->
+      <polygon points="258,80 280,148 280,162 258,94" fill="none" stroke="#0d0d0d" stroke-width="0.8" pathLength="1" class="draw"/>
+      <!-- Feet -->
+      <line x1="52" y1="190" x2="52" y2="199" stroke="#0d0d0d" stroke-width="1" pathLength="1" class="draw draw-delay-2"/>
+      <line x1="62" y1="189" x2="62" y2="198" stroke="#0d0d0d" stroke-width="1" pathLength="1" class="draw draw-delay-2"/>
+      <line x1="267" y1="162" x2="267" y2="171" stroke="#0d0d0d" stroke-width="1" pathLength="1" class="draw draw-delay-2"/>
+      <line x1="277" y1="161" x2="277" y2="170" stroke="#0d0d0d" stroke-width="1" pathLength="1" class="draw draw-delay-2"/>
+      <!-- Subtle sheen line across top face -->
+      <line x1="60" y1="124" x2="255" y2="100" stroke="#0d0d0d" stroke-width="0.3" opacity="0.2" pathLength="1" class="draw draw-delay-3"/>
+    </svg>
 
-<!-- ── CONCEPT ───────────────────────────────────────── -->
-<section class="concept" id="concept">
-  <p class="concept-label reveal">Concept</p>
-  <div class="concept-body">
-    <h2 class="reveal">Nothing is wasted.<br /><em>Everything is made.</em></h2>
-    <p class="reveal reveal-delay-1">
-      Avira begins where the vessel ends. Teak decking, carbon hull composite, stainless fittings, woven rope, moquette upholstery — material selected for performance at sea — is stripped back and reformed into objects designed for exceptional service on land.
-    </p>
-    <p class="reveal reveal-delay-2">
-      The result is tableware and service accessories that carry a history before they are ever used. Pieces that belong on a table set for eight, passed between white-gloved hands, noticed without knowing why.
-    </p>
-  </div>
-</section>
-
-<!-- ── 3D PRODUCT VIEWER ─────────────────────────────── -->
-<section class="product3d" id="tray">
-  <p class="product3d-tag reveal">Service Tray — 01</p>
-
-  <!-- Three.js renders here -->
-  <canvas id="tray-canvas"></canvas>
-
-  <!-- Specs overlay (bottom-left) -->
-  <div class="product3d-meta reveal">
-    <h3 class="product3d-name">Service Tray</h3>
-    <div class="product3d-specs">
-      <div class="spec-row">
-        <span class="spec-key">Material</span>
-        <span class="spec-val">Stainless Steel 316L</span>
+    <div class="hero-bottom">
+      <div class="hero-scroll">
+        <div class="scroll-bar"></div>
+        <span>Scroll to discover</span>
       </div>
-      <div class="spec-row">
-        <span class="spec-key">Dimensions</span>
-        <span class="spec-val">320 × 240 mm</span>
+      <div class="hero-index">2026</div>
+    </div>
+  </section>
+
+  <hr />
+
+  <!-- Material band — brand identity statement -->
+  <section class="material">
+    <h2 class="reveal">Material<br />that has<br /><em>already lived.</em></h2>
+    <div class="material-right">
+      <div class="material-stat reveal reveal-delay-1">
+        <div class="material-stat-num">100%</div>
+        <div class="material-stat-label">Reclaimed from decommissioned vessels</div>
       </div>
-      <div class="spec-row">
-        <span class="spec-key">Wall height</span>
-        <span class="spec-val">40 mm</span>
+      <div class="material-stat reveal reveal-delay-2">
+        <div class="material-stat-num">0</div>
+        <div class="material-stat-label">Surplus — every off-cut has a future piece</div>
       </div>
-      <div class="spec-row">
-        <span class="spec-key">Thickness</span>
-        <span class="spec-val">1.5 mm</span>
-      </div>
-      <div class="spec-row">
-        <span class="spec-key">Finish</span>
-        <span class="spec-val">Brushed, marine grade</span>
+      <div class="material-stat reveal reveal-delay-3">
+        <div class="material-stat-num">Each</div>
+        <div class="material-stat-label">Object is singular — numbered, not replicated</div>
       </div>
     </div>
-    <p class="product3d-hint">Drag to rotate &nbsp;·&nbsp; Scroll to zoom</p>
-  </div>
-</section>
+  </section>
 
-<!-- ── OBJECTS ───────────────────────────────────────── -->
-<section class="objects" id="objects">
-  <div class="objects-header reveal">
-    <h2>The Collection</h2>
-    <span class="objects-count">Three objects — one material language</span>
-  </div>
+</div><!-- /page-home -->
 
-  <div class="objects-grid">
 
-    <!-- 01 COASTER -->
-    <div class="object-item">
-      <svg class="object-sketch" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <defs>
-          <pattern id="teak-grain" x="0" y="0" width="200" height="6" patternUnits="userSpaceOnUse">
-            <line x1="0" y1="0" x2="200" y2="0" stroke="#0d0d0d" stroke-width="0.35"/>
-          </pattern>
-          <clipPath id="coaster-clip"><rect x="12" y="12" width="176" height="176" rx="2"/></clipPath>
-        </defs>
-        <rect x="12" y="12" width="176" height="176" rx="2" fill="url(#teak-grain)" opacity="0.12" clip-path="url(#coaster-clip)"/>
-        <rect x="12" y="12" width="176" height="176" rx="2" stroke="#0d0d0d" stroke-width="0.85" pathLength="1" class="draw"/>
-        <rect x="22" y="22" width="156" height="156" stroke="#0d0d0d" stroke-width="0.6" pathLength="1" class="draw draw-delay-1"/>
-        <rect x="38" y="38" width="124" height="124" stroke="#0d0d0d" stroke-width="0.5" opacity="0.7" pathLength="1" class="draw draw-delay-1"/>
-        <rect x="58" y="58" width="84"  height="84"  stroke="#0d0d0d" stroke-width="0.4" opacity="0.5" pathLength="1" class="draw draw-delay-2"/>
-        <rect x="78" y="78" width="44"  height="44"  stroke="#0d0d0d" stroke-width="0.35" opacity="0.35" pathLength="1" class="draw draw-delay-2"/>
-        <line x1="96" y1="100" x2="104" y2="100" stroke="#0d0d0d" stroke-width="0.4" opacity="0.4" pathLength="1" class="draw draw-delay-3"/>
-        <line x1="100" y1="96" x2="100" y2="104" stroke="#0d0d0d" stroke-width="0.4" opacity="0.4" pathLength="1" class="draw draw-delay-3"/>
-        <line x1="12" y1="36" x2="22" y2="36" stroke="#0d0d0d" stroke-width="0.4" opacity="0.3"/>
-        <line x1="36" y1="12" x2="36" y2="22" stroke="#0d0d0d" stroke-width="0.4" opacity="0.3"/>
-        <line x1="164" y1="12" x2="164" y2="22" stroke="#0d0d0d" stroke-width="0.4" opacity="0.3"/>
-        <line x1="178" y1="36" x2="188" y2="36" stroke="#0d0d0d" stroke-width="0.4" opacity="0.3"/>
-      </svg>
-      <p class="object-num reveal">01</p>
-      <h3 class="object-name reveal reveal-delay-1">Coaster</h3>
-      <p class="object-material reveal reveal-delay-1">Reclaimed teak &amp; carbon composite</p>
-      <p class="object-detail reveal reveal-delay-2">CNC-routed from teak deck planking or carbon hull off-cuts. The concentric engraving reveals the grain beneath — no two surfaces identical. Weighted, silent, precise.</p>
+<!-- ════════════════════════════════════════════════════════ -->
+<!-- CONCEPT PAGE                                            -->
+<!-- ════════════════════════════════════════════════════════ -->
+<div id="page-concept" class="page">
+
+  <section class="concept">
+    <p class="concept-label reveal">Concept</p>
+    <div class="concept-body">
+      <h2 class="reveal">Nothing is wasted.<br /><em>Everything is made.</em></h2>
+      <p class="reveal reveal-delay-1">
+        Avira begins where the vessel ends. Teak decking, carbon hull composite, stainless fittings, woven rope, moquette upholstery — material selected for performance at sea — is stripped back and reformed into objects designed for exceptional service on land.
+      </p>
+      <p class="reveal reveal-delay-2">
+        The result is tableware and service accessories that carry a history before they are ever used. Pieces that belong on a table set for eight, passed between white-gloved hands, noticed without knowing why.
+      </p>
+    </div>
+  </section>
+
+</div><!-- /page-concept -->
+
+
+<!-- ════════════════════════════════════════════════════════ -->
+<!-- PRODUCTS PAGE                                           -->
+<!-- ════════════════════════════════════════════════════════ -->
+<div id="page-products" class="page">
+
+  <!-- 3D Tray viewer -->
+  <section class="product3d" id="tray">
+    <p class="product3d-tag">Service Tray — 01</p>
+    <canvas id="tray-canvas"></canvas>
+    <div class="product3d-meta">
+      <h3 class="product3d-name">Service Tray</h3>
+      <div class="product3d-specs">
+        <div class="spec-row">
+          <span class="spec-key">Material</span>
+          <span class="spec-val">Stainless Steel 316L</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-key">Dimensions</span>
+          <span class="spec-val">320 × 240 mm</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-key">Wall height</span>
+          <span class="spec-val">40 mm</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-key">Thickness</span>
+          <span class="spec-val">1.5 mm</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-key">Finish</span>
+          <span class="spec-val">Brushed, marine grade</span>
+        </div>
+      </div>
+      <p class="product3d-hint">Drag to rotate &nbsp;·&nbsp; Scroll to zoom</p>
+    </div>
+  </section>
+
+  <!-- Collection grid -->
+  <section class="objects">
+    <div class="objects-header reveal">
+      <h2>The Collection</h2>
+      <span class="objects-count">Three objects — one material language</span>
     </div>
 
-    <!-- 02 BOTTLE CONTAINER -->
-    <div class="object-item">
-      <svg class="object-sketch" viewBox="0 0 200 260" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <defs>
-          <pattern id="rope-weave" x="0" y="0" width="8" height="8" patternUnits="userSpaceOnUse">
-            <line x1="0" y1="8" x2="8" y2="0" stroke="#0d0d0d" stroke-width="0.5"/>
-            <line x1="-8" y1="8" x2="0" y2="0" stroke="#0d0d0d" stroke-width="0.5"/>
-            <line x1="8" y1="8" x2="16" y2="0" stroke="#0d0d0d" stroke-width="0.5"/>
-            <line x1="0" y1="0" x2="8" y2="8" stroke="#0d0d0d" stroke-width="0.5"/>
-            <line x1="-8" y1="0" x2="0" y2="8" stroke="#0d0d0d" stroke-width="0.5"/>
-            <line x1="8" y1="0" x2="16" y2="8" stroke="#0d0d0d" stroke-width="0.5"/>
-          </pattern>
-          <clipPath id="holder-front-clip"><rect x="52" y="98" width="104" height="142"/></clipPath>
-        </defs>
-        <rect x="52" y="98" width="104" height="142" fill="var(--bg)" stroke="#0d0d0d" stroke-width="0.85" pathLength="1" class="draw"/>
-        <rect x="52" y="98" width="104" height="142" fill="url(#rope-weave)" opacity="0.14" clip-path="url(#holder-front-clip)"/>
-        <polygon points="156,98 174,86 174,228 156,240" fill="#e8e7e3" stroke="#0d0d0d" stroke-width="0.8" pathLength="1" class="draw draw-delay-1"/>
-        <polygon points="52,98 156,98 174,86 70,86" fill="#eeede9" stroke="#0d0d0d" stroke-width="0.8" pathLength="1" class="draw draw-delay-1"/>
-        <line x1="52" y1="108" x2="156" y2="108" stroke="#0d0d0d" stroke-width="0.4" opacity="0.4" pathLength="1" class="draw draw-delay-2"/>
-        <line x1="52" y1="230" x2="156" y2="230" stroke="#0d0d0d" stroke-width="0.4" opacity="0.4" pathLength="1" class="draw draw-delay-2"/>
-        <line x1="62" y1="240" x2="62" y2="249" stroke="#0d0d0d" stroke-width="1" pathLength="1" class="draw draw-delay-3"/>
-        <line x1="72" y1="240" x2="72" y2="249" stroke="#0d0d0d" stroke-width="1" pathLength="1" class="draw draw-delay-3"/>
-        <line x1="140" y1="240" x2="140" y2="249" stroke="#0d0d0d" stroke-width="1" pathLength="1" class="draw draw-delay-3"/>
-        <line x1="150" y1="240" x2="150" y2="249" stroke="#0d0d0d" stroke-width="1" pathLength="1" class="draw draw-delay-3"/>
-        <path d="M 90,98 Q 88,56 92,46 L 92,26" stroke="#0d0d0d" stroke-width="0.75" pathLength="1" class="draw draw-delay-1"/>
-        <path d="M 118,98 Q 120,56 108,46 L 108,26" stroke="#0d0d0d" stroke-width="0.75" pathLength="1" class="draw draw-delay-1"/>
-        <path d="M 92,46 Q 100,40 108,46" stroke="#0d0d0d" stroke-width="0.65" pathLength="1" class="draw draw-delay-2"/>
-        <line x1="92" y1="46" x2="92" y2="26" stroke="#0d0d0d" stroke-width="0.65" pathLength="1" class="draw draw-delay-2"/>
-        <line x1="108" y1="46" x2="108" y2="26" stroke="#0d0d0d" stroke-width="0.65" pathLength="1" class="draw draw-delay-2"/>
-        <path d="M 92,26 L 92,14 Q 100,10 108,14 L 108,26" stroke="#0d0d0d" stroke-width="0.65" pathLength="1" class="draw draw-delay-3"/>
-      </svg>
-      <p class="object-num reveal">02</p>
-      <h3 class="object-name reveal reveal-delay-1">Bottle Container</h3>
-      <p class="object-material reveal reveal-delay-1">Woven rigging rope &amp; steel hardware</p>
-      <p class="object-detail reveal reveal-delay-2">A vessel for the vessel. Braided yacht rope — originally load-bearing at sea — woven tight around a stainless frame and finished with salvaged deck hardware. Made to hold a single bottle.</p>
-    </div>
+    <div class="objects-grid">
 
-    <!-- 03 SERVICE TRAY -->
-    <div class="object-item">
-      <svg class="object-sketch" viewBox="0 0 240 180" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <defs>
-          <pattern id="carbon-fine" x="0" y="0" width="6" height="6" patternUnits="userSpaceOnUse">
-            <line x1="0" y1="6" x2="6" y2="0" stroke="#0d0d0d" stroke-width="0.4"/>
-            <line x1="-6" y1="6" x2="0" y2="0" stroke="#0d0d0d" stroke-width="0.4"/>
-            <line x1="6" y1="6" x2="12" y2="0" stroke="#0d0d0d" stroke-width="0.4"/>
-            <line x1="0" y1="0" x2="6" y2="6" stroke="#0d0d0d" stroke-width="0.4"/>
-            <line x1="-6" y1="0" x2="0" y2="6" stroke="#0d0d0d" stroke-width="0.4"/>
-            <line x1="6" y1="0" x2="12" y2="6" stroke="#0d0d0d" stroke-width="0.4"/>
-          </pattern>
-          <clipPath id="tray-top-clip"><polygon points="18,100 208,72 226,138 36,166"/></clipPath>
-        </defs>
-        <polygon points="18,100 208,72 226,138 36,166" fill="var(--bg)" stroke="#0d0d0d" stroke-width="0.85" pathLength="1" class="draw"/>
-        <polygon points="18,100 208,72 226,138 36,166" fill="url(#carbon-fine)" opacity="0.15" clip-path="url(#tray-top-clip)"/>
-        <polygon points="33,108 193,81 209,132 49,159" fill="none" stroke="#0d0d0d" stroke-width="0.5" opacity="0.55" pathLength="1" class="draw draw-delay-1"/>
-        <polygon points="36,166 226,138 226,152 36,180" fill="#e8e7e3" stroke="#0d0d0d" stroke-width="0.8" pathLength="1" class="draw"/>
-        <polygon points="208,72 226,138 226,152 208,86" fill="#dddcda" stroke="#0d0d0d" stroke-width="0.8" pathLength="1" class="draw draw-delay-1"/>
-        <line x1="44" y1="180" x2="44" y2="189" stroke="#0d0d0d" stroke-width="1.1" pathLength="1" class="draw draw-delay-2"/>
-        <line x1="54" y1="179" x2="54" y2="188" stroke="#0d0d0d" stroke-width="1.1" pathLength="1" class="draw draw-delay-2"/>
-        <line x1="213" y1="152" x2="213" y2="161" stroke="#0d0d0d" stroke-width="1.1" pathLength="1" class="draw draw-delay-2"/>
-        <line x1="223" y1="151" x2="223" y2="160" stroke="#0d0d0d" stroke-width="1.1" pathLength="1" class="draw draw-delay-2"/>
-      </svg>
-      <p class="object-num reveal">03</p>
-      <h3 class="object-name reveal reveal-delay-1">Service Tray</h3>
-      <p class="object-material reveal reveal-delay-1">Carbon composite &amp; reclaimed steel</p>
-      <p class="object-detail reveal reveal-delay-2">Flat-pressed composite panels — off-cuts from hull construction — set into a polished stainless rim salvaged from deck fittings. Low, balanced, built for one-handed service.</p>
-    </div>
+      <!-- 01 COASTER — top-down concentric outlines -->
+      <div class="object-item">
+        <svg class="object-sketch" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <rect x="12" y="12" width="176" height="176" rx="2" fill="none" stroke="#0d0d0d" stroke-width="0.85" pathLength="1" class="draw"/>
+          <rect x="22" y="22" width="156" height="156" fill="none" stroke="#0d0d0d" stroke-width="0.6"  pathLength="1" class="draw draw-delay-1"/>
+          <rect x="38" y="38" width="124" height="124" fill="none" stroke="#0d0d0d" stroke-width="0.5"  pathLength="1" class="draw draw-delay-1"/>
+          <rect x="58" y="58" width="84"  height="84"  fill="none" stroke="#0d0d0d" stroke-width="0.4"  pathLength="1" class="draw draw-delay-2"/>
+          <rect x="78" y="78" width="44"  height="44"  fill="none" stroke="#0d0d0d" stroke-width="0.35" pathLength="1" class="draw draw-delay-2"/>
+          <!-- Corner tick marks — CNC registration detail -->
+          <line x1="12"  y1="36"  x2="22"  y2="36"  stroke="#0d0d0d" stroke-width="0.4" opacity="0.35"/>
+          <line x1="36"  y1="12"  x2="36"  y2="22"  stroke="#0d0d0d" stroke-width="0.4" opacity="0.35"/>
+          <line x1="164" y1="12"  x2="164" y2="22"  stroke="#0d0d0d" stroke-width="0.4" opacity="0.35"/>
+          <line x1="178" y1="36"  x2="188" y2="36"  stroke="#0d0d0d" stroke-width="0.4" opacity="0.35"/>
+        </svg>
+        <p class="object-num reveal">01</p>
+        <h3 class="object-name reveal reveal-delay-1">Coaster</h3>
+        <p class="object-material reveal reveal-delay-1">Reclaimed teak &amp; carbon composite</p>
+        <p class="object-detail reveal reveal-delay-2">CNC-routed from teak deck planking or carbon hull off-cuts. The concentric engraving reveals the grain beneath — no two surfaces identical. Weighted, silent, precise.</p>
+      </div>
 
-  </div>
-</section>
+      <!-- 02 BOTTLE CONTAINER — 3/4 cabinet view, clean outlines -->
+      <div class="object-item">
+        <svg class="object-sketch" viewBox="0 0 200 260" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <!-- Front face -->
+          <rect x="52" y="98" width="104" height="142" fill="none" stroke="#0d0d0d" stroke-width="0.85" pathLength="1" class="draw"/>
+          <!-- Right side face -->
+          <polygon points="156,98 174,86 174,228 156,240" fill="none" stroke="#0d0d0d" stroke-width="0.8" pathLength="1" class="draw draw-delay-1"/>
+          <!-- Top face -->
+          <polygon points="52,98 156,98 174,86 70,86" fill="none" stroke="#0d0d0d" stroke-width="0.8" pathLength="1" class="draw draw-delay-1"/>
+          <!-- Feet -->
+          <line x1="62"  y1="240" x2="62"  y2="249" stroke="#0d0d0d" stroke-width="1" pathLength="1" class="draw draw-delay-3"/>
+          <line x1="72"  y1="240" x2="72"  y2="249" stroke="#0d0d0d" stroke-width="1" pathLength="1" class="draw draw-delay-3"/>
+          <line x1="140" y1="240" x2="140" y2="249" stroke="#0d0d0d" stroke-width="1" pathLength="1" class="draw draw-delay-3"/>
+          <line x1="150" y1="240" x2="150" y2="249" stroke="#0d0d0d" stroke-width="1" pathLength="1" class="draw draw-delay-3"/>
+          <!-- Bottle neck emerging above -->
+          <path d="M 90,98 Q 88,56 92,46 L 92,26"  fill="none" stroke="#0d0d0d" stroke-width="0.75" pathLength="1" class="draw draw-delay-1"/>
+          <path d="M 118,98 Q 120,56 108,46 L 108,26" fill="none" stroke="#0d0d0d" stroke-width="0.75" pathLength="1" class="draw draw-delay-1"/>
+          <path d="M 92,46 Q 100,40 108,46"          fill="none" stroke="#0d0d0d" stroke-width="0.65" pathLength="1" class="draw draw-delay-2"/>
+          <path d="M 92,26 L 92,14 Q 100,10 108,14 L 108,26" fill="none" stroke="#0d0d0d" stroke-width="0.65" pathLength="1" class="draw draw-delay-3"/>
+        </svg>
+        <p class="object-num reveal">02</p>
+        <h3 class="object-name reveal reveal-delay-1">Bottle Container</h3>
+        <p class="object-material reveal reveal-delay-1">Woven rigging rope &amp; steel hardware</p>
+        <p class="object-detail reveal reveal-delay-2">A vessel for the vessel. Braided yacht rope — originally load-bearing at sea — woven tight around a stainless frame and finished with salvaged deck hardware. Made to hold a single bottle.</p>
+      </div>
 
-<!-- ── MATERIAL ──────────────────────────────────────── -->
-<section class="material">
-  <h2 class="reveal">Material<br />that has<br /><em>already lived.</em></h2>
-  <div class="material-right">
-    <div class="material-stat reveal reveal-delay-1">
-      <div class="material-stat-num">100%</div>
-      <div class="material-stat-label">Reclaimed from decommissioned vessels</div>
-    </div>
-    <div class="material-stat reveal reveal-delay-2">
-      <div class="material-stat-num">0</div>
-      <div class="material-stat-label">Surplus — every off-cut has a future piece</div>
-    </div>
-    <div class="material-stat reveal reveal-delay-3">
-      <div class="material-stat-num">Each</div>
-      <div class="material-stat-label">Object is singular — numbered, not replicated</div>
-    </div>
-  </div>
-</section>
+      <!-- 03 SERVICE TRAY — 3/4 cabinet view, clean outlines -->
+      <div class="object-item">
+        <svg class="object-sketch" viewBox="0 0 240 200" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <!-- Top face -->
+          <polygon points="18,100 208,72 226,138 36,166" fill="none" stroke="#0d0d0d" stroke-width="0.85" pathLength="1" class="draw"/>
+          <!-- Inner rim on top face -->
+          <polygon points="33,108 193,81 209,132 49,159" fill="none" stroke="#0d0d0d" stroke-width="0.5" pathLength="1" class="draw draw-delay-1"/>
+          <!-- Front face -->
+          <polygon points="36,166 226,138 226,152 36,180" fill="none" stroke="#0d0d0d" stroke-width="0.8" pathLength="1" class="draw"/>
+          <!-- Right side face -->
+          <polygon points="208,72 226,138 226,152 208,86" fill="none" stroke="#0d0d0d" stroke-width="0.8" pathLength="1" class="draw draw-delay-1"/>
+          <!-- Feet -->
+          <line x1="44"  y1="180" x2="44"  y2="190" stroke="#0d0d0d" stroke-width="1.1" pathLength="1" class="draw draw-delay-2"/>
+          <line x1="54"  y1="179" x2="54"  y2="189" stroke="#0d0d0d" stroke-width="1.1" pathLength="1" class="draw draw-delay-2"/>
+          <line x1="213" y1="152" x2="213" y2="162" stroke="#0d0d0d" stroke-width="1.1" pathLength="1" class="draw draw-delay-2"/>
+          <line x1="223" y1="151" x2="223" y2="161" stroke="#0d0d0d" stroke-width="1.1" pathLength="1" class="draw draw-delay-2"/>
+        </svg>
+        <p class="object-num reveal">03</p>
+        <h3 class="object-name reveal reveal-delay-1">Service Tray</h3>
+        <p class="object-material reveal reveal-delay-1">Carbon composite &amp; reclaimed steel</p>
+        <p class="object-detail reveal reveal-delay-2">Flat-pressed composite panels — off-cuts from hull construction — set into a polished stainless rim salvaged from deck fittings. Low, balanced, built for one-handed service.</p>
+      </div>
 
-<!-- ── CONTACT ───────────────────────────────────────── -->
-<section class="contact" id="contact">
-  <svg class="contact-sketch" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-    <rect x="12" y="12" width="176" height="176" rx="2" stroke="#0d0d0d" stroke-width="0.6"/>
-    <rect x="22" y="22" width="156" height="156" stroke="#0d0d0d" stroke-width="0.45"/>
-    <rect x="38" y="38" width="124" height="124" stroke="#0d0d0d" stroke-width="0.35"/>
-    <rect x="58" y="58" width="84"  height="84"  stroke="#0d0d0d" stroke-width="0.3"/>
-    <rect x="78" y="78" width="44"  height="44"  stroke="#0d0d0d" stroke-width="0.25"/>
-    <line x1="96" y1="100" x2="104" y2="100" stroke="#0d0d0d" stroke-width="0.3" opacity="0.5"/>
-    <line x1="100" y1="96" x2="100" y2="104" stroke="#0d0d0d" stroke-width="0.3" opacity="0.5"/>
-  </svg>
-  <p class="contact-label reveal">Enquire</p>
-  <h2 class="reveal"><em>Every object</em><br />begins with<br />a conversation.</h2>
-  <a href="mailto:allegra.mauri@gmail.com" class="contact-email reveal reveal-delay-1">allegra.mauri@gmail.com</a>
-</section>
+    </div>
+  </section>
 
-<!-- ── FOOTER ────────────────────────────────────────── -->
+</div><!-- /page-products -->
+
+
+<!-- ════════════════════════════════════════════════════════ -->
+<!-- CONTACT PAGE                                            -->
+<!-- ════════════════════════════════════════════════════════ -->
+<div id="page-contact" class="page">
+
+  <section class="contact">
+    <!-- Ghosted coaster sketch — pure outline -->
+    <svg class="contact-sketch" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <rect x="12" y="12" width="176" height="176" rx="2" fill="none" stroke="#0d0d0d" stroke-width="0.6"/>
+      <rect x="22" y="22" width="156" height="156" fill="none" stroke="#0d0d0d" stroke-width="0.45"/>
+      <rect x="38" y="38" width="124" height="124" fill="none" stroke="#0d0d0d" stroke-width="0.35"/>
+      <rect x="58" y="58" width="84"  height="84"  fill="none" stroke="#0d0d0d" stroke-width="0.3"/>
+      <rect x="78" y="78" width="44"  height="44"  fill="none" stroke="#0d0d0d" stroke-width="0.25"/>
+    </svg>
+    <p class="contact-label reveal">Enquire</p>
+    <h2 class="reveal"><em>Every object</em><br />begins with<br />a conversation.</h2>
+    <a href="mailto:allegra.mauri@gmail.com" class="contact-email reveal reveal-delay-1">allegra.mauri@gmail.com</a>
+  </section>
+
+</div><!-- /page-contact -->
+
+
+<!-- ── FOOTER ─────────────────────────────────────────────── -->
 <footer>
   <div class="footer-logo">Avira — Objects of Purpose</div>
   <p class="footer-copy">&copy; 2026</p>
 </footer>
 
-<!-- ── SCROLL REVEAL ─────────────────────────────────── -->
+
+<!-- ── SCRIPTS ────────────────────────────────────────────── -->
 <script>
+  // Custom cursor
   const cursor = document.getElementById('cursor');
   document.addEventListener('mousemove', e => {
     cursor.style.left = e.clientX + 'px';
     cursor.style.top  = e.clientY + 'px';
   });
+
+  // Intersection observer — handles scroll reveals on the home page
   const observer = new IntersectionObserver(entries => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
@@ -752,174 +750,185 @@
       }
     });
   }, { threshold: 0.08 });
-  document.querySelectorAll('.reveal, .draw').forEach(el => observer.observe(el));
+
+  // Only observe home page elements on load (other pages handle their own reveals)
+  document.querySelectorAll('#page-home .reveal, #page-home .draw').forEach(el => observer.observe(el));
+
+  // ── Page switching ──────────────────────────────────────
+  function showPage(id, navEl) {
+    // hide all pages
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    // show target
+    const page = document.getElementById('page-' + id);
+    page.classList.add('active');
+    window.scrollTo(0, 0);
+
+    // update nav active indicator
+    document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('nav-active'));
+    if (navEl) navEl.classList.add('nav-active');
+
+    // for non-home pages: trigger all reveals immediately with a gentle stagger
+    if (id !== 'home') {
+      requestAnimationFrame(() => {
+        page.querySelectorAll('.reveal, .draw').forEach((el, i) => {
+          setTimeout(() => el.classList.add('visible'), 60 + i * 22);
+        });
+      });
+    }
+
+    // initialise 3D tray the first time products page is opened
+    if (id === 'products') initTray();
+  }
 </script>
 
-<!-- ── THREE.JS 3D TRAY ───────────────────────────────── -->
+<!-- ── THREE.JS 3D TRAY ────────────────────────────────────── -->
 <script>
-  // THREE and OrbitControls loaded as globals via <script> tags above — works in all browsers
+  // THREE and OrbitControls loaded as UMD globals — works in all browsers
+  let trayInitialized = false;
 
-  const canvas   = document.getElementById('tray-canvas');
-  const section  = canvas.parentElement;
-  const W_sect   = section.clientWidth;
-  const H_sect   = section.clientHeight;
+  function initTray() {
+    if (trayInitialized) return;
+    trayInitialized = true;
 
-  // Renderer
-  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false });
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-  renderer.setSize(W_sect, H_sect);
-  renderer.outputEncoding      = THREE.sRGBEncoding;   // r134 API
-  renderer.toneMapping         = THREE.ACESFilmicToneMapping;
-  renderer.toneMappingExposure = 1.2;
-  renderer.shadowMap.enabled   = true;
-  renderer.shadowMap.type      = THREE.PCFSoftShadowMap;
-  renderer.setClearColor(0x1e2224, 1);   /* dark gunmetal — silver tray reads clearly */
+    // Wait one frame so the products page is painted and has real dimensions
+    requestAnimationFrame(() => {
+      const canvas  = document.getElementById('tray-canvas');
+      const section = canvas.parentElement;
+      const W = section.clientWidth;
+      const H = section.clientHeight;
 
-  // Scene
-  const scene = new THREE.Scene();
+      // ── Renderer ────────────────────────────────────────
+      const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false });
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      renderer.setSize(W, H);
+      renderer.outputEncoding      = THREE.sRGBEncoding;   // r134 API
+      renderer.toneMapping         = THREE.ACESFilmicToneMapping;
+      renderer.toneMappingExposure = 1.2;
+      renderer.shadowMap.enabled   = true;
+      renderer.shadowMap.type      = THREE.PCFSoftShadowMap;
+      renderer.setClearColor(0x1e2224, 1);   // dark gunmetal — silver tray reads clearly
 
-  // Camera  — 3/4 view matching the reference photo
-  const aspect = W_sect / H_sect;
-  const camera = new THREE.PerspectiveCamera(32, aspect, 0.01, 100);
-  camera.position.set(5.5, 3.2, 4.2);
-  camera.lookAt(0, 0.18, 0);
+      // ── Scene ───────────────────────────────────────────
+      const scene = new THREE.Scene();
 
-  // ── LIGHTING ─────────────────────────────────────────
-  // Ambient — base fill
-  scene.add(new THREE.AmbientLight(0xf0efec, 1.4));
+      // ── Camera — 3/4 view ───────────────────────────────
+      const camera = new THREE.PerspectiveCamera(32, W / H, 0.01, 100);
+      camera.position.set(5.5, 3.2, 4.2);
+      camera.lookAt(0, 0.18, 0);
 
-  // Key light — top-left warm (like the reference photo)
-  const keyLight = new THREE.DirectionalLight(0xffffff, 2.8);
-  keyLight.position.set(-3, 6, 3);
-  keyLight.castShadow = true;
-  keyLight.shadow.mapSize.set(2048, 2048);
-  keyLight.shadow.camera.near = 0.1;
-  keyLight.shadow.camera.far  = 20;
-  keyLight.shadow.camera.left = keyLight.shadow.camera.bottom = -4;
-  keyLight.shadow.camera.right = keyLight.shadow.camera.top  =  4;
-  keyLight.shadow.bias = -0.0004;
-  scene.add(keyLight);
+      // ── Lighting ────────────────────────────────────────
+      scene.add(new THREE.AmbientLight(0xf0efec, 1.4));
 
-  // Fill light — right side, cool
-  const fillLight = new THREE.DirectionalLight(0xe8eef5, 0.9);
-  fillLight.position.set(5, 1.5, -2);
-  scene.add(fillLight);
+      const keyLight = new THREE.DirectionalLight(0xffffff, 2.8);
+      keyLight.position.set(-3, 6, 3);
+      keyLight.castShadow = true;
+      keyLight.shadow.mapSize.set(2048, 2048);
+      keyLight.shadow.camera.near = 0.1;
+      keyLight.shadow.camera.far  = 20;
+      keyLight.shadow.camera.left = keyLight.shadow.camera.bottom = -4;
+      keyLight.shadow.camera.right = keyLight.shadow.camera.top  =  4;
+      keyLight.shadow.bias = -0.0004;
+      scene.add(keyLight);
 
-  // Rim / back light — adds depth
-  const rimLight = new THREE.DirectionalLight(0xffffff, 0.5);
-  rimLight.position.set(0, -2, -5);
-  scene.add(rimLight);
+      const fillLight = new THREE.DirectionalLight(0xe8eef5, 0.9);
+      fillLight.position.set(5, 1.5, -2);
+      scene.add(fillLight);
 
-  // Under bounce
-  const bounceLight = new THREE.DirectionalLight(0xf0efec, 0.25);
-  bounceLight.position.set(0, -4, 1);
-  scene.add(bounceLight);
+      const rimLight = new THREE.DirectionalLight(0xffffff, 0.5);
+      rimLight.position.set(0, -2, -5);
+      scene.add(rimLight);
 
-  // ── MATERIAL — light silver on dark bg = maximum contrast ──
-  const steelMat = new THREE.MeshStandardMaterial({
-    color:     new THREE.Color(0xd0d4d0),  // light silver
-    metalness: 0.88,
-    roughness: 0.18,
-    side: THREE.DoubleSide,
-  });
+      const bounceLight = new THREE.DirectionalLight(0xf0efec, 0.25);
+      bounceLight.position.set(0, -4, 1);
+      scene.add(bounceLight);
 
-  // ── TRAY GEOMETRY ─────────────────────────────────────
-  // Real dimensions (1 Three.js unit = 100 mm):
-  //   Width (X): 3.20   → 320 mm
-  //   Depth (Z): 2.40   → 240 mm
-  //   Wall H(Y): 0.40   → 40 mm
-  //   Thickness: 0.015  → 1.5 mm
-  const TW = 3.20, TD = 2.40, TH = 0.40, TT = 0.015;
+      // ── Material — light silver on dark bg ──────────────
+      const steelMat = new THREE.MeshStandardMaterial({
+        color:     new THREE.Color(0xd0d4d0),
+        metalness: 0.88,
+        roughness: 0.18,
+        side: THREE.DoubleSide,
+      });
 
-  const tray = new THREE.Group();
+      // ── Tray geometry (1 unit = 100 mm) ─────────────────
+      //   Width 320 mm → 3.20   Depth 240 mm → 2.40
+      //   Wall  40 mm  → 0.40   Thickness 1.5 mm → 0.015
+      const TW = 3.20, TD = 2.40, TH = 0.40, TT = 0.015;
+      const tray = new THREE.Group();
 
-  function addBox(w, h, d, x, y, z) {
-    const mesh = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), steelMat);
-    mesh.position.set(x, y, z);
-    mesh.castShadow    = true;
-    mesh.receiveShadow = true;
-    tray.add(mesh);
+      function addBox(w, h, d, x, y, z) {
+        const mesh = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), steelMat);
+        mesh.position.set(x, y, z);
+        mesh.castShadow = mesh.receiveShadow = true;
+        tray.add(mesh);
+      }
+
+      addBox(TW, TT, TD,          0,              TT/2,          0);       // bottom plate
+      addBox(TW, TH, TT,          0,  TT + TH/2,  TD/2 - TT/2);            // front wall
+      addBox(TW, TH, TT,          0,  TT + TH/2, -(TD/2 - TT/2));          // back wall
+      addBox(TT, TH, TD - 2*TT, -(TW/2 - TT/2), TT + TH/2,  0);           // left wall
+      addBox(TT, TH, TD - 2*TT,  (TW/2 - TT/2), TT + TH/2,  0);           // right wall
+
+      // Four cylindrical feet
+      const footMat = new THREE.MeshStandardMaterial({ color: 0xb8bcb8, metalness: 0.75, roughness: 0.3 });
+      const footGeo = new THREE.CylinderGeometry(0.035, 0.038, 0.055, 16);
+      const fi = 0.12;  // inset from corner
+      [
+        [ TW/2 - fi, -0.0275, -(TD/2 - fi) ],
+        [-TW/2 + fi, -0.0275, -(TD/2 - fi) ],
+        [ TW/2 - fi, -0.0275,   TD/2 - fi  ],
+        [-TW/2 + fi, -0.0275,   TD/2 - fi  ],
+      ].forEach(([x, y, z]) => {
+        const foot = new THREE.Mesh(footGeo, footMat);
+        foot.position.set(x, y, z);
+        foot.castShadow = true;
+        tray.add(foot);
+      });
+
+      tray.position.y = -(TT + TH) * 0.48;
+      scene.add(tray);
+
+      // Shadow-receiver ground plane
+      const ground = new THREE.Mesh(
+        new THREE.PlaneGeometry(14, 14),
+        new THREE.ShadowMaterial({ opacity: 0.055 })
+      );
+      ground.rotation.x = -Math.PI / 2;
+      ground.position.y = tray.position.y - 0.055;
+      ground.receiveShadow = true;
+      scene.add(ground);
+
+      // ── Orbit Controls ───────────────────────────────────
+      const controls = new THREE.OrbitControls(camera, renderer.domElement);
+      controls.enableDamping = true;
+      controls.dampingFactor = 0.06;
+      controls.enablePan     = false;
+      controls.minPolarAngle = Math.PI * 0.12;
+      controls.maxPolarAngle = Math.PI * 0.52;
+      controls.minDistance   = 3.5;
+      controls.maxDistance   = 11;
+      controls.target.set(0, 0.1, 0);
+      controls.update();
+
+      let autoSpin = true;
+      controls.addEventListener('start', () => { autoSpin = false; });
+
+      window.addEventListener('resize', () => {
+        const w = section.clientWidth, h = section.clientHeight;
+        camera.aspect = w / h;
+        camera.updateProjectionMatrix();
+        renderer.setSize(w, h);
+      });
+
+      // ── Render loop ──────────────────────────────────────
+      (function animate() {
+        requestAnimationFrame(animate);
+        if (autoSpin) tray.rotation.y += 0.004;
+        controls.update();
+        renderer.render(scene, camera);
+      })();
+    });
   }
-
-  // Bottom plate — lies flat at y = TT/2
-  addBox(TW, TT, TD,  0,  TT/2,  0);
-
-  // Front wall  (outer face at +Z = TD/2)
-  addBox(TW, TH, TT,  0,  TT + TH/2,  TD/2 - TT/2);
-
-  // Back wall   (outer face at -Z = -TD/2)
-  addBox(TW, TH, TT,  0,  TT + TH/2, -(TD/2 - TT/2));
-
-  // Left wall   (outer face at -X = -TW/2) — fits between front/back walls
-  addBox(TT, TH, TD - 2*TT,  -(TW/2 - TT/2),  TT + TH/2,  0);
-
-  // Right wall  (outer face at +X = TW/2)
-  addBox(TT, TH, TD - 2*TT,   (TW/2 - TT/2),  TT + TH/2,  0);
-
-  // ── FEET — 4 small stainless cylindrical nubs ──────────
-  const footMat = new THREE.MeshStandardMaterial({
-    color: 0xb8bcb8, metalness: 0.75, roughness: 0.3,
-  });
-  const footGeo = new THREE.CylinderGeometry(0.035, 0.038, 0.055, 16);
-  const footInset = 0.12;
-  const footPositions = [
-    [ TW/2 - footInset, -0.0275, -(TD/2 - footInset) ],
-    [-TW/2 + footInset, -0.0275, -(TD/2 - footInset) ],
-    [ TW/2 - footInset, -0.0275,   TD/2 - footInset  ],
-    [-TW/2 + footInset, -0.0275,   TD/2 - footInset  ],
-  ];
-  footPositions.forEach(([x, y, z]) => {
-    const foot = new THREE.Mesh(footGeo, footMat);
-    foot.position.set(x, y, z);
-    foot.castShadow = true;
-    tray.add(foot);
-  });
-
-  // Centre tray in view — Y offset so camera framing is balanced
-  tray.position.y = -(TT + TH) * 0.48;
-  scene.add(tray);
-
-  // ── GROUND PLANE — receives soft shadow only ───────────
-  const shadowGround = new THREE.Mesh(
-    new THREE.PlaneGeometry(14, 14),
-    new THREE.ShadowMaterial({ opacity: 0.055 })
-  );
-  shadowGround.rotation.x = -Math.PI / 2;
-  shadowGround.position.y = tray.position.y - 0.055;
-  shadowGround.receiveShadow = true;
-  scene.add(shadowGround);
-
-  // ── ORBIT CONTROLS ────────────────────────────────────
-  const controls = new THREE.OrbitControls(camera, renderer.domElement);
-  controls.enableDamping    = true;
-  controls.dampingFactor    = 0.06;
-  controls.enablePan        = false;
-  controls.minPolarAngle    = Math.PI * 0.12;
-  controls.maxPolarAngle    = Math.PI * 0.52;
-  controls.minDistance      = 3.5;
-  controls.maxDistance      = 11;
-  controls.target.set(0, 0.1, 0);
-  controls.update();
-
-  // Auto-rotate — stops when user touches
-  let autoSpin = true;
-  controls.addEventListener('start', () => { autoSpin = false; });
-
-  // ── RESIZE ────────────────────────────────────────────
-  window.addEventListener('resize', () => {
-    const w = section.clientWidth, h = section.clientHeight;
-    camera.aspect = w / h;
-    camera.updateProjectionMatrix();
-    renderer.setSize(w, h);
-  });
-
-  // ── RENDER LOOP ───────────────────────────────────────
-  (function animate() {
-    requestAnimationFrame(animate);
-    if (autoSpin) tray.rotation.y += 0.004;
-    controls.update();
-    renderer.render(scene, camera);
-  })();
 </script>
 
 </body>
