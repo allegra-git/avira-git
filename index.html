@@ -8,7 +8,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@200;300&display=swap" rel="stylesheet" />
 
-  <!-- Three.js — direct URL imports, no importmap (Safari compatible) -->
+  <!-- Three.js UMD — global script tags, works in all browsers including Safari -->
+  <script src="https://cdn.jsdelivr.net/npm/three@0.134.0/build/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.134.0/examples/js/controls/OrbitControls.js"></script>
 
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -754,9 +756,8 @@
 </script>
 
 <!-- ── THREE.JS 3D TRAY ───────────────────────────────── -->
-<script type="module">
-  import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js';
-  import { OrbitControls } from 'https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/controls/OrbitControls.js';
+<script>
+  // THREE and OrbitControls loaded as globals via <script> tags above — works in all browsers
 
   const canvas   = document.getElementById('tray-canvas');
   const section  = canvas.parentElement;
@@ -767,12 +768,12 @@
   const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false });
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   renderer.setSize(W_sect, H_sect);
-  renderer.outputColorSpace = THREE.SRGBColorSpace;
-  renderer.toneMapping      = THREE.ACESFilmicToneMapping;
-  renderer.toneMappingExposure = 1.15;
+  renderer.outputEncoding      = THREE.sRGBEncoding;   // r134 API
+  renderer.toneMapping         = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 1.2;
   renderer.shadowMap.enabled   = true;
   renderer.shadowMap.type      = THREE.PCFSoftShadowMap;
-  renderer.setClearColor(0x1e2224, 1);   /* dark gunmetal — tray reads clearly */
+  renderer.setClearColor(0x1e2224, 1);   /* dark gunmetal — silver tray reads clearly */
 
   // Scene
   const scene = new THREE.Scene();
@@ -889,7 +890,7 @@
   scene.add(shadowGround);
 
   // ── ORBIT CONTROLS ────────────────────────────────────
-  const controls = new OrbitControls(camera, renderer.domElement);
+  const controls = new THREE.OrbitControls(camera, renderer.domElement);
   controls.enableDamping    = true;
   controls.dampingFactor    = 0.06;
   controls.enablePan        = false;
