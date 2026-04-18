@@ -225,6 +225,125 @@
     }
     .concept-body p + p { margin-top: 1.2rem; }
 
+    /* ── CONCEPT — pillars (3 columns) ──────────────────── */
+    .concept-pillars {
+      padding: 0 3.5rem 8rem;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0;
+      border-top: 1px solid var(--rule);
+    }
+    .pillar {
+      padding: 4rem 3rem 4rem 0;
+      border-right: 1px solid var(--rule);
+    }
+    .pillar:last-child { border-right: none; padding-right: 0; }
+    .pillar:not(:first-child) { padding-left: 3rem; }
+    .pillar-num {
+      font-size: 0.6rem;
+      letter-spacing: 0.45em;
+      text-transform: uppercase;
+      color: var(--mid);
+      margin-bottom: 2rem;
+    }
+    .pillar-title {
+      font-family: 'Jost', sans-serif;
+      font-weight: 200;
+      font-size: clamp(1.1rem, 1.8vw, 1.5rem);
+      letter-spacing: 0.06em;
+      margin-bottom: 1.4rem;
+    }
+    .pillar-text {
+      font-size: 0.78rem;
+      line-height: 1.9;
+      color: var(--mid);
+    }
+
+    /* ── CONCEPT — product logic (reversed columns) ──────── */
+    .concept-logic {
+      padding: 8rem 3.5rem;
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 6rem;
+      align-items: start;
+      border-top: 1px solid var(--rule);
+    }
+    .concept-logic-label {
+      font-size: 0.6rem;
+      letter-spacing: 0.45em;
+      text-transform: uppercase;
+      color: var(--mid);
+      padding-top: 0.4rem;
+      grid-column: 1;
+      grid-row: 1;
+    }
+    .concept-logic-body { grid-column: 1; grid-row: 2; }
+    .concept-logic-body h2 {
+      font-family: 'Jost', sans-serif;
+      font-weight: 200;
+      font-size: clamp(1.9rem, 3.5vw, 3.2rem);
+      line-height: 1.25;
+      letter-spacing: 0.04em;
+      margin-bottom: 2.5rem;
+    }
+    .concept-logic-body h2 em { font-style: normal; }
+    .concept-logic-body p {
+      font-size: 0.82rem;
+      line-height: 2;
+      color: var(--mid);
+      max-width: 560px;
+    }
+    .concept-logic-body p + p { margin-top: 1.2rem; }
+    .concept-logic-aside {
+      grid-column: 2;
+      grid-row: 1 / 3;
+      padding-top: 0.4rem;
+      display: flex;
+      flex-direction: column;
+      gap: 2.4rem;
+    }
+    .material-chip {
+      border-top: 1px solid var(--rule);
+      padding-top: 1.4rem;
+    }
+    .material-chip-label {
+      font-size: 0.58rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--mid);
+      margin-bottom: 0.4rem;
+    }
+    .material-chip-value {
+      font-family: 'Jost', sans-serif;
+      font-weight: 200;
+      font-size: 0.9rem;
+      letter-spacing: 0.1em;
+    }
+
+    /* ── CONCEPT — sustainability statement ─────────────── */
+    .concept-sustain {
+      padding: 8rem 3.5rem 10rem;
+      background: var(--ink);
+      color: var(--light);
+    }
+    .concept-sustain h2 {
+      font-family: 'Jost', sans-serif;
+      font-weight: 200;
+      font-size: clamp(1.9rem, 3.2vw, 3rem);
+      line-height: 1.3;
+      letter-spacing: 0.04em;
+      max-width: 680px;
+      margin-bottom: 3rem;
+    }
+    .concept-sustain h2 em { font-style: normal; color: var(--bg); }
+    .concept-sustain p {
+      font-size: 0.82rem;
+      line-height: 2.1;
+      color: rgba(223,225,226,0.65);
+      max-width: 620px;
+    }
+    .concept-sustain p + p { margin-top: 1.2rem; }
+
     /* ── 3D PRODUCT VIEWER ───────────────────────────────── */
     .product3d {
       position: relative;
@@ -508,7 +627,7 @@
     <div class="hero-center">
       <p class="hero-tag">Objects of Purpose</p>
       <h1 class="hero-title">Avira<em>.</em></h1>
-      <p class="hero-sub">Luxury tableware and service objects — each piece carried forward from the life of a vessel.</p>
+      <p class="hero-sub">Yacht construction generates tonnes of premium offcuts. We take them. We make objects from them. One base, any finish — every piece traceable to a single hull.</p>
     </div>
 
     <!-- Hero sketch: tray in cabinet perspective — clean outline only -->
@@ -542,16 +661,16 @@
     <h2 class="reveal">Material<br />that has<br /><em>already lived.</em></h2>
     <div class="material-right">
       <div class="material-stat reveal reveal-delay-1">
-        <div class="material-stat-num">100%</div>
-        <div class="material-stat-label">Reclaimed from decommissioned vessels</div>
+        <div class="material-stat-num">0</div>
+        <div class="material-stat-label">Additional raw material extracted — every surface is an offcut</div>
       </div>
       <div class="material-stat reveal reveal-delay-2">
-        <div class="material-stat-num">0</div>
-        <div class="material-stat-label">Surplus — every off-cut has a future piece</div>
+        <div class="material-stat-num">316L</div>
+        <div class="material-stat-label">Marine-grade steel — universal base for every object in the line</div>
       </div>
       <div class="material-stat reveal reveal-delay-3">
         <div class="material-stat-num">Each</div>
-        <div class="material-stat-label">Object is singular — numbered, not replicated</div>
+        <div class="material-stat-label">Object carries the hull number of the vessel it was made from</div>
       </div>
     </div>
   </section>
@@ -564,17 +683,99 @@
 <!-- ════════════════════════════════════════════════════════ -->
 <div id="page-concept" class="page">
 
+  <!-- ── The problem ──────────────────────────────────────── -->
   <section class="concept">
     <p class="concept-label reveal">Concept</p>
     <div class="concept-body">
       <h2 class="reveal">Nothing is wasted.<br /><em>Everything is made.</em></h2>
       <p class="reveal reveal-delay-1">
-        Avira begins where the vessel ends. Teak decking, carbon hull composite, stainless fittings, woven rope, moquette upholstery — material selected for performance at sea — is stripped back and reformed into objects designed for exceptional service on land.
+        Every superyacht built — whether at Sanlorenzo, Benetti, Ferretti or Wally — generates tonnes of high-specification offcuts. Carbon composite from hull panels. Teak planking from deck work. Woven PVC from upholstery. Marine rope from rigging. Alcantara from saloon linings. Each material was specified by a naval architect for its performance and its beauty.
       </p>
       <p class="reveal reveal-delay-2">
-        The result is tableware and service accessories that carry a history before they are ever used. Pieces that belong on a table set for eight, passed between white-gloved hands, noticed without knowing why.
+        Then it is discarded. Disposal of these offcuts carries a significant cost for the yard — a liability with no secondary market, no afterlife. The material simply ends. Avira exists because it does not have to.
       </p>
     </div>
+  </section>
+
+  <!-- ── Three pillars ────────────────────────────────────── -->
+  <section class="concept-pillars">
+    <div class="pillar reveal">
+      <p class="pillar-num">I — The partnership</p>
+      <h3 class="pillar-title">A proposal to the yard</h3>
+      <p class="pillar-text">Avira approaches shipyards directly, presenting a base product line alongside a business proposal: we take responsibility for specified offcut materials at no cost to the yard. What was a disposal liability becomes a supply chain. The yard saves. The material continues.</p>
+    </div>
+    <div class="pillar reveal reveal-delay-1">
+      <p class="pillar-num">II — The custom object</p>
+      <h3 class="pillar-title">Built from the build itself</h3>
+      <p class="pillar-text">Every Avira object is a 316L marine-grade steel base, finished with the specific material from the owner's commission. The same teak that clads the deck faces a coaster. The same woven PVC used in the sun deck lines a bottle holder. Every object is traceable to a single vessel — made from its own offcuts, during its own outfitting.</p>
+    </div>
+    <div class="pillar reveal reveal-delay-2">
+      <p class="pillar-num">III — The extra at outfitting</p>
+      <h3 class="pillar-title">Presented at the moment of customisation</h3>
+      <p class="pillar-text">During outfitting — the phase when owners specify every surface, fabric and finish — the yard presents the Avira collection as a customisation extra. The owner selects objects. They are produced from the offcuts of their own build and delivered with the vessel, or directly to the owner's home.</p>
+    </div>
+  </section>
+
+  <!-- ── Product logic ────────────────────────────────────── -->
+  <section class="concept-logic">
+    <p class="concept-logic-label reveal">The object</p>
+
+    <div class="concept-logic-body">
+      <h2 class="reveal">One base.<br /><em>Every finish.</em></h2>
+      <p class="reveal reveal-delay-1">
+        The structural logic is fixed: 316L marine-grade steel forms the architecture of every Avira object — tray, coaster, holder, ring, nameplate, organiser. The surface is determined by what was used in the build. A teak deck yields teak-faced trays and coasters. A carbon saloon floor yields carbon-inlaid holders. Woven PVC upholstery becomes the lining of cable trays and sunscreen holders.
+      </p>
+      <p class="reveal reveal-delay-2">
+        This is not a design choice. It is a production reality — the base is always steel, the finish is always the owner's material. The result is an object that could only have come from one place. It cannot be replicated because the material cannot be replicated.
+      </p>
+      <p class="reveal reveal-delay-3">
+        Each object is produced in precision. The aim is to start with a core line of prototypes — one tray, one coaster, one bottle holder, one nameplate — that demonstrate the concept to yards across the industry. From there, the surface can be anything the build provides.
+      </p>
+    </div>
+
+    <div class="concept-logic-aside">
+      <div class="material-chip reveal reveal-delay-1">
+        <p class="material-chip-label">Base material</p>
+        <p class="material-chip-value">Stainless steel 316L — marine grade, brushed finish</p>
+      </div>
+      <div class="material-chip reveal reveal-delay-1">
+        <p class="material-chip-label">Surface — from the deck</p>
+        <p class="material-chip-value">Teak, iroko, or engineered teak planking offcuts</p>
+      </div>
+      <div class="material-chip reveal reveal-delay-2">
+        <p class="material-chip-label">Surface — from the hull</p>
+        <p class="material-chip-value">Carbon composite or glass composite panel offcuts</p>
+      </div>
+      <div class="material-chip reveal reveal-delay-2">
+        <p class="material-chip-label">Surface — from the interior</p>
+        <p class="material-chip-value">Woven PVC, alcantara, moquette, leather, rope</p>
+      </div>
+      <div class="material-chip reveal reveal-delay-3">
+        <p class="material-chip-label">Numbered</p>
+        <p class="material-chip-value">Each object carries the hull number of the vessel it was made from</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── From vessel to home ───────────────────────────────── -->
+  <section class="concept">
+    <p class="concept-label reveal">The market</p>
+    <div class="concept-body">
+      <h2 class="reveal">Yacht &amp; home.<br /><em>The same object.</em></h2>
+      <p class="reveal reveal-delay-1">
+        Avira operates at the intersection of maritime and interior design. An object made from the materials of a specific commission is, by definition, an object the owner wants both on the vessel and at home. The tray that matches the saloon floor. The coasters that echo the deck. The nameplate that came from the hull.
+      </p>
+      <p class="reveal reveal-delay-2">
+        This is not a branded merchandise play. It is a high-specification product — built with the same materials and the same precision as the vessel itself — that exists because the owner's specification made it possible. Each piece is singular, numbered, and documented. Exclusive in the truest sense: made only once, from materials that no longer exist.
+      </p>
+    </div>
+  </section>
+
+  <!-- ── Sustainability statement (dark band) ──────────────── -->
+  <section class="concept-sustain">
+    <h2 class="reveal">Sustainability in an industry<br /><em>that doesn't talk about it.</em></h2>
+    <p class="reveal reveal-delay-1">The global superyacht sector is among the most material-intensive in luxury manufacturing. A single build displaces tonnes of high-specification composite, hardwood and textile — materials specced at great cost, discarded at further cost. Avira is not a sustainability campaign. It is a business model built on the commercial reality that premium material should not end in a skip.</p>
+    <p class="reveal reveal-delay-2">The environmental argument follows naturally: zero additional extraction, zero additional production energy, zero waste per object. For a sector increasingly under scrutiny for its environmental footprint, the partnership represents a credible, visible, and genuinely rare commitment. The yard saves on disposal. The owner receives a singular object. The material continues to exist.</p>
   </section>
 
 </div><!-- /page-concept -->
