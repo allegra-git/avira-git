@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AVIRA — Symbol Concepts</title>
+  <link href="https://fonts.googleapis.com/css2?family=Jost:wght@200;300&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Jost', sans-serif;
+      font-weight: 200;
+      background-color: #7e8285;
+      background-image:
+        linear-gradient(112deg,
+          rgba(0,0,0,0.38) 0%, rgba(0,0,0,0.12) 16%,
+          rgba(255,255,255,0.30) 28%, rgba(255,255,255,0.52) 40%,
+          rgba(255,255,255,0.26) 52%, rgba(0,0,0,0.10) 64%,
+          rgba(255,255,255,0.14) 78%, rgba(0,0,0,0.32) 100%
+        ),
+        repeating-linear-gradient(90deg,
+          rgba(255,255,255,0.055) 0px, rgba(255,255,255,0.055) 1px,
+          rgba(0,0,0,0.040) 1px, rgba(0,0,0,0.040) 2px,
+          transparent 2px, transparent 3px
+        );
+      background-size: 100vw 100vh, 3px 100vh;
+      background-attachment: fixed;
+      min-height: 100vh;
+      padding: 4rem 3rem 6rem;
+      color: #0d0d0d;
+    }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 4rem;
+      border-bottom: 0.5px solid rgba(10,10,10,0.2);
+      padding-bottom: 1.5rem;
+    }
+    header h1 {
+      font-size: 0.6rem;
+      letter-spacing: 0.5em;
+      text-transform: uppercase;
+      color: #1e2022;
+    }
+    header span {
+      font-size: 0.55rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: rgba(10,10,10,0.4);
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+    }
+    .card {
+      background: rgba(255,255,255,0.07);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 3.5rem 2rem 2.5rem;
+      gap: 2rem;
+      min-height: 280px;
+    }
+    .card.dark { background: #1e2022; }
+    .card.mid  { background: rgba(0,0,0,0.12); }
+    .label {
+      font-size: 0.52rem;
+      letter-spacing: 0.38em;
+      text-transform: uppercase;
+      color: rgba(10,10,10,0.4);
+    }
+    .card.dark .label { color: rgba(255,255,255,0.3); }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Avira — Symbol Concepts</h1>
+  <span>Geometric A Mark · 6 Directions</span>
+</header>
+
+<div class="grid">
+
+  <!-- 01 · Structural A — hairline precision -->
+  <div class="card">
+    <svg width="110" height="120" viewBox="0 0 110 120" fill="none">
+      <!-- Two legs -->
+      <line x1="55" y1="8"  x2="8"  y2="108" stroke="#0d0d0d" stroke-width="1"/>
+      <line x1="55" y1="8"  x2="102" y2="108" stroke="#0d0d0d" stroke-width="1"/>
+      <!-- Crossbar at golden ratio height (~61.8% down from apex) -->
+      <line x1="26.8" y1="70" x2="83.2" y2="70" stroke="#0d0d0d" stroke-width="0.7"/>
+      <!-- Tiny foot serifs -->
+      <line x1="4"  y1="108" x2="16"  y2="108" stroke="#0d0d0d" stroke-width="0.7"/>
+      <line x1="96" y1="108" x2="108" y2="108" stroke="#0d0d0d" stroke-width="0.7"/>
+    </svg>
+    <span class="label">01 · Structural</span>
+  </div>
+
+  <!-- 02 · Enclosed — A inside a circle -->
+  <div class="card dark">
+    <svg width="120" height="120" viewBox="0 0 120 120" fill="none">
+      <circle cx="60" cy="60" r="54" stroke="rgba(255,255,255,0.45)" stroke-width="0.7"/>
+      <!-- A mark inside circle -->
+      <line x1="60" y1="18" x2="24" y2="99" stroke="#dfe1e2" stroke-width="1"/>
+      <line x1="60" y1="18" x2="96" y2="99" stroke="#dfe1e2" stroke-width="1"/>
+      <line x1="38.4" y1="72" x2="81.6" y2="72" stroke="#dfe1e2" stroke-width="0.65"/>
+    </svg>
+    <span class="label">02 · Enclosed</span>
+  </div>
+
+  <!-- 03 · Cut mark — solid filled with counter -->
+  <div class="card">
+    <svg width="110" height="116" viewBox="0 0 110 116" fill="none">
+      <!-- Filled triangle -->
+      <polygon points="55,6 4,110 106,110" fill="#0d0d0d"/>
+      <!-- White counter / inner negative A space -->
+      <polygon points="55,26 33,82 77,82" fill="#7e8285"/>
+      <!-- White crossbar cut -->
+      <rect x="33" y="77" width="44" height="5" fill="#7e8285"/>
+    </svg>
+    <span class="label">03 · Cut mark</span>
+  </div>
+
+  <!-- 04 · Spire — elongated, narrow, elegant -->
+  <div class="card mid">
+    <svg width="70" height="130" viewBox="0 0 70 130" fill="none">
+      <line x1="35" y1="4"  x2="4"  y2="122" stroke="#0d0d0d" stroke-width="0.9"/>
+      <line x1="35" y1="4"  x2="66" y2="122" stroke="#0d0d0d" stroke-width="0.9"/>
+      <!-- Crossbar very thin and precise -->
+      <line x1="16.5" y1="88" x2="53.5" y2="88" stroke="#0d0d0d" stroke-width="0.55"/>
+      <!-- Apex dot -->
+      <circle cx="35" cy="4" r="1.2" fill="#0d0d0d"/>
+    </svg>
+    <span class="label">04 · Spire</span>
+  </div>
+
+  <!-- 05 · Double — nested A, blueprint feel -->
+  <div class="card dark">
+    <svg width="120" height="120" viewBox="0 0 120 120" fill="none">
+      <!-- Outer A -->
+      <line x1="60" y1="8"  x2="10"  y2="112" stroke="rgba(255,255,255,0.55)" stroke-width="0.8"/>
+      <line x1="60" y1="8"  x2="110" y2="112" stroke="rgba(255,255,255,0.55)" stroke-width="0.8"/>
+      <line x1="31.5" y1="78" x2="88.5" y2="78" stroke="rgba(255,255,255,0.35)" stroke-width="0.6"/>
+      <!-- Inner A — tighter, lighter -->
+      <line x1="60" y1="30" x2="30"  y2="98" stroke="rgba(255,255,255,0.25)" stroke-width="0.6"/>
+      <line x1="60" y1="30" x2="90"  y2="98" stroke="rgba(255,255,255,0.25)" stroke-width="0.6"/>
+      <line x1="44.4" y1="78" x2="75.6" y2="78" stroke="rgba(255,255,255,0.15)" stroke-width="0.5"/>
+    </svg>
+    <span class="label">05 · Double</span>
+  </div>
+
+  <!-- 06 · Compass A — A as a navigation mark with tick marks -->
+  <div class="card">
+    <svg width="120" height="120" viewBox="0 0 120 120" fill="none">
+      <!-- Outer ring with tick marks at cardinal points -->
+      <circle cx="60" cy="60" r="50" stroke="#0d0d0d" stroke-width="0.5"/>
+      <!-- N tick -->
+      <line x1="60" y1="8" x2="60" y2="16" stroke="#0d0d0d" stroke-width="1"/>
+      <!-- S tick -->
+      <line x1="60" y1="104" x2="60" y2="112" stroke="#0d0d0d" stroke-width="0.5"/>
+      <!-- E tick -->
+      <line x1="104" y1="60" x2="112" y2="60" stroke="#0d0d0d" stroke-width="0.5"/>
+      <!-- W tick -->
+      <line x1="8" y1="60" x2="16" y2="60" stroke="#0d0d0d" stroke-width="0.5"/>
+      <!-- A mark centred inside ring — apex pointing to N tick -->
+      <line x1="60" y1="20" x2="36" y2="88" stroke="#0d0d0d" stroke-width="1"/>
+      <line x1="60" y1="20" x2="84" y2="88" stroke="#0d0d0d" stroke-width="1"/>
+      <line x1="44.4" y1="65" x2="75.6" y2="65" stroke="#0d0d0d" stroke-width="0.65"/>
+    </svg>
+    <span class="label">06 · Compass</span>
+  </div>
+
+</div>
+
+</body>
+</html>
