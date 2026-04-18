@@ -8,71 +8,55 @@
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body {
+      background: #0a0a0a;
       font-family: 'Jost', sans-serif;
       font-weight: 200;
-      background-color: #7e8285;
-      background-image:
-        linear-gradient(112deg,
-          rgba(0,0,0,0.38) 0%, rgba(0,0,0,0.12) 16%,
-          rgba(255,255,255,0.30) 28%, rgba(255,255,255,0.52) 40%,
-          rgba(255,255,255,0.26) 52%, rgba(0,0,0,0.10) 64%,
-          rgba(255,255,255,0.14) 78%, rgba(0,0,0,0.32) 100%
-        ),
-        repeating-linear-gradient(90deg,
-          rgba(255,255,255,0.055) 0px, rgba(255,255,255,0.055) 1px,
-          rgba(0,0,0,0.040) 1px, rgba(0,0,0,0.040) 2px,
-          transparent 2px, transparent 3px
-        );
-      background-size: 100vw 100vh, 3px 100vh;
-      background-attachment: fixed;
       min-height: 100vh;
-      padding: 4rem 3rem 6rem;
-      color: #0d0d0d;
+      padding: 5vw;
+      color: rgba(255,255,255,0.35);
     }
     header {
       display: flex;
       justify-content: space-between;
       align-items: baseline;
-      margin-bottom: 4rem;
-      border-bottom: 0.5px solid rgba(10,10,10,0.2);
-      padding-bottom: 1.5rem;
+      border-bottom: 0.5px solid rgba(255,255,255,0.1);
+      padding-bottom: 2rem;
+      margin-bottom: 5vw;
     }
     header h1 {
-      font-size: 0.6rem;
+      font-size: 0.58rem;
       letter-spacing: 0.5em;
       text-transform: uppercase;
-      color: #1e2022;
+      color: rgba(255,255,255,0.4);
     }
     header span {
-      font-size: 0.55rem;
+      font-size: 0.52rem;
       letter-spacing: 0.3em;
       text-transform: uppercase;
-      color: rgba(10,10,10,0.4);
+      color: rgba(255,255,255,0.2);
     }
     .grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 2px;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 1px;
+      background: rgba(255,255,255,0.06);
     }
-    .card {
-      background: rgba(255,255,255,0.07);
+    .cell {
+      background: #0a0a0a;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 3.5rem 2rem 2.5rem;
-      gap: 2rem;
-      min-height: 280px;
+      padding: 5vw 3vw 3.5vw;
+      gap: 2.5rem;
+      aspect-ratio: 1;
     }
-    .card.dark { background: #1e2022; }
-    .card.mid  { background: rgba(0,0,0,0.12); }
     .label {
-      font-size: 0.52rem;
-      letter-spacing: 0.38em;
+      font-size: 0.5rem;
+      letter-spacing: 0.4em;
       text-transform: uppercase;
-      color: rgba(10,10,10,0.4);
+      color: rgba(255,255,255,0.2);
     }
-    .card.dark .label { color: rgba(255,255,255,0.3); }
   </style>
 </head>
 <body>
@@ -84,91 +68,177 @@
 
 <div class="grid">
 
-  <!-- 01 · Structural A — hairline precision -->
-  <div class="card">
-    <svg width="110" height="120" viewBox="0 0 110 120" fill="none">
-      <!-- Two legs -->
-      <line x1="55" y1="8"  x2="8"  y2="108" stroke="#0d0d0d" stroke-width="1"/>
-      <line x1="55" y1="8"  x2="102" y2="108" stroke="#0d0d0d" stroke-width="1"/>
-      <!-- Crossbar at golden ratio height (~61.8% down from apex) -->
-      <line x1="26.8" y1="70" x2="83.2" y2="70" stroke="#0d0d0d" stroke-width="0.7"/>
-      <!-- Tiny foot serifs -->
-      <line x1="4"  y1="108" x2="16"  y2="108" stroke="#0d0d0d" stroke-width="0.7"/>
-      <line x1="96" y1="108" x2="108" y2="108" stroke="#0d0d0d" stroke-width="0.7"/>
+  <!-- ─── 01 · INCIRCLE ──────────────────────────────────────
+       The A's inscribed circle — tangent to both legs and base.
+       The crossbar naturally connects the two tangency points.
+       Pure mathematical beauty.                               -->
+  <div class="cell">
+    <svg viewBox="0 0 200 200" fill="none" width="160" height="160">
+      <!-- Triangle A -->
+      <polygon points="100,18 22,176 178,176"
+        stroke="rgba(255,255,255,0.7)" stroke-width="0.7" fill="none"/>
+      <!-- Inscribed circle (tangent to all 3 sides) -->
+      <circle cx="100" cy="128" r="48"
+        stroke="rgba(255,255,255,0.5)" stroke-width="0.6"/>
+      <!-- Crossbar — connects the two tangency points on the legs -->
+      <line x1="57" y1="106" x2="143" y2="106"
+        stroke="rgba(255,255,255,0.7)" stroke-width="0.6"/>
+      <!-- Centre dot -->
+      <circle cx="100" cy="128" r="1.4" fill="rgba(255,255,255,0.6)"/>
     </svg>
-    <span class="label">01 · Structural</span>
+    <span class="label">01 · Incircle</span>
   </div>
 
-  <!-- 02 · Enclosed — A inside a circle -->
-  <div class="card dark">
-    <svg width="120" height="120" viewBox="0 0 120 120" fill="none">
-      <circle cx="60" cy="60" r="54" stroke="rgba(255,255,255,0.45)" stroke-width="0.7"/>
-      <!-- A mark inside circle -->
-      <line x1="60" y1="18" x2="24" y2="99" stroke="#dfe1e2" stroke-width="1"/>
-      <line x1="60" y1="18" x2="96" y2="99" stroke="#dfe1e2" stroke-width="1"/>
-      <line x1="38.4" y1="72" x2="81.6" y2="72" stroke="#dfe1e2" stroke-width="0.65"/>
+  <!-- ─── 02 · CIRCUMSCRIBED ─────────────────────────────────
+       The A triangle inscribed in its circumscribed circle —
+       every vertex touches the circle. Double ring. Apex as
+       the north pole.                                         -->
+  <div class="cell">
+    <svg viewBox="0 0 200 200" fill="none" width="160" height="160">
+      <!-- Outer ring -->
+      <circle cx="100" cy="100" r="86"
+        stroke="rgba(255,255,255,0.22)" stroke-width="0.5"/>
+      <!-- Inner ring -->
+      <circle cx="100" cy="100" r="80"
+        stroke="rgba(255,255,255,0.5)" stroke-width="0.65"/>
+      <!-- Triangle inscribed in circle r=80:
+           apex at top (100,20), base at ±135° from apex -->
+      <polygon points="100,20 40.1,160.1 159.9,160.1"
+        stroke="rgba(255,255,255,0.75)" stroke-width="0.7" fill="none"/>
+      <!-- Crossbar at golden ratio of height -->
+      <line x1="62.9" y1="105" x2="137.1" y2="105"
+        stroke="rgba(255,255,255,0.7)" stroke-width="0.6"/>
+      <!-- Tick at apex (N) — between rings -->
+      <line x1="100" y1="14" x2="100" y2="20"
+        stroke="rgba(255,255,255,0.5)" stroke-width="0.8"/>
     </svg>
-    <span class="label">02 · Enclosed</span>
+    <span class="label">02 · Circumscribed</span>
   </div>
 
-  <!-- 03 · Cut mark — solid filled with counter -->
-  <div class="card">
-    <svg width="110" height="116" viewBox="0 0 110 116" fill="none">
-      <!-- Filled triangle -->
-      <polygon points="55,6 4,110 106,110" fill="#0d0d0d"/>
-      <!-- White counter / inner negative A space -->
-      <polygon points="55,26 33,82 77,82" fill="#7e8285"/>
-      <!-- White crossbar cut -->
-      <rect x="33" y="77" width="44" height="5" fill="#7e8285"/>
+  <!-- ─── 03 · PRISM ────────────────────────────────────────
+       Midpoint subdivision — connecting the three edge
+       midpoints reveals an inverted inner triangle (the
+       natural counter of A). A circle inscribed in the inner
+       triangle.                                              -->
+  <div class="cell">
+    <svg viewBox="0 0 200 200" fill="none" width="160" height="160">
+      <!-- Outer triangle -->
+      <polygon points="100,18 18,178 182,178"
+        stroke="rgba(255,255,255,0.6)" stroke-width="0.65" fill="none"/>
+      <!-- Inner inverted triangle (midpoints of outer) -->
+      <!-- Left-mid (59,98), Right-mid (141,98), Base-mid (100,178) -->
+      <polygon points="59,98 141,98 100,178"
+        stroke="rgba(255,255,255,0.45)" stroke-width="0.55" fill="none"/>
+      <!-- Incircle of inner triangle: cx=100, cy=124, r=25 -->
+      <circle cx="100" cy="124" r="25"
+        stroke="rgba(255,255,255,0.35)" stroke-width="0.5"/>
+      <!-- Crossbar on outer A (coincides with top edge of inner triangle) -->
+      <line x1="59" y1="98" x2="141" y2="98"
+        stroke="rgba(255,255,255,0.65)" stroke-width="0.6"/>
+      <!-- Centre dot -->
+      <circle cx="100" cy="124" r="1.2" fill="rgba(255,255,255,0.5)"/>
     </svg>
-    <span class="label">03 · Cut mark</span>
+    <span class="label">03 · Prism</span>
   </div>
 
-  <!-- 04 · Spire — elongated, narrow, elegant -->
-  <div class="card mid">
-    <svg width="70" height="130" viewBox="0 0 70 130" fill="none">
-      <line x1="35" y1="4"  x2="4"  y2="122" stroke="#0d0d0d" stroke-width="0.9"/>
-      <line x1="35" y1="4"  x2="66" y2="122" stroke="#0d0d0d" stroke-width="0.9"/>
-      <!-- Crossbar very thin and precise -->
-      <line x1="16.5" y1="88" x2="53.5" y2="88" stroke="#0d0d0d" stroke-width="0.55"/>
+  <!-- ─── 04 · HORIZON ──────────────────────────────────────
+       Three nested A triangles sharing one apex, decreasing
+       in size like depth contours — or the horizon receding
+       at sea. One shared crossbar threads all three.         -->
+  <div class="cell">
+    <svg viewBox="0 0 200 200" fill="none" width="160" height="160">
+      <!-- Large triangle (100%) -->
+      <polygon points="100,20 22,176 178,176"
+        stroke="rgba(255,255,255,0.65)" stroke-width="0.7" fill="none"/>
+      <!-- Medium triangle (66%) — base at y=123 -->
+      <polygon points="100,20 49,123 151,123"
+        stroke="rgba(255,255,255,0.38)" stroke-width="0.55" fill="none"/>
+      <!-- Small triangle (33%) — base at y=72 -->
+      <polygon points="100,20 75,72 125,72"
+        stroke="rgba(255,255,255,0.2)" stroke-width="0.45" fill="none"/>
+      <!-- Single crossbar on large triangle -->
+      <line x1="57" y1="106" x2="143" y2="106"
+        stroke="rgba(255,255,255,0.65)" stroke-width="0.6"/>
       <!-- Apex dot -->
-      <circle cx="35" cy="4" r="1.2" fill="#0d0d0d"/>
+      <circle cx="100" cy="20" r="1.4" fill="rgba(255,255,255,0.55)"/>
     </svg>
-    <span class="label">04 · Spire</span>
+    <span class="label">04 · Horizon</span>
   </div>
 
-  <!-- 05 · Double — nested A, blueprint feel -->
-  <div class="card dark">
-    <svg width="120" height="120" viewBox="0 0 120 120" fill="none">
-      <!-- Outer A -->
-      <line x1="60" y1="8"  x2="10"  y2="112" stroke="rgba(255,255,255,0.55)" stroke-width="0.8"/>
-      <line x1="60" y1="8"  x2="110" y2="112" stroke="rgba(255,255,255,0.55)" stroke-width="0.8"/>
-      <line x1="31.5" y1="78" x2="88.5" y2="78" stroke="rgba(255,255,255,0.35)" stroke-width="0.6"/>
-      <!-- Inner A — tighter, lighter -->
-      <line x1="60" y1="30" x2="30"  y2="98" stroke="rgba(255,255,255,0.25)" stroke-width="0.6"/>
-      <line x1="60" y1="30" x2="90"  y2="98" stroke="rgba(255,255,255,0.25)" stroke-width="0.6"/>
-      <line x1="44.4" y1="78" x2="75.6" y2="78" stroke="rgba(255,255,255,0.15)" stroke-width="0.5"/>
+  <!-- ─── 05 · HULL SECTION ─────────────────────────────────
+       The A as a yacht's transverse hull cross-section —
+       the two legs become curved hull strakes bowing outward,
+       the base is the waterline. A craftsman's mark.         -->
+  <div class="cell">
+    <svg viewBox="0 0 200 200" fill="none" width="160" height="160">
+      <!-- Outer circle ring — frame of reference -->
+      <circle cx="100" cy="106" r="86"
+        stroke="rgba(255,255,255,0.18)" stroke-width="0.5"/>
+      <!-- Left hull strake: curved arc bowing outward -->
+      <path d="M 100 22 Q 28 84 22 178"
+        stroke="rgba(255,255,255,0.65)" stroke-width="0.7" fill="none"/>
+      <!-- Right hull strake: mirror -->
+      <path d="M 100 22 Q 172 84 178 178"
+        stroke="rgba(255,255,255,0.65)" stroke-width="0.7" fill="none"/>
+      <!-- Inner straight A legs (structural frame) -->
+      <line x1="100" y1="22" x2="38" y2="178"
+        stroke="rgba(255,255,255,0.28)" stroke-width="0.5"/>
+      <line x1="100" y1="22" x2="162" y2="178"
+        stroke="rgba(255,255,255,0.28)" stroke-width="0.5"/>
+      <!-- Waterline (base) -->
+      <line x1="22" y1="178" x2="178" y2="178"
+        stroke="rgba(255,255,255,0.5)" stroke-width="0.6"/>
+      <!-- Crossbar / deck beam -->
+      <line x1="55" y1="108" x2="145" y2="108"
+        stroke="rgba(255,255,255,0.65)" stroke-width="0.6"/>
+      <!-- Keel point -->
+      <circle cx="100" cy="22" r="1.4" fill="rgba(255,255,255,0.6)"/>
     </svg>
-    <span class="label">05 · Double</span>
+    <span class="label">05 · Hull Section</span>
   </div>
 
-  <!-- 06 · Compass A — A as a navigation mark with tick marks -->
-  <div class="card">
-    <svg width="120" height="120" viewBox="0 0 120 120" fill="none">
-      <!-- Outer ring with tick marks at cardinal points -->
-      <circle cx="60" cy="60" r="50" stroke="#0d0d0d" stroke-width="0.5"/>
-      <!-- N tick -->
-      <line x1="60" y1="8" x2="60" y2="16" stroke="#0d0d0d" stroke-width="1"/>
-      <!-- S tick -->
-      <line x1="60" y1="104" x2="60" y2="112" stroke="#0d0d0d" stroke-width="0.5"/>
-      <!-- E tick -->
-      <line x1="104" y1="60" x2="112" y2="60" stroke="#0d0d0d" stroke-width="0.5"/>
-      <!-- W tick -->
-      <line x1="8" y1="60" x2="16" y2="60" stroke="#0d0d0d" stroke-width="0.5"/>
-      <!-- A mark centred inside ring — apex pointing to N tick -->
-      <line x1="60" y1="20" x2="36" y2="88" stroke="#0d0d0d" stroke-width="1"/>
-      <line x1="60" y1="20" x2="84" y2="88" stroke="#0d0d0d" stroke-width="1"/>
-      <line x1="44.4" y1="65" x2="75.6" y2="65" stroke="#0d0d0d" stroke-width="0.65"/>
+  <!-- ─── 06 · COMPASS A ────────────────────────────────────
+       The A as a navigation instrument — inscribed in a
+       compass ring. Apex = North. Eight tick marks. The
+       crossbar sits exactly on the East–West axis.           -->
+  <div class="cell">
+    <svg viewBox="0 0 200 200" fill="none" width="160" height="160">
+      <!-- Outer ring -->
+      <circle cx="100" cy="100" r="88"
+        stroke="rgba(255,255,255,0.25)" stroke-width="0.5"/>
+      <!-- Inner ring -->
+      <circle cx="100" cy="100" r="80"
+        stroke="rgba(255,255,255,0.55)" stroke-width="0.65"/>
+      <!-- Cardinal ticks (between rings, pointing inward) -->
+      <!-- N — bold -->
+      <line x1="100" y1="12" x2="100" y2="20"
+        stroke="rgba(255,255,255,0.8)" stroke-width="1.2"/>
+      <!-- S -->
+      <line x1="100" y1="180" x2="100" y2="188"
+        stroke="rgba(255,255,255,0.4)" stroke-width="0.7"/>
+      <!-- E -->
+      <line x1="180" y1="100" x2="188" y2="100"
+        stroke="rgba(255,255,255,0.4)" stroke-width="0.7"/>
+      <!-- W -->
+      <line x1="12" y1="100" x2="20" y2="100"
+        stroke="rgba(255,255,255,0.4)" stroke-width="0.7"/>
+      <!-- Intercardinal ticks — tiny -->
+      <line x1="162.2" y1="37.8" x2="157.6" y2="42.4"
+        stroke="rgba(255,255,255,0.22)" stroke-width="0.5"/>
+      <line x1="37.8" y1="37.8" x2="42.4" y2="42.4"
+        stroke="rgba(255,255,255,0.22)" stroke-width="0.5"/>
+      <line x1="162.2" y1="162.2" x2="157.6" y2="157.6"
+        stroke="rgba(255,255,255,0.22)" stroke-width="0.5"/>
+      <line x1="37.8" y1="162.2" x2="42.4" y2="157.6"
+        stroke="rgba(255,255,255,0.22)" stroke-width="0.5"/>
+      <!-- A inscribed — apex at N (100,20), base corners on E/W circle -->
+      <polygon points="100,20 32,148 168,148"
+        stroke="rgba(255,255,255,0.75)" stroke-width="0.7" fill="none"/>
+      <!-- Crossbar at E–W axis level -->
+      <line x1="55" y1="104" x2="145" y2="104"
+        stroke="rgba(255,255,255,0.7)" stroke-width="0.6"/>
+      <!-- Centre dot -->
+      <circle cx="100" cy="100" r="1.5" fill="rgba(255,255,255,0.5)"/>
     </svg>
     <span class="label">06 · Compass</span>
   </div>
