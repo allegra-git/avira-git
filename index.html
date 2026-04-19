@@ -398,6 +398,42 @@
     .viewer-tab.active { color: rgba(223,225,226,0.85); }
     .viewer-tab.active::after { transform: scaleX(1); }
 
+    /* Sub-tabs (variants within a product) */
+    .viewer-subtabs {
+      position: absolute;
+      top: 5.4rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 20;
+      display: flex;
+      gap: 2.2rem;
+    }
+    .viewer-subtab {
+      background: none;
+      border: none;
+      font-family: 'Jost', sans-serif;
+      font-weight: 200;
+      font-size: 0.52rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: rgba(223,225,226,0.22);
+      cursor: pointer;
+      padding: 0 0 4px;
+      position: relative;
+      transition: color 0.3s;
+    }
+    .viewer-subtab::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 0.4px;
+      background: rgba(223,225,226,0.5);
+      transform: scaleX(0);
+      transition: transform 0.3s;
+    }
+    .viewer-subtab.active { color: rgba(223,225,226,0.65); }
+    .viewer-subtab.active::after { transform: scaleX(1); }
+
     .product3d-meta {
       position: absolute;
       bottom: 3.5rem;
@@ -912,12 +948,14 @@
 
   <!-- 3D Product viewer -->
   <section class="product3d" id="viewer-section">
-    <!-- Tab switcher -->
+    <!-- Product tabs -->
     <nav class="viewer-tabs">
       <button class="viewer-tab active" onclick="switchProduct('tray',this)">Service Tray</button>
       <button class="viewer-tab"        onclick="switchProduct('coaster',this)">Coaster</button>
       <button class="viewer-tab"        onclick="switchProduct('container',this)">Bottle Container</button>
     </nav>
+    <!-- Variant sub-tabs (populated by JS) -->
+    <nav class="viewer-subtabs" id="viewer-subtabs"></nav>
 
     <canvas id="viewer-canvas"></canvas>
 
@@ -1297,10 +1335,11 @@
 <script>
   let viewerInitialized = false;
 
-  // ── Product data ─────────────────────────────────────────
-  const PRODUCTS = {
-    tray: {
-      name: 'Service Tray',
+  // ── Variant data ──────────────────────────────────────────
+  const VARIANTS = {
+    'tray-square': {
+      product: 'tray', label: 'Square',
+      name: 'Service Tray — Square',
       specs: [
         ['Material',    'Stainless Steel 316L'],
         ['Dimensions',  '320 × 240 mm'],
@@ -1311,8 +1350,35 @@
       camPos:    [5.5, 3.2, 4.2],
       camTarget: [0, 0.18, 0],
     },
-    coaster: {
-      name: 'Coaster',
+    'tray-oval': {
+      product: 'tray', label: 'Oval',
+      name: 'Service Tray — Oval',
+      specs: [
+        ['Material',    'Stainless Steel 316L'],
+        ['Dimensions',  '320 × 240 mm oval'],
+        ['Wall height', '40 mm'],
+        ['Thickness',   '1.5 mm'],
+        ['Finish',      'Brushed, marine grade'],
+      ],
+      camPos:    [5.5, 3.2, 4.2],
+      camTarget: [0, 0.18, 0],
+    },
+    'tray-circular': {
+      product: 'tray', label: 'Circular',
+      name: 'Service Tray — Circular',
+      specs: [
+        ['Material',    'Stainless Steel 316L'],
+        ['Diameter',    '280 mm'],
+        ['Wall height', '40 mm'],
+        ['Thickness',   '1.5 mm'],
+        ['Finish',      'Brushed, marine grade'],
+      ],
+      camPos:    [5.0, 3.2, 4.0],
+      camTarget: [0, 0.18, 0],
+    },
+    'coaster-square': {
+      product: 'coaster', label: 'Square',
+      name: 'Coaster — Square',
       specs: [
         ['Material',   'Stainless Steel 316L'],
         ['Dimensions', '100 × 100 mm'],
@@ -1323,7 +1389,21 @@
       camPos:    [2.8, 2.6, 2.8],
       camTarget: [0, 0.02, 0],
     },
-    container: {
+    'coaster-circular': {
+      product: 'coaster', label: 'Circular',
+      name: 'Coaster — Circular',
+      specs: [
+        ['Material',  'Stainless Steel 316L'],
+        ['Diameter',  '100 mm'],
+        ['Thickness', '8 mm'],
+        ['Detail',    'CNC-engraved concentric rings'],
+        ['Finish',    'Brushed, marine grade'],
+      ],
+      camPos:    [2.8, 2.6, 2.8],
+      camTarget: [0, 0.02, 0],
+    },
+    'container': {
+      product: 'container', label: 'Bottle Holder',
       name: 'Bottle Container',
       specs: [
         ['Material', 'Stainless Steel 316L'],
@@ -1335,39 +1415,94 @@
       camPos:    [3.2, 1.6, 3.8],
       camTarget: [0, 0.1, 0],
     },
+    'icebucket': {
+      product: 'container', label: 'Ice Bucket',
+      name: 'Ice Bucket',
+      specs: [
+        ['Material', 'Stainless Steel 316L'],
+        ['Height',   '200 mm'],
+        ['Top ø',    '180 mm'],
+        ['Base ø',   '144 mm'],
+        ['Finish',   'Brushed, marine grade'],
+      ],
+      camPos:    [4.2, 2.4, 4.6],
+      camTarget: [0, 0.15, 0],
+    },
   };
 
-  let activeKey    = 'tray';
-  let groups       = {};
+  // Which variant is default per product
+  const PRODUCT_DEFAULT = { tray: 'tray-square', coaster: 'coaster-square', container: 'container' };
+
+  // Main tab → product key mapping
+  const PRODUCT_VARIANTS = {
+    tray:      ['tray-square', 'tray-oval', 'tray-circular'],
+    coaster:   ['coaster-square', 'coaster-circular'],
+    container: ['container', 'icebucket'],
+  };
+
+  let activeVariant = 'tray-square';
+  let activeProduct = 'tray';
+  let groups        = {};
   let camPosTarget, camLookTarget, controls3d, camera3d;
+  let autoSpin3d    = true;
 
-  function switchProduct(key, btn) {
-    if (key === activeKey) return;
+  function buildSubTabs(productKey) {
+    const nav = document.getElementById('viewer-subtabs');
+    const variants = PRODUCT_VARIANTS[productKey];
+    if (variants.length <= 1) { nav.innerHTML = ''; return; }
+    nav.innerHTML = variants.map(vk =>
+      `<button class="viewer-subtab${vk === activeVariant ? ' active' : ''}"
+        onclick="switchVariant('${vk}',this)">${VARIANTS[vk].label}</button>`
+    ).join('');
+  }
 
-    // hide old, show new
-    groups[activeKey].visible = false;
-    groups[activeKey].rotation.y = 0;
-    groups[key].visible = true;
-    activeKey = key;
+  function switchVariant(vKey, btn) {
+    if (vKey === activeVariant) return;
+    groups[activeVariant].visible = false;
+    groups[activeVariant].rotation.y = 0;
+    groups[vKey].visible = true;
+    activeVariant = vKey;
 
-    // update camera targets (lerped in render loop)
-    const p = PRODUCTS[key];
-    camPosTarget.set(...p.camPos);
-    camLookTarget.set(...p.camTarget);
+    const v = VARIANTS[vKey];
+    camPosTarget.set(...v.camPos);
+    camLookTarget.set(...v.camTarget);
     autoSpin3d = true;
 
-    // update tab buttons
-    document.querySelectorAll('.viewer-tab').forEach(t => t.classList.remove('active'));
-    btn.classList.add('active');
+    document.querySelectorAll('.viewer-subtab').forEach(t => t.classList.remove('active'));
+    if (btn) btn.classList.add('active');
 
-    // update meta
-    document.getElementById('viewer-name').textContent = p.name;
-    document.getElementById('viewer-specs').innerHTML = p.specs
-      .map(([k, v]) => `<div class="spec-row"><span class="spec-key">${k}</span><span class="spec-val">${v}</span></div>`)
+    document.getElementById('viewer-name').textContent = v.name;
+    document.getElementById('viewer-specs').innerHTML = v.specs
+      .map(([k, val]) => `<div class="spec-row"><span class="spec-key">${k}</span><span class="spec-val">${val}</span></div>`)
       .join('');
   }
 
-  let autoSpin3d = true;
+  function switchProduct(productKey, btn) {
+    if (productKey === activeProduct) return;
+    activeProduct = productKey;
+
+    const defaultVariant = PRODUCT_DEFAULT[productKey];
+    // hide old
+    groups[activeVariant].visible = false;
+    groups[activeVariant].rotation.y = 0;
+    activeVariant = defaultVariant;
+    groups[activeVariant].visible = true;
+
+    const v = VARIANTS[activeVariant];
+    camPosTarget.set(...v.camPos);
+    camLookTarget.set(...v.camTarget);
+    autoSpin3d = true;
+
+    document.querySelectorAll('.viewer-tab').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+
+    document.getElementById('viewer-name').textContent = v.name;
+    document.getElementById('viewer-specs').innerHTML = v.specs
+      .map(([k, val]) => `<div class="spec-row"><span class="spec-key">${k}</span><span class="spec-val">${val}</span></div>`)
+      .join('');
+
+    buildSubTabs(productKey);
+  }
 
   function initViewer() {
     if (viewerInitialized) return;
@@ -1400,15 +1535,14 @@
 
       // ── Lighting ──────────────────────────────────────────
       scene.add(new THREE.AmbientLight(0xf0efec, 1.4));
-
-      const key = new THREE.DirectionalLight(0xffffff, 2.8);
-      key.position.set(-3, 6, 3);
-      key.castShadow = true;
-      key.shadow.mapSize.set(2048, 2048);
-      key.shadow.camera.left = key.shadow.camera.bottom = -4;
-      key.shadow.camera.right = key.shadow.camera.top  =  4;
-      key.shadow.bias = -0.0004;
-      scene.add(key);
+      const keyLight = new THREE.DirectionalLight(0xffffff, 2.8);
+      keyLight.position.set(-3, 6, 3);
+      keyLight.castShadow = true;
+      keyLight.shadow.mapSize.set(2048, 2048);
+      keyLight.shadow.camera.left = keyLight.shadow.camera.bottom = -4;
+      keyLight.shadow.camera.right = keyLight.shadow.camera.top   =  4;
+      keyLight.shadow.bias = -0.0004;
+      scene.add(keyLight);
       const fillLight = new THREE.DirectionalLight(0xe8eef5, 0.9);
       fillLight.position.set(5, 1.5, -2);
       scene.add(fillLight);
@@ -1425,7 +1559,6 @@
       });
       const footMat = new THREE.MeshStandardMaterial({ color: 0xb8bcb8, metalness: 0.75, roughness: 0.3 });
 
-      // helper
       function box(w, h, d, x, y, z, grp, mat) {
         const m = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), mat || steelMat);
         m.position.set(x, y, z);
@@ -1433,64 +1566,145 @@
         grp.add(m);
       }
 
-      // ── BUILD: TRAY ───────────────────────────────────────
-      const trayGrp = new THREE.Group();
+      // ── BUILD: TRAY SQUARE ────────────────────────────────
+      const traySquareGrp = new THREE.Group();
       const TW=3.20, TD=2.40, TH=0.40, TT=0.015;
-      box(TW, TT, TD,            0,         TT/2,          0,           trayGrp);
-      box(TW, TH, TT,            0, TT+TH/2,  TD/2-TT/2,               trayGrp);
-      box(TW, TH, TT,            0, TT+TH/2,-(TD/2-TT/2),              trayGrp);
-      box(TT, TH, TD-2*TT, -(TW/2-TT/2), TT+TH/2, 0,                  trayGrp);
-      box(TT, TH, TD-2*TT,  (TW/2-TT/2), TT+TH/2, 0,                  trayGrp);
+      box(TW, TT, TD,           0,          TT/2,           0,           traySquareGrp);
+      box(TW, TH, TT,           0,  TT+TH/2,  TD/2-TT/2,                traySquareGrp);
+      box(TW, TH, TT,           0,  TT+TH/2, -(TD/2-TT/2),              traySquareGrp);
+      box(TT, TH, TD-2*TT, -(TW/2-TT/2), TT+TH/2, 0,                   traySquareGrp);
+      box(TT, TH, TD-2*TT,  (TW/2-TT/2), TT+TH/2, 0,                   traySquareGrp);
       const fGeo = new THREE.CylinderGeometry(0.035, 0.038, 0.055, 16);
       const fi = 0.12;
       [[TW/2-fi,-0.0275,-(TD/2-fi)],[-TW/2+fi,-0.0275,-(TD/2-fi)],
-       [TW/2-fi,-0.0275,  TD/2-fi ],[-TW/2+fi,-0.0275,  TD/2-fi ]
-      ].forEach(([x,y,z]) => { const f=new THREE.Mesh(fGeo,footMat); f.position.set(x,y,z); trayGrp.add(f); });
-      trayGrp.position.y = -(TT+TH)*0.48;
-      scene.add(trayGrp);
-      groups.tray = trayGrp;
+       [TW/2-fi,-0.0275,  TD/2-fi ],[-TW/2+fi,-0.0275,  TD/2-fi]
+      ].forEach(([x,y,z]) => { const f=new THREE.Mesh(fGeo,footMat); f.position.set(x,y,z); traySquareGrp.add(f); });
+      traySquareGrp.position.y = -(TT+TH)*0.48;
+      scene.add(traySquareGrp);
+      groups['tray-square'] = traySquareGrp;
 
-      // ── BUILD: COASTER ─────────────────────────────────────
-      // 100×100 mm = 1.0×1.0 units, 8 mm thick = 0.08 units
-      const coasterGrp = new THREE.Group();
-      box(1.0, 0.07, 1.0, 0, 0, 0, coasterGrp);                        // main slab
-      // outer engraved ring (raised strips simulate CNC concentric border)
-      const OR = 0.46, OW = 0.065, RH = 0.009, RY = 0.039;
-      box(1.0,   RH, OW,  0,    RY,  OR,  coasterGrp);                  // front
-      box(1.0,   RH, OW,  0,    RY, -OR,  coasterGrp);                  // back
-      box(OW,    RH, 1.0-2*OW, -OR, RY, 0, coasterGrp);                 // left
-      box(OW,    RH, 1.0-2*OW,  OR, RY, 0, coasterGrp);                 // right
-      // inner ring
-      const IR = 0.29, IW = 0.055, IRY = 0.041;
-      box(0.58+IW*2, RH, IW,  0,    IRY,  IR,  coasterGrp);
-      box(0.58+IW*2, RH, IW,  0,    IRY, -IR,  coasterGrp);
-      box(IW, RH, 0.58,  -IR,  IRY,  0,  coasterGrp);
-      box(IW, RH, 0.58,   IR,  IRY,  0,  coasterGrp);
-      // 4 tiny feet
+      // ── BUILD: TRAY OVAL ──────────────────────────────────
+      // Oval = scaled cylinder: 320mm wide × 240mm deep = 3.20 × 2.40 units
+      const trayOvalGrp = new THREE.Group();
+      const OTW = 1.60, OTD = 1.20; // radii
+      // base disc
+      const ovalBase = new THREE.Mesh(new THREE.CylinderGeometry(OTD, OTD, TT, 64), steelMat);
+      ovalBase.scale.set(OTW/OTD, 1, 1);
+      ovalBase.position.y = TT/2;
+      ovalBase.castShadow = true;
+      trayOvalGrp.add(ovalBase);
+      // wall ring — open cylinder scaled to oval
+      const ovalWall = new THREE.Mesh(new THREE.CylinderGeometry(OTD, OTD, TH, 64, 1, true), steelMat);
+      ovalWall.scale.set(OTW/OTD, 1, 1);
+      ovalWall.position.y = TT + TH/2;
+      ovalWall.castShadow = true;
+      trayOvalGrp.add(ovalWall);
+      // top rim ring
+      const ovalRim = new THREE.Mesh(new THREE.CylinderGeometry(OTD+TT, OTD, TT*2, 64), steelMat);
+      ovalRim.scale.set(OTW/OTD, 1, 1);
+      ovalRim.position.y = TT + TH + TT;
+      ovalRim.castShadow = true;
+      trayOvalGrp.add(ovalRim);
+      trayOvalGrp.position.y = -(TT+TH)*0.48;
+      trayOvalGrp.visible = false;
+      scene.add(trayOvalGrp);
+      groups['tray-oval'] = trayOvalGrp;
+
+      // ── BUILD: TRAY CIRCULAR ──────────────────────────────
+      // 280 mm diameter = 1.40 unit radius
+      const trayCircGrp = new THREE.Group();
+      const CR = 1.40;
+      const circBase = new THREE.Mesh(new THREE.CylinderGeometry(CR, CR, TT, 72), steelMat);
+      circBase.position.y = TT/2; circBase.castShadow = true;
+      trayCircGrp.add(circBase);
+      const circWall = new THREE.Mesh(new THREE.CylinderGeometry(CR, CR, TH, 72, 1, true), steelMat);
+      circWall.position.y = TT + TH/2; circWall.castShadow = true;
+      trayCircGrp.add(circWall);
+      const circRim = new THREE.Mesh(new THREE.CylinderGeometry(CR+TT, CR, TT*2, 72), steelMat);
+      circRim.position.y = TT + TH + TT; circRim.castShadow = true;
+      trayCircGrp.add(circRim);
+      trayCircGrp.position.y = -(TT+TH)*0.48;
+      trayCircGrp.visible = false;
+      scene.add(trayCircGrp);
+      groups['tray-circular'] = trayCircGrp;
+
+      // ── BUILD: COASTER SQUARE ──────────────────────────────
+      const coasterSqGrp = new THREE.Group();
+      box(1.0, 0.07, 1.0, 0, 0, 0, coasterSqGrp);
+      const COR = 0.46, COW = 0.065, CRH = 0.009, CRY = 0.039;
+      box(1.0,   CRH, COW,  0,    CRY,  COR,  coasterSqGrp);
+      box(1.0,   CRH, COW,  0,    CRY, -COR,  coasterSqGrp);
+      box(COW,   CRH, 1.0-2*COW, -COR, CRY, 0, coasterSqGrp);
+      box(COW,   CRH, 1.0-2*COW,  COR, CRY, 0, coasterSqGrp);
+      const CIR = 0.29, CIW = 0.055, CIRY = 0.041;
+      box(0.58+CIW*2, CRH, CIW,  0,    CIRY,  CIR,  coasterSqGrp);
+      box(0.58+CIW*2, CRH, CIW,  0,    CIRY, -CIR,  coasterSqGrp);
+      box(CIW, CRH, 0.58,  -CIR,  CIRY,  0,  coasterSqGrp);
+      box(CIW, CRH, 0.58,   CIR,  CIRY,  0,  coasterSqGrp);
       const cfGeo = new THREE.CylinderGeometry(0.018, 0.021, 0.03, 12);
       [[-0.40,-0.05,-0.40],[0.40,-0.05,-0.40],[-0.40,-0.05,0.40],[0.40,-0.05,0.40]]
-        .forEach(([x,y,z]) => { const f=new THREE.Mesh(cfGeo,footMat); f.position.set(x,y,z); coasterGrp.add(f); });
-      coasterGrp.visible = false;
-      scene.add(coasterGrp);
-      groups.coaster = coasterGrp;
+        .forEach(([x,y,z]) => { const f=new THREE.Mesh(cfGeo,footMat); f.position.set(x,y,z); coasterSqGrp.add(f); });
+      coasterSqGrp.visible = false;
+      scene.add(coasterSqGrp);
+      groups['coaster-square'] = coasterSqGrp;
+
+      // ── BUILD: COASTER CIRCULAR ────────────────────────────
+      // 100mm diameter = 0.50 unit radius, 8mm thick = 0.08 units
+      const coasterCirGrp = new THREE.Group();
+      const CCR = 0.50;
+      const ccBase = new THREE.Mesh(new THREE.CylinderGeometry(CCR, CCR, 0.07, 64), steelMat);
+      ccBase.castShadow = true; coasterCirGrp.add(ccBase);
+      // concentric engraved rings (torus on top face)
+      [0.38, 0.26].forEach(r => {
+        const ring = new THREE.Mesh(
+          new THREE.TorusGeometry(r, 0.006, 8, 64), steelMat
+        );
+        ring.rotation.x = Math.PI / 2;
+        ring.position.y = 0.037;
+        coasterCirGrp.add(ring);
+      });
+      // 3 tiny feet
+      const ccfGeo = new THREE.CylinderGeometry(0.018, 0.021, 0.03, 12);
+      [[0, -0.05, 0.38],[0.33, -0.05, -0.19],[-0.33, -0.05, -0.19]]
+        .forEach(([x,y,z]) => { const f=new THREE.Mesh(ccfGeo,footMat); f.position.set(x,y,z); coasterCirGrp.add(f); });
+      coasterCirGrp.visible = false;
+      scene.add(coasterCirGrp);
+      groups['coaster-circular'] = coasterCirGrp;
 
       // ── BUILD: BOTTLE CONTAINER ────────────────────────────
-      // 80 mm diameter = 0.80 units, 150 mm tall = 1.50 units
       const contGrp = new THREE.Group();
-      // cylindrical wall (open, DoubleSide so inside visible)
-      const wallMesh = new THREE.Mesh(
-        new THREE.CylinderGeometry(0.40, 0.37, 1.50, 48, 1, true), steelMat
-      );
-      wallMesh.castShadow = true; contGrp.add(wallMesh);
-      // base disc
-      const baseMesh = new THREE.Mesh(new THREE.CylinderGeometry(0.37, 0.37, 0.018, 48), steelMat);
-      baseMesh.position.y = -0.759; baseMesh.castShadow = true; contGrp.add(baseMesh);
-      // top rim ring (slightly wider — rolled lip detail)
-      const rimMesh = new THREE.Mesh(new THREE.CylinderGeometry(0.415, 0.405, 0.022, 48), steelMat);
-      rimMesh.position.y = 0.761; rimMesh.castShadow = true; contGrp.add(rimMesh);
+      const contWall = new THREE.Mesh(new THREE.CylinderGeometry(0.40, 0.37, 1.50, 48, 1, true), steelMat);
+      contWall.castShadow = true; contGrp.add(contWall);
+      const contBase = new THREE.Mesh(new THREE.CylinderGeometry(0.37, 0.37, 0.018, 48), steelMat);
+      contBase.position.y = -0.759; contBase.castShadow = true; contGrp.add(contBase);
+      const contRim = new THREE.Mesh(new THREE.CylinderGeometry(0.415, 0.405, 0.022, 48), steelMat);
+      contRim.position.y = 0.761; contRim.castShadow = true; contGrp.add(contRim);
       contGrp.visible = false;
       scene.add(contGrp);
-      groups.container = contGrp;
+      groups['container'] = contGrp;
+
+      // ── BUILD: ICE BUCKET ─────────────────────────────────
+      // 200mm tall = 2.0 units, top ø 180mm = r 0.90, base ø 144mm = r 0.72
+      const ibGrp = new THREE.Group();
+      const ibWall = new THREE.Mesh(new THREE.CylinderGeometry(0.90, 0.72, 2.0, 64, 1, true), steelMat);
+      ibWall.castShadow = true; ibGrp.add(ibWall);
+      const ibBase = new THREE.Mesh(new THREE.CylinderGeometry(0.72, 0.72, 0.020, 64), steelMat);
+      ibBase.position.y = -1.01; ibBase.castShadow = true; ibGrp.add(ibBase);
+      // rolled top rim
+      const ibRim = new THREE.Mesh(new THREE.CylinderGeometry(0.925, 0.905, 0.030, 64), steelMat);
+      ibRim.position.y = 1.015; ibRim.castShadow = true; ibGrp.add(ibRim);
+      // two horizontal grip bands
+      [0.35, -0.20].forEach(y => {
+        const band = new THREE.Mesh(new THREE.CylinderGeometry(
+          0.72 + (0.90-0.72)*(y+1.0)/2.0 + 0.012,
+          0.72 + (0.90-0.72)*(y+1.0)/2.0,
+          0.028, 64), steelMat);
+        band.position.y = y; ibGrp.add(band);
+      });
+      ibGrp.position.y = -0.8;
+      ibGrp.visible = false;
+      scene.add(ibGrp);
+      groups['icebucket'] = ibGrp;
 
       // ── Shadow ground ─────────────────────────────────────
       const ground = new THREE.Mesh(
@@ -1521,14 +1735,15 @@
         renderer.setSize(w, h);
       });
 
+      // build initial sub-tabs for tray
+      buildSubTabs('tray');
+
       // ── Render loop ───────────────────────────────────────
       (function animate() {
         requestAnimationFrame(animate);
-        // smooth camera transition on product switch
         camera3d.position.lerp(camPosTarget, 0.04);
         controls3d.target.lerp(camLookTarget, 0.04);
-        // auto-spin active model
-        if (autoSpin3d) groups[activeKey].rotation.y += 0.004;
+        if (autoSpin3d) groups[activeVariant].rotation.y += 0.004;
         controls3d.update();
         renderer.render(scene, camera3d);
       })();
