@@ -554,6 +554,155 @@
       color: var(--mid);
     }
 
+    /* ── MATERIALS INTERACTIVE ──────────────────────────── */
+    .mat-deep {
+      background: var(--mid);
+      padding: 6rem 3rem 5rem;
+      color: var(--light);
+      overflow: hidden;
+    }
+    .mat-deep-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 3.5rem;
+    }
+    .mat-deep-label {
+      font-size: 0.55rem;
+      letter-spacing: 0.5em;
+      text-transform: uppercase;
+      color: rgba(223,225,226,0.32);
+      margin-bottom: 1rem;
+    }
+    .mat-deep-h2 {
+      font-family: 'Jost', sans-serif;
+      font-weight: 200;
+      font-size: clamp(1.9rem, 3.5vw, 3rem);
+      line-height: 1.15;
+      color: var(--light);
+      letter-spacing: 0.02em;
+    }
+    .mat-deep-sub {
+      font-size: 0.72rem;
+      letter-spacing: 0.06em;
+      line-height: 1.75;
+      color: rgba(223,225,226,0.38);
+      align-self: end;
+    }
+
+    /* Floating stage */
+    .mat-stage {
+      position: relative;
+      height: 480px;
+      margin: 0 -3rem;
+    }
+    .mat-item {
+      position: absolute;
+      cursor: pointer;
+      transition: opacity 0.45s ease;
+      z-index: 2;
+    }
+    .mat-stage.has-hover .mat-item:not(.active) {
+      opacity: 0.22;
+    }
+    .mat-item.active { z-index: 5; }
+
+    /* Float keyframes — each item has its own cadence */
+    @keyframes matFloatA {
+      0%,100% { transform: translateY(0px) rotate(-0.7deg); }
+      50%      { transform: translateY(-16px) rotate(0.7deg); }
+    }
+    @keyframes matFloatB {
+      0%,100% { transform: translateY(-10px) rotate(1deg); }
+      50%      { transform: translateY(10px) rotate(-0.6deg); }
+    }
+    @keyframes matFloatC {
+      0%,100% { transform: translateY(6px) rotate(0.5deg); }
+      50%      { transform: translateY(-12px) rotate(-1.1deg); }
+    }
+    .mat-float-a { animation: matFloatA 6.4s ease-in-out infinite; }
+    .mat-float-b { animation: matFloatB 7.8s ease-in-out infinite; }
+    .mat-float-c { animation: matFloatC 5.6s ease-in-out infinite; }
+
+    /* Data scan cards */
+    .mat-card {
+      position: absolute;
+      top: calc(100% + 14px);
+      left: 50%;
+      transform: translateX(-50%) translateY(6px);
+      width: 210px;
+      background: rgba(14,15,16,0.88);
+      border: 0.5px solid rgba(223,225,226,0.16);
+      padding: 1.1rem 1.3rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.32s ease, transform 0.32s ease;
+      backdrop-filter: blur(8px);
+    }
+    .mat-item.active .mat-card {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+      pointer-events: auto;
+    }
+    .mat-card-head {
+      font-size: 0.52rem;
+      letter-spacing: 0.44em;
+      text-transform: uppercase;
+      color: rgba(223,225,226,0.88);
+      padding-bottom: 0.7rem;
+      margin-bottom: 0.7rem;
+      border-bottom: 0.5px solid rgba(223,225,226,0.12);
+    }
+    .mat-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.6rem;
+      letter-spacing: 0.03em;
+      padding: 0.24rem 0;
+      color: rgba(223,225,226,0.45);
+    }
+    .mat-row span:last-child {
+      color: rgba(223,225,226,0.82);
+      text-align: right;
+      max-width: 55%;
+    }
+    .mat-row-alert span:last-child { color: rgba(210,75,55,0.9); }
+    .mat-card-foot {
+      margin-top: 0.8rem;
+      padding-top: 0.7rem;
+      border-top: 0.5px solid rgba(223,225,226,0.12);
+      font-size: 0.56rem;
+      letter-spacing: 0.1em;
+      color: rgba(223,225,226,0.35);
+    }
+
+    /* Bottom stat chips */
+    .mat-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      border-top: 0.5px solid rgba(223,225,226,0.1);
+      margin-top: 2rem;
+    }
+    .mat-stat-chip {
+      padding: 2.2rem 2rem 0;
+      border-right: 0.5px solid rgba(223,225,226,0.1);
+    }
+    .mat-stat-chip:last-child { border-right: none; }
+    .mat-stat-n {
+      font-family: 'Jost', sans-serif;
+      font-weight: 200;
+      font-size: 2.6rem;
+      letter-spacing: -0.01em;
+      color: var(--light);
+      margin-bottom: 0.5rem;
+    }
+    .mat-stat-l {
+      font-size: 0.62rem;
+      letter-spacing: 0.06em;
+      color: rgba(223,225,226,0.38);
+      line-height: 1.65;
+    }
+
     /* ── LIFECYCLE DIAGRAM ──────────────────────────────── */
     .lifecycle {
       padding: 8rem 3rem 6rem;
@@ -829,6 +978,159 @@
         <span>Scroll to discover</span>
       </div>
       <div class="hero-index">2026</div>
+    </div>
+  </section>
+
+  <!-- ── Materials interactive ──────────────────────────── -->
+  <section class="mat-deep">
+    <div class="mat-deep-inner">
+      <div>
+        <p class="mat-deep-label reveal">The Raw Material</p>
+        <h2 class="mat-deep-h2 reveal">Three materials.<br>One recurring problem.</h2>
+      </div>
+      <p class="mat-deep-sub reveal">Every superyacht build generates tonnes of premium offcuts — teak, carbon composite, marine rope — that the industry has no elegant solution for. Disposal costs shipyards $190–220 per tonne. Avira is that solution.</p>
+    </div>
+
+    <!-- Floating material stage -->
+    <div class="mat-stage" id="mat-stage">
+
+      <!-- ── TEAK DECK PLANK ── -->
+      <div class="mat-item mat-float-a" id="mat-teak" style="left:5%;top:155px;">
+        <svg width="260" height="82" viewBox="0 0 260 82" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Plank body with angled cut ends -->
+          <path d="M 16,6 L 244,6 L 253,41 L 244,76 L 16,76 L 7,41 Z"
+                fill="rgba(180,130,50,0.06)" stroke="rgba(235,195,100,0.52)" stroke-width="0.8"/>
+          <!-- Teak grain lines -->
+          <line x1="18" y1="14" x2="243" y2="14" stroke="rgba(235,195,100,0.26)" stroke-width="0.32"/>
+          <line x1="18" y1="20" x2="243" y2="20" stroke="rgba(235,195,100,0.20)" stroke-width="0.28"/>
+          <line x1="18" y1="26" x2="243" y2="26" stroke="rgba(235,195,100,0.28)" stroke-width="0.32"/>
+          <line x1="18" y1="32" x2="243" y2="32" stroke="rgba(235,195,100,0.18)" stroke-width="0.26"/>
+          <line x1="18" y1="38" x2="243" y2="38" stroke="rgba(235,195,100,0.24)" stroke-width="0.30"/>
+          <line x1="18" y1="44" x2="243" y2="44" stroke="rgba(235,195,100,0.18)" stroke-width="0.26"/>
+          <line x1="18" y1="50" x2="243" y2="50" stroke="rgba(235,195,100,0.26)" stroke-width="0.30"/>
+          <line x1="18" y1="56" x2="243" y2="56" stroke="rgba(235,195,100,0.18)" stroke-width="0.26"/>
+          <line x1="18" y1="62" x2="243" y2="62" stroke="rgba(235,195,100,0.22)" stroke-width="0.28"/>
+          <line x1="18" y1="68" x2="243" y2="68" stroke="rgba(235,195,100,0.16)" stroke-width="0.24"/>
+          <!-- CNC cut face (left end) -->
+          <line x1="7" y1="41" x2="16" y2="6"  stroke="rgba(235,195,100,0.58)" stroke-width="1.0"/>
+          <line x1="7" y1="41" x2="16" y2="76" stroke="rgba(235,195,100,0.58)" stroke-width="1.0"/>
+          <ellipse cx="10" cy="41" rx="2" ry="6.5" stroke="rgba(235,195,100,0.28)" stroke-width="0.4" fill="none"/>
+          <!-- Dimension tick -->
+          <line x1="18" y1="2" x2="244" y2="2" stroke="rgba(235,195,100,0.18)" stroke-width="0.3"/>
+          <circle cx="18"  cy="2" r="1" fill="rgba(235,195,100,0.28)"/>
+          <circle cx="244" cy="2" r="1" fill="rgba(235,195,100,0.28)"/>
+          <text x="131" y="1" text-anchor="middle" font-family="Jost,sans-serif" font-size="4.5" fill="rgba(235,195,100,0.32)" letter-spacing="1">228 mm offcut</text>
+        </svg>
+        <div class="mat-card">
+          <div class="mat-card-head">Teak Deck Planking</div>
+          <div class="mat-row"><span>grade</span><span>Burmese A-grade</span></div>
+          <div class="mat-row"><span>source</span><span>aft deck offcut</span></div>
+          <div class="mat-row"><span>typical loss</span><span>20–35% per deck</span></div>
+          <div class="mat-row mat-row-alert"><span>status</span><span>landfill bound</span></div>
+          <div class="mat-card-foot">→ Avira: coaster · tray inlay</div>
+        </div>
+      </div>
+
+      <!-- ── CARBON FIBRE PANEL ── -->
+      <div class="mat-item mat-float-b active" id="mat-carbon" style="left:37%;top:80px;">
+        <svg width="180" height="160" viewBox="0 0 180 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <clipPath id="cpanel">
+              <rect x="10" y="10" width="145" height="130"/>
+            </clipPath>
+          </defs>
+          <!-- Panel face -->
+          <rect x="10" y="10" width="145" height="130" fill="rgba(170,200,255,0.05)" stroke="rgba(170,200,255,0.50)" stroke-width="0.8"/>
+          <!-- ±45° carbon weave clipped to panel -->
+          <g clip-path="url(#cpanel)" stroke="rgba(170,200,255,0.15)" stroke-width="0.38">
+            <!-- +45° direction -->
+            <line x1="-100" y1="10" x2="20"  y2="130"/><line x1="-88" y1="10" x2="32"  y2="130"/>
+            <line x1="-76"  y1="10" x2="44"  y2="130"/><line x1="-64" y1="10" x2="56"  y2="130"/>
+            <line x1="-52"  y1="10" x2="68"  y2="130"/><line x1="-40" y1="10" x2="80"  y2="130"/>
+            <line x1="-28"  y1="10" x2="92"  y2="130"/><line x1="-16" y1="10" x2="104" y2="130"/>
+            <line x1="-4"   y1="10" x2="116" y2="130"/><line x1="8"   y1="10" x2="128" y2="130"/>
+            <line x1="20"   y1="10" x2="140" y2="130"/><line x1="32"  y1="10" x2="152" y2="130"/>
+            <line x1="44"   y1="10" x2="164" y2="130"/><line x1="56"  y1="10" x2="176" y2="130"/>
+            <line x1="68"   y1="10" x2="188" y2="130"/><line x1="80"  y1="10" x2="200" y2="130"/>
+            <line x1="92"   y1="10" x2="212" y2="130"/><line x1="104" y1="10" x2="224" y2="130"/>
+            <line x1="116"  y1="10" x2="236" y2="130"/><line x1="128" y1="10" x2="248" y2="130"/>
+            <!-- −45° direction -->
+            <line x1="155" y1="10" x2="25"  y2="130"/><line x1="167" y1="10" x2="37"  y2="130"/>
+            <line x1="179" y1="10" x2="49"  y2="130"/><line x1="191" y1="10" x2="61"  y2="130"/>
+            <line x1="203" y1="10" x2="73"  y2="130"/><line x1="215" y1="10" x2="85"  y2="130"/>
+            <line x1="143" y1="10" x2="13"  y2="130"/><line x1="131" y1="10" x2="1"   y2="130"/>
+            <line x1="119" y1="10" x2="-11" y2="130"/><line x1="107" y1="10" x2="-23" y2="130"/>
+            <line x1="95"  y1="10" x2="-35" y2="130"/><line x1="83"  y1="10" x2="-47" y2="130"/>
+            <line x1="71"  y1="10" x2="-59" y2="130"/><line x1="59"  y1="10" x2="-71" y2="130"/>
+            <line x1="47"  y1="10" x2="-83" y2="130"/><line x1="35"  y1="10" x2="-95" y2="130"/>
+          </g>
+          <!-- Torn/raw cut edge (right side — shows offcut condition) -->
+          <path d="M 155,85 L 166,96 L 157,110 L 169,122 L 159,136 L 165,148 L 155,155"
+                stroke="rgba(170,200,255,0.36)" stroke-width="0.6" fill="none" stroke-dasharray="2 1.5"/>
+          <!-- Panel thickness indicator -->
+          <line x1="158" y1="10"  x2="170" y2="10"  stroke="rgba(170,200,255,0.28)" stroke-width="0.35"/>
+          <line x1="158" y1="140" x2="170" y2="140" stroke="rgba(170,200,255,0.28)" stroke-width="0.35"/>
+          <line x1="164" y1="10"  x2="164" y2="140" stroke="rgba(170,200,255,0.18)" stroke-width="0.3" stroke-dasharray="3 2"/>
+          <text x="172" y="78" font-family="Jost,sans-serif" font-size="4.5" fill="rgba(170,200,255,0.28)" letter-spacing="0.5">3 mm</text>
+        </svg>
+        <div class="mat-card">
+          <div class="mat-card-head">Carbon Hull Panel</div>
+          <div class="mat-row"><span>grade</span><span>aerospace CFRP prepreg</span></div>
+          <div class="mat-row"><span>source</span><span>hull skin offcut</span></div>
+          <div class="mat-row"><span>waste rate</span><span>30–40% per panel</span></div>
+          <div class="mat-row"><span>recyclable</span><span>not reworkable</span></div>
+          <div class="mat-row mat-row-alert"><span>disposal</span><span>$210 /t → incineration</span></div>
+          <div class="mat-card-foot">→ Avira: tray surface · coaster</div>
+        </div>
+      </div>
+
+      <!-- ── BRAIDED RIGGING ROPE ── -->
+      <div class="mat-item mat-float-c" id="mat-rope" style="left:67%;top:105px;">
+        <svg width="140" height="162" viewBox="0 0 140 162" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Coiled rope: stacked ellipses, perspective from above -->
+          <ellipse cx="70" cy="140" rx="56" ry="18" fill="rgba(150,180,150,0.06)" stroke="rgba(150,180,150,0.50)" stroke-width="0.8"/>
+          <path d="M 18,138 Q 34,128 50,138 Q 66,148 82,138 Q 98,128 114,138" stroke="rgba(150,180,150,0.28)" stroke-width="0.4" fill="none"/>
+          <ellipse cx="70" cy="120" rx="56" ry="18" fill="rgba(150,180,150,0.06)" stroke="rgba(150,180,150,0.46)" stroke-width="0.8"/>
+          <path d="M 18,118 Q 34,108 50,118 Q 66,128 82,118 Q 98,108 114,118" stroke="rgba(150,180,150,0.24)" stroke-width="0.4" fill="none"/>
+          <ellipse cx="70" cy="100" rx="56" ry="18" fill="rgba(150,180,150,0.06)" stroke="rgba(150,180,150,0.42)" stroke-width="0.8"/>
+          <path d="M 18,98  Q 34,88  50,98  Q 66,108 82,98  Q 98,88  114,98"  stroke="rgba(150,180,150,0.22)" stroke-width="0.4" fill="none"/>
+          <ellipse cx="70" cy="80"  rx="56" ry="18" fill="rgba(150,180,150,0.06)" stroke="rgba(150,180,150,0.38)" stroke-width="0.8"/>
+          <path d="M 18,78  Q 34,68  50,78  Q 66,88  82,78  Q 98,68  114,78"  stroke="rgba(150,180,150,0.20)" stroke-width="0.4" fill="none"/>
+          <ellipse cx="70" cy="60"  rx="56" ry="18" fill="rgba(150,180,150,0.06)" stroke="rgba(150,180,150,0.32)" stroke-width="0.8"/>
+          <!-- Top cap -->
+          <ellipse cx="70" cy="40"  rx="56" ry="18" fill="rgba(150,180,150,0.08)" stroke="rgba(150,180,150,0.26)" stroke-width="0.8"/>
+          <path d="M 16,40 Q 34,28 52,40 Q 70,52 88,40 Q 106,28 124,40" stroke="rgba(150,180,150,0.18)" stroke-width="0.4" fill="none"/>
+          <!-- Loose tail end -->
+          <path d="M 126,40 Q 134,25 130,12 Q 128,5 122,9" stroke="rgba(150,180,150,0.42)" stroke-width="0.7" fill="none"/>
+          <!-- Rope label -->
+          <text x="70" y="40" text-anchor="middle" font-family="Jost,sans-serif" font-size="4.5" fill="rgba(150,180,150,0.28)" letter-spacing="1">DYNEEMA 12mm</text>
+        </svg>
+        <div class="mat-card">
+          <div class="mat-card-head">Braided Rigging Rope</div>
+          <div class="mat-row"><span>material</span><span>Dyneema / polyester</span></div>
+          <div class="mat-row"><span>source</span><span>standing rigging excess</span></div>
+          <div class="mat-row"><span>tensile str.</span><span>up to 100 kN</span></div>
+          <div class="mat-row mat-row-alert"><span>fate</span><span>typically discarded</span></div>
+          <div class="mat-card-foot">→ Avira: handle wrap · detail</div>
+        </div>
+      </div>
+
+    </div><!-- /mat-stage -->
+
+    <!-- Bottom stat row -->
+    <div class="mat-stats">
+      <div class="mat-stat-chip reveal">
+        <div class="mat-stat-n">$200</div>
+        <div class="mat-stat-l">per tonne — average disposal cost for composite shipyard waste, incineration or landfill</div>
+      </div>
+      <div class="mat-stat-chip reveal reveal-delay-1">
+        <div class="mat-stat-n">62,000 t</div>
+        <div class="mat-stat-l">carbon fibre composite incinerated globally every year — projected 500,000 t by 2050</div>
+      </div>
+      <div class="mat-stat-chip reveal reveal-delay-2">
+        <div class="mat-stat-n">2027</div>
+        <div class="mat-stat-l">IMO carbon levy comes into force — shipyard waste disposal liability escalates further</div>
+      </div>
     </div>
   </section>
 
@@ -1469,6 +1771,52 @@
 
   // Only observe home page elements on load (other pages handle their own reveals)
   document.querySelectorAll('#page-home .reveal, #page-home .draw').forEach(el => observer.observe(el));
+
+  // ── Materials interactive section ───────────────────────
+  (function() {
+    const stage    = document.getElementById('mat-stage');
+    const items    = stage ? Array.from(stage.querySelectorAll('.mat-item')) : [];
+    if (!items.length) return;
+
+    let cycleTimer = null;
+    let currentIdx = items.findIndex(el => el.classList.contains('active'));
+    if (currentIdx < 0) currentIdx = 0;
+
+    function activate(idx) {
+      items.forEach(el => el.classList.remove('active'));
+      items[idx].classList.add('active');
+      currentIdx = idx;
+    }
+
+    function startCycle() {
+      clearInterval(cycleTimer);
+      cycleTimer = setInterval(() => {
+        activate((currentIdx + 1) % items.length);
+      }, 3400);
+    }
+
+    items.forEach((item, idx) => {
+      item.addEventListener('mouseenter', () => {
+        clearInterval(cycleTimer);
+        stage.classList.add('has-hover');
+        activate(idx);
+      });
+    });
+
+    stage.addEventListener('mouseleave', () => {
+      stage.classList.remove('has-hover');
+      startCycle();
+    });
+
+    // Start cycle when section scrolls into view
+    const matSection = document.querySelector('.mat-deep');
+    if (matSection) {
+      new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting) { activate(1); startCycle(); }
+        else clearInterval(cycleTimer);
+      }, { threshold: 0.25 }).observe(matSection);
+    }
+  })();
 
   // ── Page switching ──────────────────────────────────────
   function showPage(id, navEl) {
