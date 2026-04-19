@@ -554,6 +554,24 @@
       color: var(--mid);
     }
 
+    /* ── LIFECYCLE DIAGRAM ──────────────────────────────── */
+    .lifecycle {
+      padding: 8rem 3rem 6rem;
+    }
+    .lifecycle-label {
+      font-size: 0.55rem;
+      letter-spacing: 0.5em;
+      text-transform: uppercase;
+      color: rgba(10,10,10,0.4);
+      margin-bottom: 4rem;
+    }
+    .lifecycle-svg {
+      width: 100%;
+      max-width: 1100px;
+      display: block;
+      overflow: visible;
+    }
+
     /* ── MATERIAL BAND ───────────────────────────────────── */
     .material {
       padding: 8rem 3.5rem;
@@ -812,6 +830,154 @@
       </div>
       <div class="hero-index">2026</div>
     </div>
+  </section>
+
+  <!-- ── Material lifecycle diagram ────────────────────── -->
+  <section class="lifecycle">
+    <p class="lifecycle-label reveal">Material Lifecycle</p>
+    <svg class="lifecycle-svg" viewBox="0 0 1100 340" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <path id="lc-top-arc" d="M 492,188 A 58,58 0 0,1 608,188"/>
+        <path id="lc-bot-arc" d="M 498,200 A 58,58 0 0,0 602,200"/>
+      </defs>
+
+      <!-- Stage header labels -->
+      <text x="155" y="22" text-anchor="middle" font-family="Jost,sans-serif" font-weight="200" font-size="6.5" letter-spacing="4" fill="rgba(10,10,10,0.42)">FROM THE YARD</text>
+      <text x="550" y="22" text-anchor="middle" font-family="Jost,sans-serif" font-weight="200" font-size="6.5" letter-spacing="4" fill="rgba(10,10,10,0.42)">AVIRA ATELIER</text>
+      <text x="940" y="22" text-anchor="middle" font-family="Jost,sans-serif" font-weight="200" font-size="6.5" letter-spacing="4" fill="rgba(10,10,10,0.42)">THE OBJECT</text>
+
+      <!-- Vertical stage dividers -->
+      <line x1="367" y1="32" x2="367" y2="268" stroke="#0a0a0a" stroke-width="0.3" opacity="0.11"/>
+      <line x1="733" y1="32" x2="733" y2="268" stroke="#0a0a0a" stroke-width="0.3" opacity="0.11"/>
+      <!-- Baseline rule -->
+      <line x1="0" y1="270" x2="1100" y2="270" stroke="#0a0a0a" stroke-width="0.3" opacity="0.11"/>
+
+      <!-- ═══ STAGE 1 — SHIPYARD BOAT ══════════════════════ -->
+
+      <!-- Hull body -->
+      <path d="M 55,175 L 268,175 Q 282,185 278,210 L 155,228 Q 72,222 48,210 Q 38,193 55,175 Z"
+            stroke="#0a0a0a" stroke-width="0.7" fill="rgba(255,255,255,0.07)" pathLength="1" class="draw"/>
+
+      <!-- Teak deck planking — horizontal grain lines -->
+      <line x1="58" y1="180" x2="267" y2="180" stroke="#0a0a0a" stroke-width="0.28" opacity="0.44"/>
+      <line x1="58" y1="185" x2="267" y2="185" stroke="#0a0a0a" stroke-width="0.28" opacity="0.38"/>
+      <line x1="58" y1="190" x2="267" y2="190" stroke="#0a0a0a" stroke-width="0.28" opacity="0.33"/>
+      <line x1="58" y1="195" x2="267" y2="195" stroke="#0a0a0a" stroke-width="0.25" opacity="0.28"/>
+      <line x1="58" y1="200" x2="262" y2="200" stroke="#0a0a0a" stroke-width="0.22" opacity="0.22"/>
+      <line x1="58" y1="205" x2="252" y2="205" stroke="#0a0a0a" stroke-width="0.20" opacity="0.17"/>
+      <line x1="58" y1="210" x2="218" y2="210" stroke="#0a0a0a" stroke-width="0.18" opacity="0.12"/>
+
+      <!-- Mast -->
+      <line x1="130" y1="175" x2="130" y2="88" stroke="#0a0a0a" stroke-width="0.7" pathLength="1" class="draw draw-delay-1"/>
+      <!-- Boom -->
+      <line x1="130" y1="144" x2="242" y2="172" stroke="#0a0a0a" stroke-width="0.5" pathLength="1" class="draw draw-delay-1"/>
+      <!-- Forestay -->
+      <line x1="130" y1="88" x2="55" y2="175" stroke="#0a0a0a" stroke-width="0.3" opacity="0.4" pathLength="1" class="draw draw-delay-2"/>
+      <!-- Backstay -->
+      <line x1="130" y1="88" x2="268" y2="175" stroke="#0a0a0a" stroke-width="0.3" opacity="0.32" pathLength="1" class="draw draw-delay-2"/>
+      <!-- Waterline dashed -->
+      <line x1="28" y1="228" x2="292" y2="228" stroke="#0a0a0a" stroke-width="0.45" stroke-dasharray="5 3.5" opacity="0.28"/>
+
+      <!-- Callout — TEAK DECK -->
+      <line x1="185" y1="180" x2="200" y2="153" stroke="#0a0a0a" stroke-width="0.4" opacity="0.52"/>
+      <line x1="200" y1="153" x2="240" y2="153" stroke="#0a0a0a" stroke-width="0.4" opacity="0.52"/>
+      <text x="243" y="151" font-family="Jost,sans-serif" font-weight="200" font-size="6.5" letter-spacing="2" fill="#0a0a0a" opacity="0.58">TEAK DECK</text>
+
+      <!-- Callout — CARBON HULL PANELS -->
+      <line x1="92" y1="216" x2="54" y2="252" stroke="#0a0a0a" stroke-width="0.4" opacity="0.52"/>
+      <line x1="22" y1="252" x2="54" y2="252" stroke="#0a0a0a" stroke-width="0.4" opacity="0.52"/>
+      <text x="6" y="264" font-family="Jost,sans-serif" font-weight="200" font-size="6.5" letter-spacing="2" fill="#0a0a0a" opacity="0.58">CARBON HULL</text>
+
+      <!-- Callout — BRAIDED ROPE (rigging) -->
+      <line x1="130" y1="100" x2="72" y2="94" stroke="#0a0a0a" stroke-width="0.4" opacity="0.52"/>
+      <text x="5" y="92" font-family="Jost,sans-serif" font-weight="200" font-size="6.5" letter-spacing="2" fill="#0a0a0a" opacity="0.58">BRAIDED ROPE</text>
+
+      <!-- Small cleat fitting marker -->
+      <circle cx="258" cy="175" r="2.8" stroke="#0a0a0a" stroke-width="0.5" opacity="0.45"/>
+
+      <!-- Stage 1 titles -->
+      <text x="155" y="290" text-anchor="middle" font-family="Jost,sans-serif" font-weight="200" font-size="10" letter-spacing="4.5" fill="#0d0d0d" opacity="0.82">FROM THE YARD</text>
+      <text x="155" y="306" text-anchor="middle" font-family="Jost,sans-serif" font-weight="200" font-size="6.5" letter-spacing="2.5" fill="#0a0a0a" opacity="0.42">SALVAGED · NOT SCRAPPED</text>
+
+      <!-- ═══ FLOW ARROW 1 ════════════════════════════════ -->
+      <line x1="308" y1="192" x2="408" y2="192" stroke="#0a0a0a" stroke-width="0.55" opacity="0.32" pathLength="1" class="draw draw-delay-1"/>
+      <polyline points="400,187 408,192 400,197" stroke="#0a0a0a" stroke-width="0.55" opacity="0.32" fill="none"/>
+      <circle cx="326" cy="192" r="1.6" fill="#0a0a0a" opacity="0.17"/>
+      <circle cx="347" cy="192" r="1.6" fill="#0a0a0a" opacity="0.22"/>
+      <circle cx="368" cy="192" r="1.6" fill="#0a0a0a" opacity="0.26"/>
+      <circle cx="389" cy="192" r="1.6" fill="#0a0a0a" opacity="0.20"/>
+      <text x="358" y="180" text-anchor="middle" font-family="Jost,sans-serif" font-weight="200" font-size="5.8" letter-spacing="3.5" fill="#0a0a0a" opacity="0.32">RESCUED</text>
+
+      <!-- ═══ STAGE 2 — AVIRA ATELIER ═══════════════════════ -->
+
+      <!-- Concentric circles -->
+      <circle cx="550" cy="188" r="64" stroke="#0a0a0a" stroke-width="0.55" fill="rgba(255,255,255,0.05)" pathLength="1" class="draw"/>
+      <circle cx="550" cy="188" r="55" stroke="#0a0a0a" stroke-width="0.28" fill="none" opacity="0.28" pathLength="1" class="draw draw-delay-1"/>
+
+      <!-- AVIRA A mark -->
+      <line x1="550" y1="142" x2="522" y2="190" stroke="#0a0a0a" stroke-width="0.85" pathLength="1" class="draw draw-delay-1"/>
+      <line x1="550" y1="142" x2="578" y2="190" stroke="#0a0a0a" stroke-width="0.85" pathLength="1" class="draw draw-delay-1"/>
+      <line x1="530" y1="172" x2="570" y2="172" stroke="#0a0a0a" stroke-width="0.5" pathLength="1" class="draw draw-delay-2"/>
+      <!-- Incircle -->
+      <circle cx="550" cy="174" r="16" stroke="#0a0a0a" stroke-width="0.4" fill="none" opacity="0.42" pathLength="1" class="draw draw-delay-2"/>
+
+      <!-- Arc text around circle -->
+      <text font-family="Jost,sans-serif" font-weight="200" font-size="5.5" letter-spacing="3" fill="#0a0a0a" opacity="0.42">
+        <textPath href="#lc-top-arc" startOffset="50%" text-anchor="middle">RECLAIMED · REFINED · REBORN</textPath>
+      </text>
+      <text font-family="Jost,sans-serif" font-weight="200" font-size="5.5" letter-spacing="3" fill="#0a0a0a" opacity="0.42">
+        <textPath href="#lc-bot-arc" startOffset="50%" text-anchor="middle">OBJECTS OF PURPOSE</textPath>
+      </text>
+
+      <!-- Stage 2 titles -->
+      <text x="550" y="290" text-anchor="middle" font-family="Jost,sans-serif" font-weight="200" font-size="10" letter-spacing="4.5" fill="#0d0d0d" opacity="0.82">AVIRA ATELIER</text>
+      <text x="550" y="306" text-anchor="middle" font-family="Jost,sans-serif" font-weight="200" font-size="6.5" letter-spacing="2.5" fill="#0a0a0a" opacity="0.42">RESCUED · REFINED · REIMAGINED</text>
+
+      <!-- ═══ FLOW ARROW 2 ════════════════════════════════ -->
+      <line x1="618" y1="192" x2="775" y2="192" stroke="#0a0a0a" stroke-width="0.55" opacity="0.32" pathLength="1" class="draw draw-delay-2"/>
+      <polyline points="767,187 775,192 767,197" stroke="#0a0a0a" stroke-width="0.55" opacity="0.32" fill="none"/>
+      <circle cx="638" cy="192" r="1.6" fill="#0a0a0a" opacity="0.15"/>
+      <circle cx="660" cy="192" r="1.6" fill="#0a0a0a" opacity="0.18"/>
+      <circle cx="682" cy="192" r="1.6" fill="#0a0a0a" opacity="0.22"/>
+      <circle cx="704" cy="192" r="1.6" fill="#0a0a0a" opacity="0.26"/>
+      <circle cx="726" cy="192" r="1.6" fill="#0a0a0a" opacity="0.22"/>
+      <circle cx="748" cy="192" r="1.6" fill="#0a0a0a" opacity="0.18"/>
+      <circle cx="770" cy="192" r="1.6" fill="#0a0a0a" opacity="0.15"/>
+      <text x="696" y="180" text-anchor="middle" font-family="Jost,sans-serif" font-weight="200" font-size="5.8" letter-spacing="3.5" fill="#0a0a0a" opacity="0.32">ELEVATED</text>
+
+      <!-- ═══ STAGE 3 — THE OBJECT (mini tray) ════════════ -->
+
+      <!-- Top face — interior surface, lit from above -->
+      <polygon points="878,171 990,157 1002,193 890,207"
+               stroke="#0a0a0a" stroke-width="0.6" fill="rgba(255,255,255,0.13)" pathLength="1" class="draw draw-delay-1"/>
+      <!-- Front wall face -->
+      <polygon points="890,207 1002,193 1002,202 890,216"
+               stroke="#0a0a0a" stroke-width="0.6" fill="rgba(0,0,0,0.07)" pathLength="1" class="draw draw-delay-1"/>
+      <!-- Right side face -->
+      <polygon points="990,157 1002,193 1002,202 990,165"
+               stroke="#0a0a0a" stroke-width="0.6" fill="rgba(0,0,0,0.11)" pathLength="1" class="draw draw-delay-2"/>
+      <!-- Rim highlight (top edge) -->
+      <polygon points="875,168 878,171 990,157 993,154"
+               stroke="#0a0a0a" stroke-width="0.38" fill="rgba(255,255,255,0.09)" opacity="0.55"/>
+
+      <!-- Hull number engraved on interior -->
+      <text x="936" y="187" text-anchor="middle" font-family="Jost,sans-serif" font-weight="200" font-size="5.5" letter-spacing="1.5" fill="#0a0a0a" opacity="0.25">HULL NO. 0042</text>
+
+      <!-- Feet -->
+      <line x1="894" y1="216" x2="894" y2="223" stroke="#0a0a0a" stroke-width="0.8" pathLength="1" class="draw draw-delay-2"/>
+      <line x1="902" y1="215" x2="902" y2="222" stroke="#0a0a0a" stroke-width="0.8" pathLength="1" class="draw draw-delay-2"/>
+      <line x1="996" y1="202" x2="996" y2="209" stroke="#0a0a0a" stroke-width="0.8" pathLength="1" class="draw draw-delay-2"/>
+      <line x1="1001" y1="201" x2="1001" y2="208" stroke="#0a0a0a" stroke-width="0.8" pathLength="1" class="draw draw-delay-2"/>
+
+      <!-- Callout — 316L MARINE STEEL -->
+      <line x1="940" y1="220" x2="940" y2="240" stroke="#0a0a0a" stroke-width="0.4" opacity="0.48"/>
+      <text x="940" y="252" text-anchor="middle" font-family="Jost,sans-serif" font-weight="200" font-size="6.5" letter-spacing="2" fill="#0a0a0a" opacity="0.55">STAINLESS 316L — MARINE GRADE</text>
+
+      <!-- Stage 3 titles -->
+      <text x="940" y="290" text-anchor="middle" font-family="Jost,sans-serif" font-weight="200" font-size="10" letter-spacing="4.5" fill="#0d0d0d" opacity="0.82">THE OBJECT</text>
+      <text x="940" y="306" text-anchor="middle" font-family="Jost,sans-serif" font-weight="200" font-size="6.5" letter-spacing="2.5" fill="#0a0a0a" opacity="0.42">COLLECTOR-GRADE TABLEWARE</text>
+
+    </svg>
   </section>
 
   <hr />
