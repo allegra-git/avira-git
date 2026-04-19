@@ -1583,29 +1583,52 @@
       scene.add(traySquareGrp);
       groups['tray-square'] = traySquareGrp;
 
+      // ── HELPER: build a round/oval tray shell ─────────────
+      // R = base radius (before any group scale), group already has TT/TH in scope
+      const TWT = 0.055; // visual wall thickness (so walls read clearly in 3D)
+      function buildRoundTray(grp, R) {
+        // Floor disc (the surface you place things on)
+        const fl = new THREE.Mesh(new THREE.CylinderGeometry(R, R, TT, 72), steelMat);
+        fl.position.y = TT / 2; fl.castShadow = true; grp.add(fl);
+
+        // Outer wall face
+        const ow = new THREE.Mesh(new THREE.CylinderGeometry(R, R, TH, 72, 1, true), steelMat);
+        ow.position.y = TT + TH / 2; ow.castShadow = true; grp.add(ow);
+
+        // Inner wall face — gives the wall real depth from every angle
+        const iw = new THREE.Mesh(new THREE.CylinderGeometry(R - TWT, R - TWT, TH, 72, 1, true), steelMat);
+        iw.position.y = TT + TH / 2; grp.add(iw);
+
+        // Top rim ring — flat face visible when looking down into the tray
+        const topRimGeo = new THREE.RingGeometry(R - TWT, R + 0.012, 72);
+        const topRim = new THREE.Mesh(topRimGeo, steelMat);
+        topRim.rotation.x = -Math.PI / 2;
+        topRim.position.y = TT + TH;
+        topRim.castShadow = true; grp.add(topRim);
+
+        // Bottom annular face — connects outer wall base to floor edge
+        const botRimGeo = new THREE.RingGeometry(R - TWT, R, 72);
+        const botRim = new THREE.Mesh(botRimGeo, steelMat);
+        botRim.rotation.x = Math.PI / 2;
+        botRim.position.y = TT + 0.001; grp.add(botRim);
+
+        // 4 feet at 45° intervals
+        const rfGeo = new THREE.CylinderGeometry(0.032, 0.036, 0.05, 16);
+        const fr = R * 0.72;
+        [Math.PI/4, 3*Math.PI/4, 5*Math.PI/4, 7*Math.PI/4].forEach(a => {
+          const f = new THREE.Mesh(rfGeo, footMat);
+          f.position.set(fr * Math.cos(a), -0.025, fr * Math.sin(a));
+          grp.add(f);
+        });
+
+        grp.position.y = -(TT + TH) * 0.48;
+      }
+
       // ── BUILD: TRAY OVAL ──────────────────────────────────
-      // Oval = scaled cylinder: 320mm wide × 240mm deep = 3.20 × 2.40 units
+      // Base circle radius 1.20, then scale X by 1.333 → 3.20 × 2.40 oval
       const trayOvalGrp = new THREE.Group();
-      const OTW = 1.60, OTD = 1.20; // radii
-      // base disc
-      const ovalBase = new THREE.Mesh(new THREE.CylinderGeometry(OTD, OTD, TT, 64), steelMat);
-      ovalBase.scale.set(OTW/OTD, 1, 1);
-      ovalBase.position.y = TT/2;
-      ovalBase.castShadow = true;
-      trayOvalGrp.add(ovalBase);
-      // wall ring — open cylinder scaled to oval
-      const ovalWall = new THREE.Mesh(new THREE.CylinderGeometry(OTD, OTD, TH, 64, 1, true), steelMat);
-      ovalWall.scale.set(OTW/OTD, 1, 1);
-      ovalWall.position.y = TT + TH/2;
-      ovalWall.castShadow = true;
-      trayOvalGrp.add(ovalWall);
-      // top rim ring
-      const ovalRim = new THREE.Mesh(new THREE.CylinderGeometry(OTD+TT, OTD, TT*2, 64), steelMat);
-      ovalRim.scale.set(OTW/OTD, 1, 1);
-      ovalRim.position.y = TT + TH + TT;
-      ovalRim.castShadow = true;
-      trayOvalGrp.add(ovalRim);
-      trayOvalGrp.position.y = -(TT+TH)*0.48;
+      buildRoundTray(trayOvalGrp, 1.20);
+      trayOvalGrp.scale.set(1.60 / 1.20, 1, 1);
       trayOvalGrp.visible = false;
       scene.add(trayOvalGrp);
       groups['tray-oval'] = trayOvalGrp;
@@ -1613,17 +1636,7 @@
       // ── BUILD: TRAY CIRCULAR ──────────────────────────────
       // 280 mm diameter = 1.40 unit radius
       const trayCircGrp = new THREE.Group();
-      const CR = 1.40;
-      const circBase = new THREE.Mesh(new THREE.CylinderGeometry(CR, CR, TT, 72), steelMat);
-      circBase.position.y = TT/2; circBase.castShadow = true;
-      trayCircGrp.add(circBase);
-      const circWall = new THREE.Mesh(new THREE.CylinderGeometry(CR, CR, TH, 72, 1, true), steelMat);
-      circWall.position.y = TT + TH/2; circWall.castShadow = true;
-      trayCircGrp.add(circWall);
-      const circRim = new THREE.Mesh(new THREE.CylinderGeometry(CR+TT, CR, TT*2, 72), steelMat);
-      circRim.position.y = TT + TH + TT; circRim.castShadow = true;
-      trayCircGrp.add(circRim);
-      trayCircGrp.position.y = -(TT+TH)*0.48;
+      buildRoundTray(trayCircGrp, 1.40);
       trayCircGrp.visible = false;
       scene.add(trayCircGrp);
       groups['tray-circular'] = trayCircGrp;
