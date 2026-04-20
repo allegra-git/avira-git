@@ -64,7 +64,9 @@
     /* non-home pages need top padding for the fixed nav */
     #page-concept,
     #page-products,
-    #page-contact { padding-top: 5rem; }
+    #page-contact,
+    #page-mission { padding-top: 5rem; }
+    #page-mission { background: #f2ede6; }
 
     .cursor {
       position: fixed;
@@ -962,6 +964,7 @@
   <a class="nav-logo" onclick="showPage('home')">Avira</a>
   <ul class="nav-links">
     <li><a onclick="showPage('concept',this)">Concept</a></li>
+    <li><a onclick="showPage('mission',this)">Mission</a></li>
     <li><a onclick="showPage('products',this)">Products</a></li>
     <li><a onclick="showPage('contact',this)">Contact</a></li>
   </ul>
@@ -1004,7 +1007,16 @@
     </div>
   </section>
 
-  <!-- ── Materials interactive ──────────────────────────── -->
+  <!-- mat-deep, lifecycle, material sections moved to #page-mission -->
+
+</div><!-- /page-home -->
+
+
+<!-- ════════════════════════════════════════════════════════ -->
+<!-- MISSION PAGE                                            -->
+<!-- ════════════════════════════════════════════════════════ -->
+<div id="page-mission" class="page">
+
   <section class="mat-deep">
     <div class="mat-deep-inner">
       <div>
@@ -1245,7 +1257,7 @@
     </div>
   </section>
 
-</div><!-- /page-home -->
+</div><!-- /page-mission -->
 
 
 <!-- ════════════════════════════════════════════════════════ -->
