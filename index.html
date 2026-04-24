@@ -768,8 +768,8 @@
     }
     .lc-node-group { cursor: pointer; }
     .lc-node-bg {
-      fill: #f2ede6;
-      stroke: rgba(10,10,10,0.55);
+      fill: rgba(255,255,255,0.92);
+      stroke: rgba(10,10,10,0.45);
       stroke-width: 1;
       transition: fill 0.28s, stroke 0.28s;
     }
@@ -819,6 +819,124 @@
       letter-spacing: 0.03em;
       line-height: 1.82;
       color: rgba(10,10,10,0.5);
+    }
+
+    /* ── CONCEPT PAGE ───────────────────────────────────── */
+    #page-concept {
+      /* Plain brushed steel — no diagonal sheen, just grain */
+      background-color: #c9cbca;
+      background-image: repeating-linear-gradient(90deg,
+        rgba(255,255,255,0.07) 0px, rgba(255,255,255,0.07) 1px,
+        rgba(0,0,0,0.048) 1px, rgba(0,0,0,0.048) 2px,
+        transparent 2px, transparent 3px
+      );
+      background-attachment: fixed;
+    }
+    /* Opening hero — centered editorial */
+    .cnc-hero {
+      padding: 6rem 3.5rem 5rem;
+      text-align: center;
+    }
+    .cnc-label {
+      font-size: 0.5rem;
+      letter-spacing: 0.58em;
+      text-transform: uppercase;
+      color: rgba(10,10,10,0.35);
+      margin-bottom: 2.8rem;
+    }
+    .cnc-h2 {
+      font-family: 'Jost', sans-serif;
+      font-weight: 200;
+      font-size: clamp(2.4rem, 5.5vw, 4.6rem);
+      line-height: 1.12;
+      letter-spacing: 0.02em;
+      color: var(--ink);
+      margin-bottom: 2.8rem;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .cnc-h2 em { font-style: normal; color: rgba(10,10,10,0.38); }
+    .cnc-intro {
+      font-size: 0.74rem;
+      letter-spacing: 0.07em;
+      line-height: 2.05;
+      color: rgba(10,10,10,0.46);
+      max-width: 580px;
+      margin: 0 auto;
+    }
+    .cnc-rule {
+      border: none;
+      border-top: 0.5px solid rgba(10,10,10,0.1);
+      margin: 0 3.5rem;
+    }
+    /* Lifecycle override for concept page */
+    .cnc-lifecycle {
+      padding: 4.5rem 2rem 3.5rem;
+    }
+    .cnc-lc-hint {
+      text-align: center;
+      font-size: 0.5rem;
+      letter-spacing: 0.38em;
+      text-transform: uppercase;
+      color: rgba(10,10,10,0.24);
+      margin-bottom: 0.5rem;
+    }
+    /* Three pillars */
+    .cnc-pillars {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: rgba(10,10,10,0.1);
+      margin: 0;
+    }
+    .cnc-pillar {
+      padding: 4.5rem 3.8rem 5rem;
+      background: #c9cbca;
+    }
+    .cnc-pillar-num {
+      display: block;
+      font-size: 0.48rem;
+      letter-spacing: 0.5em;
+      text-transform: uppercase;
+      color: rgba(10,10,10,0.28);
+      margin-bottom: 1.6rem;
+    }
+    .cnc-pillar-h {
+      font-family: 'Jost', sans-serif;
+      font-weight: 200;
+      font-size: 1.15rem;
+      letter-spacing: 0.04em;
+      color: var(--ink);
+      margin-bottom: 1.4rem;
+    }
+    .cnc-pillar-body {
+      font-size: 0.68rem;
+      letter-spacing: 0.05em;
+      line-height: 1.9;
+      color: rgba(10,10,10,0.46);
+    }
+    /* Closing dark band */
+    .cnc-close {
+      background: var(--ink);
+      padding: 7rem 3.5rem 8rem;
+      text-align: center;
+    }
+    .cnc-close h2 {
+      font-family: 'Jost', sans-serif;
+      font-weight: 200;
+      font-size: clamp(2rem, 4.5vw, 3.8rem);
+      line-height: 1.15;
+      letter-spacing: 0.02em;
+      color: var(--light);
+      margin-bottom: 2.2rem;
+    }
+    .cnc-close h2 em { font-style: normal; color: rgba(223,225,226,0.35); }
+    .cnc-close p {
+      font-size: 0.7rem;
+      letter-spacing: 0.08em;
+      line-height: 2;
+      color: rgba(223,225,226,0.36);
     }
 
     /* ── MATERIAL BAND ───────────────────────────────────── */
@@ -1163,89 +1281,6 @@
     </div>
   </section>
 
-  <!-- ── Material lifecycle — interactive animated loop ── -->
-  <section class="lifecycle">
-    <div class="lc-header">
-      <div>
-        <p class="lifecycle-label">Material Lifecycle</p>
-        <h2 class="lc-h2">From the yard<br>to the object.</h2>
-      </div>
-      <p class="lc-hint">Hover a stage to explore</p>
-    </div>
-
-    <svg class="lc-svg" id="lc-svg" viewBox="0 0 1000 430" fill="none" xmlns="http://www.w3.org/2000/svg">
-
-      <!-- Track path — elliptical loop -->
-      <path id="lc-path"
-        d="M 500,72 A 362,140 0 0,1 862,212 A 362,140 0 0,1 500,352 A 362,140 0 0,1 138,212 A 362,140 0 0,1 500,72 Z"
-        stroke="rgba(10,10,10,0.13)" stroke-width="1.5" fill="none"/>
-
-      <!-- ── Stage 01 · THE CONSTRUCTION (top) ── -->
-      <g class="lc-node-group" id="lc-n0" transform="translate(500,72)">
-        <circle r="46" class="lc-node-bg"/>
-        <g class="lc-node-icon">
-          <line x1="0" y1="-23" x2="0" y2="15"/>
-          <path d="M -1,-23 C -21,-23 -25,2 -25,15"/>
-          <path d="M 1,-23 C 21,-23 25,2 25,15"/>
-          <line x1="-29" y1="15" x2="29" y2="15"/>
-          <line x1="-11" y1="-10" x2="-10" y2="14"/>
-          <line x1="11" y1="-10" x2="10" y2="14"/>
-        </g>
-        <text class="lc-node-lbl" text-anchor="middle" y="-62">THE CONSTRUCTION</text>
-      </g>
-
-      <!-- ── Stage 02 · THE OFFCUT (right) ── -->
-      <g class="lc-node-group" id="lc-n1" transform="translate(862,212)">
-        <circle r="46" class="lc-node-bg"/>
-        <g class="lc-node-icon">
-          <rect x="-22" y="-20" width="26" height="9" rx="1" transform="rotate(-14)"/>
-          <rect x="-3" y="-8" width="24" height="18" transform="rotate(10)"/>
-          <rect x="-24" y="10" width="16" height="9" rx="2" transform="rotate(-6)"/>
-        </g>
-        <text class="lc-node-lbl" text-anchor="start" x="58" y="4">THE OFFCUT</text>
-      </g>
-
-      <!-- ── Stage 03 · AVIRA ATELIER (bottom) ── -->
-      <g class="lc-node-group" id="lc-n2" transform="translate(500,352)">
-        <circle r="46" class="lc-node-bg"/>
-        <g class="lc-node-icon">
-          <rect x="-9" y="-23" width="18" height="26" rx="3"/>
-          <polygon points="0,15 -7,3 7,3"/>
-          <rect x="-22" y="19" width="44" height="7" rx="1"/>
-          <line x1="-5" y1="-15" x2="5" y2="-15"/>
-          <line x1="-5" y1="-7" x2="5" y2="-7"/>
-        </g>
-        <text class="lc-node-lbl" text-anchor="middle" y="66">AVIRA ATELIER</text>
-      </g>
-
-      <!-- ── Stage 04 · THE OBJECT (left) ── -->
-      <g class="lc-node-group" id="lc-n3" transform="translate(138,212)">
-        <circle r="46" class="lc-node-bg"/>
-        <g class="lc-node-icon">
-          <polygon points="-24,-5 24,-9 26,6 -22,10"/>
-          <polygon points="-22,10 26,6 26,14 -22,18"/>
-          <polygon points="24,-9 26,6 26,14 24,-1"/>
-          <line x1="-10" y1="1" x2="10" y2="0"/>
-        </g>
-        <text class="lc-node-lbl" text-anchor="end" x="-58" y="4">THE OBJECT</text>
-      </g>
-
-      <!-- Traveling dot -->
-      <circle id="lc-dot-halo" r="10" fill="rgba(10,10,10,0.05)" cx="500" cy="72"/>
-      <circle id="lc-dot" r="5" fill="#0d0d0d" cx="500" cy="72"/>
-
-    </svg>
-
-    <!-- Hover info text -->
-    <div class="lc-info" id="lc-info" style="opacity:0">
-      <p class="lc-info-step" id="lc-step"></p>
-      <p class="lc-info-title" id="lc-ititle"></p>
-      <p class="lc-info-body" id="lc-ibody"></p>
-    </div>
-
-  </section>
-
-
 
   <hr />
 
@@ -1276,99 +1311,103 @@
 <!-- ════════════════════════════════════════════════════════ -->
 <div id="page-concept" class="page">
 
-  <!-- ── The problem ──────────────────────────────────────── -->
-  <section class="concept">
-    <p class="concept-label reveal">Concept</p>
-    <div class="concept-body">
-      <h2 class="reveal">Nothing is wasted.<br /><em>Everything is made.</em></h2>
-      <p class="reveal reveal-delay-1">
-        Every superyacht built — whether at Sanlorenzo, Benetti, Ferretti or Wally — generates tonnes of high-specification offcuts. Carbon composite from hull panels. Teak planking from deck work. Woven PVC from upholstery. Marine rope from rigging. Alcantara from saloon linings. Each material was specified by a naval architect for its performance and its beauty.
-      </p>
-      <p class="reveal reveal-delay-2">
-        Then it is discarded. Disposal of these offcuts carries a significant cost for the yard — a liability with no secondary market, no afterlife. The material simply ends. Avira exists because it does not have to.
-      </p>
+  <!-- Opening editorial statement -->
+  <section class="cnc-hero">
+    <p class="cnc-label reveal">Concept</p>
+    <h2 class="cnc-h2 reveal">Nothing is wasted.<br><em>Everything is made.</em></h2>
+    <p class="cnc-intro reveal reveal-delay-1">
+      Every superyacht fit-out specifies the finest materials — exotic hardwoods, aerospace carbon, Italian leather, Alcantara, stone, lacquer. Every cut generates premium offcuts. The industry discards them at significant cost. Avira rescues them and makes singular luxury objects from what the build leaves behind.
+    </p>
+  </section>
+
+  <hr class="cnc-rule">
+
+  <!-- Lifecycle diagram — moved here from Mission -->
+  <section class="lifecycle cnc-lifecycle">
+    <p class="cnc-lc-hint reveal">Hover a stage to explore the journey</p>
+
+    <svg class="lc-svg" id="lc-svg" viewBox="0 0 1000 430" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path id="lc-path"
+        d="M 500,72 A 362,140 0 0,1 862,212 A 362,140 0 0,1 500,352 A 362,140 0 0,1 138,212 A 362,140 0 0,1 500,72 Z"
+        stroke="rgba(10,10,10,0.13)" stroke-width="1.5" fill="none"/>
+      <g class="lc-node-group" id="lc-n0" transform="translate(500,72)">
+        <circle r="46" class="lc-node-bg"/>
+        <g class="lc-node-icon">
+          <line x1="0" y1="-23" x2="0" y2="15"/>
+          <path d="M -1,-23 C -21,-23 -25,2 -25,15"/>
+          <path d="M 1,-23 C 21,-23 25,2 25,15"/>
+          <line x1="-29" y1="15" x2="29" y2="15"/>
+          <line x1="-11" y1="-10" x2="-10" y2="14"/>
+          <line x1="11" y1="-10" x2="10" y2="14"/>
+        </g>
+        <text class="lc-node-lbl" text-anchor="middle" y="-62">THE CONSTRUCTION</text>
+      </g>
+      <g class="lc-node-group" id="lc-n1" transform="translate(862,212)">
+        <circle r="46" class="lc-node-bg"/>
+        <g class="lc-node-icon">
+          <rect x="-22" y="-20" width="26" height="9" rx="1" transform="rotate(-14)"/>
+          <rect x="-3" y="-8" width="24" height="18" transform="rotate(10)"/>
+          <rect x="-24" y="10" width="16" height="9" rx="2" transform="rotate(-6)"/>
+        </g>
+        <text class="lc-node-lbl" text-anchor="start" x="58" y="4">THE OFFCUT</text>
+      </g>
+      <g class="lc-node-group" id="lc-n2" transform="translate(500,352)">
+        <circle r="46" class="lc-node-bg"/>
+        <g class="lc-node-icon">
+          <rect x="-9" y="-23" width="18" height="26" rx="3"/>
+          <polygon points="0,15 -7,3 7,3"/>
+          <rect x="-22" y="19" width="44" height="7" rx="1"/>
+          <line x1="-5" y1="-15" x2="5" y2="-15"/>
+          <line x1="-5" y1="-7" x2="5" y2="-7"/>
+        </g>
+        <text class="lc-node-lbl" text-anchor="middle" y="66">AVIRA ATELIER</text>
+      </g>
+      <g class="lc-node-group" id="lc-n3" transform="translate(138,212)">
+        <circle r="46" class="lc-node-bg"/>
+        <g class="lc-node-icon">
+          <polygon points="-24,-5 24,-9 26,6 -22,10"/>
+          <polygon points="-22,10 26,6 26,14 -22,18"/>
+          <polygon points="24,-9 26,6 26,14 24,-1"/>
+          <line x1="-10" y1="1" x2="10" y2="0"/>
+        </g>
+        <text class="lc-node-lbl" text-anchor="end" x="-58" y="4">THE OBJECT</text>
+      </g>
+      <circle id="lc-dot-halo" r="10" fill="rgba(10,10,10,0.05)" cx="500" cy="72"/>
+      <circle id="lc-dot" r="5" fill="#0d0d0d" cx="500" cy="72"/>
+    </svg>
+
+    <div class="lc-info" id="lc-info" style="opacity:0">
+      <p class="lc-info-step" id="lc-step"></p>
+      <p class="lc-info-title" id="lc-ititle"></p>
+      <p class="lc-info-body" id="lc-ibody"></p>
     </div>
   </section>
 
-  <!-- ── Three pillars ────────────────────────────────────── -->
-  <section class="concept-pillars">
-    <div class="pillar reveal">
-      <p class="pillar-num">I — The partnership</p>
-      <h3 class="pillar-title">A proposal to the yard</h3>
-      <p class="pillar-text">Avira approaches shipyards directly, presenting a base product line alongside a business proposal: we take responsibility for specified offcut materials at no cost to the yard. What was a disposal liability becomes a supply chain. The yard saves. The material continues.</p>
+  <hr class="cnc-rule">
+
+  <!-- Three pillars -->
+  <section class="cnc-pillars">
+    <div class="cnc-pillar reveal">
+      <span class="cnc-pillar-num">I — The Partnership</span>
+      <h3 class="cnc-pillar-h">A proposal to the yard</h3>
+      <p class="cnc-pillar-body">Avira approaches shipyards directly. We take responsibility for specified offcut materials at no cost. What was a disposal liability — $190–220 per tonne — becomes a supply chain. The yard saves. The material continues.</p>
     </div>
-    <div class="pillar reveal reveal-delay-1">
-      <p class="pillar-num">II — The custom object</p>
-      <h3 class="pillar-title">Built from the build itself</h3>
-      <p class="pillar-text">Every Avira object is a 316L marine-grade steel base, finished with the specific material from the owner's commission. The same teak that clads the deck faces a coaster. The same woven PVC used in the sun deck lines a bottle holder. Every object is traceable to a single vessel — made from its own offcuts, during its own outfitting.</p>
+    <div class="cnc-pillar reveal reveal-delay-1">
+      <span class="cnc-pillar-num">II — The Object</span>
+      <h3 class="cnc-pillar-h">Built from the build itself</h3>
+      <p class="cnc-pillar-body">Every Avira piece is a 316L marine-grade steel base, finished with material from the owner's own commission. The teak that clads the deck faces a coaster. The carbon from the hull inlays a tray. The same material. A new life.</p>
     </div>
-    <div class="pillar reveal reveal-delay-2">
-      <p class="pillar-num">III — The extra at outfitting</p>
-      <h3 class="pillar-title">Presented at the moment of customisation</h3>
-      <p class="pillar-text">During outfitting — the phase when owners specify every surface, fabric and finish — the yard presents the Avira collection as a customisation extra. The owner selects objects. They are produced from the offcuts of their own build and delivered with the vessel, or directly to the owner's home.</p>
+    <div class="cnc-pillar reveal reveal-delay-2">
+      <span class="cnc-pillar-num">III — The Provenance</span>
+      <h3 class="cnc-pillar-h">Numbered to the hull</h3>
+      <p class="cnc-pillar-body">Each object carries the hull number of the source vessel. Singular, documented, unrepeatable. Made once from materials that no longer exist. Exclusive in the truest sense — not by edition, but by origin.</p>
     </div>
   </section>
 
-  <!-- ── Product logic ────────────────────────────────────── -->
-  <section class="concept-logic">
-    <p class="concept-logic-label reveal">The object</p>
-
-    <div class="concept-logic-body">
-      <h2 class="reveal">One base.<br /><em>Every finish.</em></h2>
-      <p class="reveal reveal-delay-1">
-        The structural logic is fixed: 316L marine-grade steel forms the architecture of every Avira object — tray, coaster, holder, ring, nameplate, organiser. The surface is determined by what was used in the build. A teak deck yields teak-faced trays and coasters. A carbon saloon floor yields carbon-inlaid holders. Woven PVC upholstery becomes the lining of cable trays and sunscreen holders.
-      </p>
-      <p class="reveal reveal-delay-2">
-        This is not a design choice. It is a production reality — the base is always steel, the finish is always the owner's material. The result is an object that could only have come from one place. It cannot be replicated because the material cannot be replicated.
-      </p>
-      <p class="reveal reveal-delay-3">
-        Each object is produced in precision. The aim is to start with a core line of prototypes — one tray, one coaster, one bottle holder, one nameplate — that demonstrate the concept to yards across the industry. From there, the surface can be anything the build provides.
-      </p>
-    </div>
-
-    <div class="concept-logic-aside">
-      <div class="material-chip reveal reveal-delay-1">
-        <p class="material-chip-label">Base material</p>
-        <p class="material-chip-value">Stainless steel 316L — marine grade, brushed finish</p>
-      </div>
-      <div class="material-chip reveal reveal-delay-1">
-        <p class="material-chip-label">Surface — from the deck</p>
-        <p class="material-chip-value">Teak, iroko, or engineered teak planking offcuts</p>
-      </div>
-      <div class="material-chip reveal reveal-delay-2">
-        <p class="material-chip-label">Surface — from the hull</p>
-        <p class="material-chip-value">Carbon composite or glass composite panel offcuts</p>
-      </div>
-      <div class="material-chip reveal reveal-delay-2">
-        <p class="material-chip-label">Surface — from the interior</p>
-        <p class="material-chip-value">Woven PVC, alcantara, moquette, leather, rope</p>
-      </div>
-      <div class="material-chip reveal reveal-delay-3">
-        <p class="material-chip-label">Numbered</p>
-        <p class="material-chip-value">Each object carries the hull number of the vessel it was made from</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- ── From vessel to home ───────────────────────────────── -->
-  <section class="concept">
-    <p class="concept-label reveal">The market</p>
-    <div class="concept-body">
-      <h2 class="reveal">Yacht &amp; home.<br /><em>The same object.</em></h2>
-      <p class="reveal reveal-delay-1">
-        Avira operates at the intersection of maritime and interior design. An object made from the materials of a specific commission is, by definition, an object the owner wants both on the vessel and at home. The tray that matches the saloon floor. The coasters that echo the deck. The nameplate that came from the hull.
-      </p>
-      <p class="reveal reveal-delay-2">
-        This is not a branded merchandise play. It is a high-specification product — built with the same materials and the same precision as the vessel itself — that exists because the owner's specification made it possible. Each piece is singular, numbered, and documented. Exclusive in the truest sense: made only once, from materials that no longer exist.
-      </p>
-    </div>
-  </section>
-
-  <!-- ── Sustainability statement (dark band) ──────────────── -->
-  <section class="concept-sustain">
-    <h2 class="reveal">Sustainability in an industry<br /><em>that doesn't talk about it.</em></h2>
-    <p class="reveal reveal-delay-1">The global superyacht sector is among the most material-intensive in luxury manufacturing. A single build displaces tonnes of high-specification composite, hardwood and textile — materials specced at great cost, discarded at further cost. Avira is not a sustainability campaign. It is a business model built on the commercial reality that premium material should not end in a skip.</p>
-    <p class="reveal reveal-delay-2">The environmental argument follows naturally: zero additional extraction, zero additional production energy, zero waste per object. For a sector increasingly under scrutiny for its environmental footprint, the partnership represents a credible, visible, and genuinely rare commitment. The yard saves on disposal. The owner receives a singular object. The material continues to exist.</p>
+  <!-- Closing dark band -->
+  <section class="cnc-close">
+    <h2 class="reveal">One base.<br><em>Every finish.</em></h2>
+    <p class="reveal reveal-delay-1">316L marine-grade steel. The surface is always the owner's material.<br>Each piece numbered. It cannot be replicated.</p>
   </section>
 
 </div><!-- /page-concept -->
@@ -1807,8 +1846,8 @@
 
     // initialise 3D viewer the first time products page is opened
     if (id === 'products') initViewer();
-    // start lifecycle animation when mission page opens
-    if (id === 'mission') initLifecycle();
+    // start lifecycle animation when concept page opens
+    if (id === 'concept') initLifecycle();
   }
 
   /* ── LIFECYCLE ANIMATION ──────────────────────────────────── */
