@@ -61,12 +61,97 @@
     .page { display: none; }
     .page.active { display: block; }
 
-    /* non-home pages need top padding for the fixed nav */
+    /* all pages need top padding for the fixed nav */
+    #page-home,
     #page-concept,
     #page-products,
     #page-contact,
     #page-mission { padding-top: 5rem; }
     #page-mission { background: #f2ede6; }
+
+    /* ── HOME PAGE — warm platinum brushed steel ─────────── */
+    #page-home {
+      background-color: #d0ccc6;
+      background-image: repeating-linear-gradient(
+        0deg,
+        rgba(255,255,255,0.068) 0px, rgba(255,255,255,0.068) 1px,
+        rgba(0,0,0,0.044)       1px, rgba(0,0,0,0.044)       2px,
+        transparent             2px, transparent             4px
+      );
+      background-attachment: fixed;
+    }
+    .home-hero {
+      padding: 4rem 3.5rem 6rem;
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 7rem;
+      align-items: center;
+      min-height: 78vh;
+    }
+    .home-tagline {
+      font-size: 0.5rem;
+      letter-spacing: 0.6em;
+      text-transform: uppercase;
+      color: rgba(10,10,10,0.3);
+      margin-bottom: 2.8rem;
+    }
+    .home-wordmark {
+      font-family: 'Jost', sans-serif;
+      font-weight: 200;
+      font-size: clamp(3rem, 7vw, 6.2rem);
+      line-height: 1.06;
+      letter-spacing: 0.01em;
+      color: var(--ink);
+      margin-bottom: 3.5rem;
+    }
+    .home-wordmark em { font-style: normal; color: rgba(10,10,10,0.22); }
+    .home-intro {
+      font-size: 0.72rem;
+      letter-spacing: 0.07em;
+      line-height: 2.1;
+      color: rgba(10,10,10,0.46);
+      max-width: 380px;
+    }
+    .home-hero-right {
+      border-left: 0.5px solid rgba(10,10,10,0.1);
+      padding-left: 5rem;
+      display: flex;
+      flex-direction: column;
+    }
+    .home-stat {
+      padding: 2.4rem 0;
+      border-bottom: 0.5px solid rgba(10,10,10,0.08);
+    }
+    .home-stat:first-child { padding-top: 0; }
+    .home-stat:last-child  { border-bottom: none; padding-bottom: 0; }
+    .home-stat-n {
+      font-family: 'Jost', sans-serif;
+      font-weight: 200;
+      font-size: 1.95rem;
+      letter-spacing: 0.02em;
+      color: var(--ink);
+      margin-bottom: 0.55rem;
+    }
+    .home-stat-l {
+      font-size: 0.61rem;
+      letter-spacing: 0.06em;
+      line-height: 1.85;
+      color: rgba(10,10,10,0.38);
+    }
+    .home-rule {
+      border: none;
+      border-top: 0.5px solid rgba(10,10,10,0.1);
+      margin: 0 3.5rem;
+    }
+    .home-lc-hint {
+      text-align: center;
+      font-size: 0.5rem;
+      letter-spacing: 0.38em;
+      text-transform: uppercase;
+      color: rgba(10,10,10,0.24);
+      margin-bottom: 0.5rem;
+    }
+    .home-lifecycle { padding: 4.5rem 2rem 3.5rem; }
 
     .cursor {
       position: fixed;
@@ -1169,38 +1254,118 @@
 <!-- ════════════════════════════════════════════════════════ -->
 <div id="page-home" class="page active">
 
-  <section class="hero">
-    <div class="hero-center">
-      <p class="hero-tag">Objects of Purpose</p>
-      <h1 class="hero-title">Avira<em>.</em></h1>
-      <p class="hero-sub">Yacht construction generates tonnes of premium offcuts. We take them. We make objects from them. One base, any finish — every piece traceable to a single hull.</p>
+  <!-- ── Split hero ── -->
+  <section class="home-hero">
+    <div class="home-hero-left">
+      <p class="home-tagline reveal">Avira — Objects of Purpose</p>
+      <h1 class="home-wordmark reveal">Nothing<br>is wasted.<br><em>Everything<br>is made.</em></h1>
+      <p class="home-intro reveal reveal-delay-1">A superyacht fit-out specifies the finest materials on earth. Every cut generates premium offcuts. The industry discards them at significant cost. Avira rescues them and makes singular luxury objects from what the build leaves behind.</p>
     </div>
-
-    <!-- Hero sketch: tray in cabinet perspective — clean outline only -->
-    <svg class="hero-sketch" viewBox="0 0 320 220" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-  <!-- Top face -->
-  <polygon points="22,104 256,74 280,150 46,180" fill="none" stroke="#0d0d0d" stroke-width="1.5" pathLength="1" class="draw"/>
-  <!-- Front wall face -->
-  <polygon points="46,180 280,150 280,168 46,198" fill="none" stroke="#0d0d0d" stroke-width="1.5" pathLength="1" class="draw"/>
-  <!-- Right side face -->
-  <polygon points="256,74 280,150 280,168 256,92" fill="none" stroke="#0d0d0d" stroke-width="1.5" pathLength="1" class="draw draw-delay-1"/>
-  <!-- Feet -->
-  <line x1="56" y1="198" x2="56" y2="211" stroke="#0d0d0d" stroke-width="1.2" pathLength="1" class="draw draw-delay-2"/>
-  <line x1="70" y1="197" x2="70" y2="210" stroke="#0d0d0d" stroke-width="1.2" pathLength="1" class="draw draw-delay-2"/>
-  <line x1="267" y1="168" x2="267" y2="181" stroke="#0d0d0d" stroke-width="1.2" pathLength="1" class="draw draw-delay-2"/>
-  <line x1="278" y1="167" x2="278" y2="180" stroke="#0d0d0d" stroke-width="1.2" pathLength="1" class="draw draw-delay-2"/>
-</svg>
-
-    <div class="hero-bottom">
-      <div class="hero-scroll">
-        <div class="scroll-bar"></div>
-        <span>Scroll to discover</span>
+    <div class="home-hero-right">
+      <div class="home-stat reveal">
+        <div class="home-stat-n">30–40%</div>
+        <div class="home-stat-l">of every premium material ordered — teak, carbon, leather, Alcantara — becomes offcut waste on every superyacht fit-out</div>
       </div>
-      <div class="hero-index">2026</div>
+      <div class="home-stat reveal reveal-delay-1">
+        <div class="home-stat-n">$190–220</div>
+        <div class="home-stat-l">per tonne paid to dispose of composite and finishing waste. For leather and exotic wood: no market, no recovery</div>
+      </div>
+      <div class="home-stat reveal reveal-delay-2">
+        <div class="home-stat-n">One base.</div>
+        <div class="home-stat-l">316L marine-grade steel. The surface is always the owner's own material, numbered to the hull. It cannot be replicated.</div>
+      </div>
     </div>
   </section>
 
-  <!-- mat-deep, lifecycle, material sections moved to #page-mission -->
+  <hr class="home-rule">
+
+  <!-- ── Lifecycle diagram ── -->
+  <section class="lifecycle home-lifecycle">
+    <p class="home-lc-hint reveal">Hover a stage to explore the journey</p>
+
+    <svg class="lc-svg" id="lc-svg" viewBox="0 0 1000 430" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path id="lc-path"
+        d="M 500,72 A 362,140 0 0,1 862,212 A 362,140 0 0,1 500,352 A 362,140 0 0,1 138,212 A 362,140 0 0,1 500,72 Z"
+        stroke="rgba(10,10,10,0.13)" stroke-width="1.5" fill="none"/>
+      <g class="lc-node-group" id="lc-n0" transform="translate(500,72)">
+        <circle r="46" class="lc-node-bg"/>
+        <g class="lc-node-icon">
+          <line x1="0" y1="-23" x2="0" y2="15"/>
+          <path d="M -1,-23 C -21,-23 -25,2 -25,15"/>
+          <path d="M 1,-23 C 21,-23 25,2 25,15"/>
+          <line x1="-29" y1="15" x2="29" y2="15"/>
+          <line x1="-11" y1="-10" x2="-10" y2="14"/>
+          <line x1="11" y1="-10" x2="10" y2="14"/>
+        </g>
+        <text class="lc-node-lbl" text-anchor="middle" y="-62">THE CONSTRUCTION</text>
+      </g>
+      <g class="lc-node-group" id="lc-n1" transform="translate(862,212)">
+        <circle r="46" class="lc-node-bg"/>
+        <g class="lc-node-icon">
+          <rect x="-22" y="-20" width="26" height="9" rx="1" transform="rotate(-14)"/>
+          <rect x="-3" y="-8" width="24" height="18" transform="rotate(10)"/>
+          <rect x="-24" y="10" width="16" height="9" rx="2" transform="rotate(-6)"/>
+        </g>
+        <text class="lc-node-lbl" text-anchor="start" x="58" y="4">THE OFFCUT</text>
+      </g>
+      <g class="lc-node-group" id="lc-n2" transform="translate(500,352)">
+        <circle r="46" class="lc-node-bg"/>
+        <g class="lc-node-icon">
+          <rect x="-9" y="-23" width="18" height="26" rx="3"/>
+          <polygon points="0,15 -7,3 7,3"/>
+          <rect x="-22" y="19" width="44" height="7" rx="1"/>
+          <line x1="-5" y1="-15" x2="5" y2="-15"/>
+          <line x1="-5" y1="-7" x2="5" y2="-7"/>
+        </g>
+        <text class="lc-node-lbl" text-anchor="middle" y="66">AVIRA ATELIER</text>
+      </g>
+      <g class="lc-node-group" id="lc-n3" transform="translate(138,212)">
+        <circle r="46" class="lc-node-bg"/>
+        <g class="lc-node-icon">
+          <polygon points="-24,-5 24,-9 26,6 -22,10"/>
+          <polygon points="-22,10 26,6 26,14 -22,18"/>
+          <polygon points="24,-9 26,6 26,14 24,-1"/>
+          <line x1="-10" y1="1" x2="10" y2="0"/>
+        </g>
+        <text class="lc-node-lbl" text-anchor="end" x="-58" y="4">THE OBJECT</text>
+      </g>
+      <circle id="lc-dot-halo" r="10" fill="rgba(10,10,10,0.05)" cx="500" cy="72"/>
+      <circle id="lc-dot" r="5" fill="#0d0d0d" cx="500" cy="72"/>
+    </svg>
+
+    <div class="lc-info" id="lc-info" style="opacity:0">
+      <p class="lc-info-step" id="lc-step"></p>
+      <p class="lc-info-title" id="lc-ititle"></p>
+      <p class="lc-info-body" id="lc-ibody"></p>
+    </div>
+  </section>
+
+  <hr class="home-rule">
+
+  <!-- ── Three pillars ── -->
+  <section class="cnc-pillars">
+    <div class="cnc-pillar reveal">
+      <span class="cnc-pillar-num">I — The Partnership</span>
+      <h3 class="cnc-pillar-h">A proposal to the yard</h3>
+      <p class="cnc-pillar-body">Avira approaches shipyards directly. We take responsibility for specified offcut materials at no cost. What was a disposal liability — $190–220 per tonne — becomes a supply chain. The yard saves. The material continues.</p>
+    </div>
+    <div class="cnc-pillar reveal reveal-delay-1">
+      <span class="cnc-pillar-num">II — The Object</span>
+      <h3 class="cnc-pillar-h">Built from the build itself</h3>
+      <p class="cnc-pillar-body">Every Avira piece is a 316L marine-grade steel base, finished with material from the owner's own commission. The teak that clads the deck faces a coaster. The carbon from the hull inlays a tray. The same material. A new life.</p>
+    </div>
+    <div class="cnc-pillar reveal reveal-delay-2">
+      <span class="cnc-pillar-num">III — The Provenance</span>
+      <h3 class="cnc-pillar-h">Numbered to the hull</h3>
+      <p class="cnc-pillar-body">Each object carries the hull number of the source vessel. Singular, documented, unrepeatable. Made once from materials that no longer exist. Exclusive in the truest sense — not by edition, but by origin.</p>
+    </div>
+  </section>
+
+  <!-- ── Dark close band ── -->
+  <section class="cnc-close">
+    <h2 class="reveal">One base.<br><em>Every finish.</em></h2>
+    <p class="reveal reveal-delay-1">316L marine-grade steel. The surface is always the owner's material.<br>Each piece numbered. It cannot be replicated.</p>
+  </section>
 
 </div><!-- /page-home -->
 
@@ -1318,69 +1483,6 @@
     <p class="cnc-intro reveal reveal-delay-1">
       Every superyacht fit-out specifies the finest materials — exotic hardwoods, aerospace carbon, Italian leather, Alcantara, stone, lacquer. Every cut generates premium offcuts. The industry discards them at significant cost. Avira rescues them and makes singular luxury objects from what the build leaves behind.
     </p>
-  </section>
-
-  <hr class="cnc-rule">
-
-  <!-- Lifecycle diagram — moved here from Mission -->
-  <section class="lifecycle cnc-lifecycle">
-    <p class="cnc-lc-hint reveal">Hover a stage to explore the journey</p>
-
-    <svg class="lc-svg" id="lc-svg" viewBox="0 0 1000 430" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path id="lc-path"
-        d="M 500,72 A 362,140 0 0,1 862,212 A 362,140 0 0,1 500,352 A 362,140 0 0,1 138,212 A 362,140 0 0,1 500,72 Z"
-        stroke="rgba(10,10,10,0.13)" stroke-width="1.5" fill="none"/>
-      <g class="lc-node-group" id="lc-n0" transform="translate(500,72)">
-        <circle r="46" class="lc-node-bg"/>
-        <g class="lc-node-icon">
-          <line x1="0" y1="-23" x2="0" y2="15"/>
-          <path d="M -1,-23 C -21,-23 -25,2 -25,15"/>
-          <path d="M 1,-23 C 21,-23 25,2 25,15"/>
-          <line x1="-29" y1="15" x2="29" y2="15"/>
-          <line x1="-11" y1="-10" x2="-10" y2="14"/>
-          <line x1="11" y1="-10" x2="10" y2="14"/>
-        </g>
-        <text class="lc-node-lbl" text-anchor="middle" y="-62">THE CONSTRUCTION</text>
-      </g>
-      <g class="lc-node-group" id="lc-n1" transform="translate(862,212)">
-        <circle r="46" class="lc-node-bg"/>
-        <g class="lc-node-icon">
-          <rect x="-22" y="-20" width="26" height="9" rx="1" transform="rotate(-14)"/>
-          <rect x="-3" y="-8" width="24" height="18" transform="rotate(10)"/>
-          <rect x="-24" y="10" width="16" height="9" rx="2" transform="rotate(-6)"/>
-        </g>
-        <text class="lc-node-lbl" text-anchor="start" x="58" y="4">THE OFFCUT</text>
-      </g>
-      <g class="lc-node-group" id="lc-n2" transform="translate(500,352)">
-        <circle r="46" class="lc-node-bg"/>
-        <g class="lc-node-icon">
-          <rect x="-9" y="-23" width="18" height="26" rx="3"/>
-          <polygon points="0,15 -7,3 7,3"/>
-          <rect x="-22" y="19" width="44" height="7" rx="1"/>
-          <line x1="-5" y1="-15" x2="5" y2="-15"/>
-          <line x1="-5" y1="-7" x2="5" y2="-7"/>
-        </g>
-        <text class="lc-node-lbl" text-anchor="middle" y="66">AVIRA ATELIER</text>
-      </g>
-      <g class="lc-node-group" id="lc-n3" transform="translate(138,212)">
-        <circle r="46" class="lc-node-bg"/>
-        <g class="lc-node-icon">
-          <polygon points="-24,-5 24,-9 26,6 -22,10"/>
-          <polygon points="-22,10 26,6 26,14 -22,18"/>
-          <polygon points="24,-9 26,6 26,14 24,-1"/>
-          <line x1="-10" y1="1" x2="10" y2="0"/>
-        </g>
-        <text class="lc-node-lbl" text-anchor="end" x="-58" y="4">THE OBJECT</text>
-      </g>
-      <circle id="lc-dot-halo" r="10" fill="rgba(10,10,10,0.05)" cx="500" cy="72"/>
-      <circle id="lc-dot" r="5" fill="#0d0d0d" cx="500" cy="72"/>
-    </svg>
-
-    <div class="lc-info" id="lc-info" style="opacity:0">
-      <p class="lc-info-step" id="lc-step"></p>
-      <p class="lc-info-title" id="lc-ititle"></p>
-      <p class="lc-info-body" id="lc-ibody"></p>
-    </div>
   </section>
 
   <hr class="cnc-rule">
@@ -1773,8 +1875,13 @@
     });
   }, { threshold: 0.08 });
 
-  // Only observe home page elements on load (other pages handle their own reveals)
+  // Observe home page reveals on load
   document.querySelectorAll('#page-home .reveal, #page-home .draw').forEach(el => observer.observe(el));
+
+  // Start lifecycle animation on page load (diagram lives on home page)
+  document.addEventListener('DOMContentLoaded', initLifecycle);
+  // Belt-and-braces: if DOMContentLoaded already fired, call directly
+  if (document.readyState !== 'loading') initLifecycle();
 
   // ── Materials interactive section ───────────────────────
   (function() {
@@ -1835,19 +1942,16 @@
     document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('nav-active'));
     if (navEl) navEl.classList.add('nav-active');
 
-    // for non-home pages: trigger all reveals immediately with a gentle stagger
-    if (id !== 'home') {
-      requestAnimationFrame(() => {
-        page.querySelectorAll('.reveal, .draw').forEach((el, i) => {
-          setTimeout(() => el.classList.add('visible'), 60 + i * 22);
-        });
+    // trigger all reveals immediately with a gentle stagger (all pages)
+    requestAnimationFrame(() => {
+      page.querySelectorAll('.reveal, .draw').forEach((el, i) => {
+        setTimeout(() => el.classList.add('visible'), 60 + i * 22);
       });
-    }
+    });
 
     // initialise 3D viewer the first time products page is opened
     if (id === 'products') initViewer();
-    // start lifecycle animation when concept page opens
-    if (id === 'concept') initLifecycle();
+    // lifecycle lives on home page — already started on DOMContentLoaded
   }
 
   /* ── LIFECYCLE ANIMATION ──────────────────────────────────── */
