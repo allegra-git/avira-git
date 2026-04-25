@@ -813,6 +813,93 @@
       line-height: 1.65;
     }
 
+    /* ── MATERIAL TEXTURE GRID ──────────────────────────── */
+    .mat-header { padding: 5rem 3.5rem 4rem; }
+    .mat-header-inner {
+      display: grid;
+      grid-template-columns: 1fr 1.5fr;
+      gap: 7rem;
+      align-items: end;
+    }
+    .mat-header-sub {
+      font-size: 0.72rem;
+      letter-spacing: 0.07em;
+      line-height: 2.05;
+      color: rgba(10,10,10,0.46);
+    }
+    .mat-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 3px;
+      padding: 0 3.5rem;
+    }
+    .mat-tile {
+      position: relative;
+      aspect-ratio: 1 / 1;
+      overflow: hidden;
+    }
+    .mat-tile img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.65s cubic-bezier(0.25,0.46,0.45,0.94);
+    }
+    .mat-tile:hover img { transform: scale(1.07); }
+    .mat-tile-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(13,13,13,0);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 1.4rem 1.3rem;
+      transition: background 0.38s ease;
+    }
+    .mat-tile:hover .mat-tile-overlay { background: rgba(13,13,13,0.84); }
+    .mat-tile-name {
+      font-family: 'Jost', sans-serif;
+      font-size: 0.64rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: rgba(223,225,226,0.96);
+      opacity: 0;
+      transform: translateY(7px);
+      transition: opacity 0.32s ease, transform 0.32s ease;
+    }
+    .mat-tile:hover .mat-tile-name { opacity: 1; transform: translateY(0); }
+    .mat-tile-cat {
+      font-size: 0.48rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(223,225,226,0.36);
+      margin-top: 0.3rem;
+      opacity: 0;
+      transform: translateY(7px);
+      transition: opacity 0.32s 0.04s ease, transform 0.32s 0.04s ease;
+    }
+    .mat-tile:hover .mat-tile-cat { opacity: 1; transform: translateY(0); }
+    .mat-tile-fate {
+      font-size: 0.46rem;
+      letter-spacing: 0.13em;
+      color: rgba(223,225,226,0.2);
+      margin-top: 0.5rem;
+      opacity: 0;
+      transform: translateY(7px);
+      transition: opacity 0.32s 0.08s ease, transform 0.32s 0.08s ease;
+    }
+    .mat-tile:hover .mat-tile-fate { opacity: 1; transform: translateY(0); }
+    .mat-grid-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      margin: 4rem 3.5rem 0;
+      border-top: 0.5px solid rgba(10,10,10,0.12);
+    }
+    .mat-grid-stat {
+      padding: 2.4rem 2rem 3.5rem;
+      border-right: 0.5px solid rgba(10,10,10,0.1);
+    }
+    .mat-grid-stat:last-child { border-right: none; }
+
     /* ── LIFECYCLE INTERACTIVE ──────────────────────────── */
     .lifecycle {
       padding: 5rem 3rem 5rem;
@@ -1375,81 +1462,178 @@
 <!-- ════════════════════════════════════════════════════════ -->
 <div id="page-mission" class="page">
 
-  <section class="mat-deep">
-    <div class="mat-deep-inner">
+  <!-- ── Editorial header ── -->
+  <section class="mat-header">
+    <div class="mat-header-inner">
       <div>
         <p class="mat-deep-label reveal">The Raw Material</p>
-        <h2 class="mat-deep-h2 reveal">Every finish.<br>A waste problem.</h2>
+        <h2 class="mat-deep-h2 reveal">Every surface.<br>A waste problem.</h2>
       </div>
-      <p class="mat-deep-sub reveal">A superyacht fit-out uses the same premium materials as a luxury residence — exotic hardwoods, carbon panels, Italian leather, Alcantara, silk, stone, lacquer. Every cut, every join, every panel leaves offcuts the industry has no elegant solution for. Avira is that solution.</p>
-    </div>
-
-    <!-- Floating material stage -->
-    <div class="mat-stage" id="mat-stage">
-
-      <!-- ── TEAK DECK PLANK ── -->
-      <div class="mat-item mat-float-a" id="mat-teak" style="left:2%;top:110px;">
-        <img src="https://images.pexels.com/photos/326311/pexels-photo-326311.jpeg?auto=compress&cs=tinysrgb&w=800" class="mat-photo mat-photo-teak" alt="Teak deck offcut"/>
-        <div class="mat-card">
-          <div class="mat-card-head">Exotic Hardwood</div>
-          <div class="mat-row"><span>species</span><span>teak · walnut · wenge · ebony</span></div>
-          <div class="mat-row"><span>use</span><span>joinery · flooring · panelling</span></div>
-          <div class="mat-row"><span>offcut rate</span><span>20–35% per shipment</span></div>
-          <div class="mat-row mat-row-alert"><span>fate</span><span>skip bin or incineration</span></div>
-          <div class="mat-card-foot">→ Avira: tray inlay · coaster surface</div>
-        </div>
-      </div>
-
-      <!-- ── CARBON FIBRE PANEL ── -->
-      <div class="mat-item mat-float-b active" id="mat-carbon" style="left:35%;top:50px;">
-        <img src="https://images.pexels.com/photos/596815/pexels-photo-596815.jpeg?auto=compress&cs=tinysrgb&w=800" class="mat-photo mat-photo-carbon" alt="Carbon fibre hull panel"/>
-        <div class="mat-card">
-          <div class="mat-card-head">Carbon Hull Panel</div>
-          <div class="mat-row"><span>grade</span><span>aerospace CFRP prepreg</span></div>
-          <div class="mat-row"><span>source</span><span>hull skin offcut</span></div>
-          <div class="mat-row"><span>waste rate</span><span>30–40% per panel</span></div>
-          <div class="mat-row"><span>recyclable</span><span>not reworkable</span></div>
-          <div class="mat-row mat-row-alert"><span>disposal</span><span>$210 /t → incineration</span></div>
-          <div class="mat-card-foot">→ Avira: tray surface · coaster</div>
-        </div>
-      </div>
-
-      <!-- ── FULL-GRAIN LEATHER ── -->
-      <div class="mat-item mat-float-c" id="mat-leather" style="left:67%;top:90px;">
-        <img src="https://images.pexels.com/photos/3638008/pexels-photo-3638008.jpeg?auto=compress&cs=tinysrgb&w=800" class="mat-photo mat-photo-leather" alt="Full-grain leather upholstery"/>
-        <div class="mat-card">
-          <div class="mat-card-head">Full-Grain Leather</div>
-          <div class="mat-row"><span>origin</span><span>Italian tanneries</span></div>
-          <div class="mat-row"><span>use</span><span>seating · wall panels · headliners</span></div>
-          <div class="mat-row"><span>offcut rate</span><span>25–40% per hide</span></div>
-          <div class="mat-row mat-row-alert"><span>fate</span><span>discarded — no resale</span></div>
-          <div class="mat-card-foot">→ Avira: tray base · coaster wrap</div>
-        </div>
-      </div>
-
-    </div><!-- /mat-stage -->
-
-    <!-- Bottom stat row -->
-    <div class="mat-stats">
-      <div class="mat-stat-chip reveal">
-        <div class="mat-stat-n">30–40%</div>
-        <div class="mat-stat-l">of every premium material ordered for a superyacht fit-out becomes offcut waste — wood, leather, carbon, stone, textile</div>
-      </div>
-      <div class="mat-stat-chip reveal reveal-delay-1">
-        <div class="mat-stat-n">$190–220</div>
-        <div class="mat-stat-l">per tonne — average disposal cost for composite and finishing waste. For leather and exotic wood: no market, no recovery</div>
-      </div>
-      <div class="mat-stat-chip reveal reveal-delay-2">
-        <div class="mat-stat-n">2027</div>
-        <div class="mat-stat-l">IMO carbon levy comes into force — waste disposal liability across all shipyard material streams escalates further</div>
-      </div>
+      <p class="mat-header-sub reveal reveal-delay-1">A superyacht fit-out specifies materials from the same palette as the finest interiors on earth — exotic hardwoods, aerospace carbon, Italian leather, Alcantara, silk, stone, bouclé, lacquer. Every cut, join, and panel generates offcuts. Thirty to forty percent of everything ordered ends in the skip bin. Avira takes it before that happens.</p>
     </div>
   </section>
 
+  <!-- ── Material texture grid — 15 tiles · 5 × 3 ── -->
+  <section>
+    <div class="mat-grid">
+
+      <div class="mat-tile">
+        <img src="https://images.pexels.com/photos/326311/pexels-photo-326311.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Teak" onerror="this.parentElement.style.background='#a07848'">
+        <div class="mat-tile-overlay">
+          <span class="mat-tile-name">Teak</span>
+          <span class="mat-tile-cat">Exotic Hardwood</span>
+          <span class="mat-tile-fate">deck · joinery · flooring</span>
+        </div>
+      </div>
+
+      <div class="mat-tile">
+        <img src="https://images.pexels.com/photos/37225886/pexels-photo-37225886.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Oak" onerror="this.parentElement.style.background='#c8a870'">
+        <div class="mat-tile-overlay">
+          <span class="mat-tile-name">Oak</span>
+          <span class="mat-tile-cat">Exotic Hardwood</span>
+          <span class="mat-tile-fate">cabinetry · panelling</span>
+        </div>
+      </div>
+
+      <div class="mat-tile">
+        <img src="https://images.pexels.com/photos/6373386/pexels-photo-6373386.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Mahogany" onerror="this.parentElement.style.background='#5c3a20'">
+        <div class="mat-tile-overlay">
+          <span class="mat-tile-name">Mahogany</span>
+          <span class="mat-tile-cat">Exotic Hardwood</span>
+          <span class="mat-tile-fate">joinery · furniture · doors</span>
+        </div>
+      </div>
+
+      <div class="mat-tile">
+        <img src="https://images.pexels.com/photos/8337527/pexels-photo-8337527.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Wenge" onerror="this.parentElement.style.background='#2e1e10'">
+        <div class="mat-tile-overlay">
+          <span class="mat-tile-name">Wenge</span>
+          <span class="mat-tile-cat">Exotic Hardwood</span>
+          <span class="mat-tile-fate">wall panels · feature joinery</span>
+        </div>
+      </div>
+
+      <div class="mat-tile">
+        <img src="https://images.pexels.com/photos/596815/pexels-photo-596815.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Carbon Fibre" onerror="this.parentElement.style.background='#1a1a1e'">
+        <div class="mat-tile-overlay">
+          <span class="mat-tile-name">Carbon Fibre</span>
+          <span class="mat-tile-cat">Composite</span>
+          <span class="mat-tile-fate">hull skin · deck panels · ceilings</span>
+        </div>
+      </div>
+
+      <div class="mat-tile">
+        <img src="https://images.pexels.com/photos/17709770/pexels-photo-17709770.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Brushed Steel" onerror="this.parentElement.style.background='#8a8e91'">
+        <div class="mat-tile-overlay">
+          <span class="mat-tile-name">Brushed Steel</span>
+          <span class="mat-tile-cat">Metal</span>
+          <span class="mat-tile-fate">hardware · fittings · handrails</span>
+        </div>
+      </div>
+
+      <div class="mat-tile">
+        <img src="https://images.pexels.com/photos/10533148/pexels-photo-10533148.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Corian" onerror="this.parentElement.style.background='#e8e4de'">
+        <div class="mat-tile-overlay">
+          <span class="mat-tile-name">Corian</span>
+          <span class="mat-tile-cat">Solid Surface</span>
+          <span class="mat-tile-fate">galley · bathrooms · countertops</span>
+        </div>
+      </div>
+
+      <div class="mat-tile">
+        <img src="https://images.pexels.com/photos/3638008/pexels-photo-3638008.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Full-Grain Leather" onerror="this.parentElement.style.background='#7a4e2d'">
+        <div class="mat-tile-overlay">
+          <span class="mat-tile-name">Full-Grain Leather</span>
+          <span class="mat-tile-cat">Leather</span>
+          <span class="mat-tile-fate">seating · headliners · wall panels</span>
+        </div>
+      </div>
+
+      <div class="mat-tile">
+        <img src="https://images.pexels.com/photos/3721330/pexels-photo-3721330.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Alcantara" onerror="this.parentElement.style.background='#8a6a48'">
+        <div class="mat-tile-overlay">
+          <span class="mat-tile-name">Alcantara</span>
+          <span class="mat-tile-cat">Suede / Technical Textile</span>
+          <span class="mat-tile-fate">headliners · door panels · ceilings</span>
+        </div>
+      </div>
+
+      <div class="mat-tile">
+        <img src="https://images.pexels.com/photos/35974685/pexels-photo-35974685.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Velvet" onerror="this.parentElement.style.background='#2e6040'">
+        <div class="mat-tile-overlay">
+          <span class="mat-tile-name">Velvet</span>
+          <span class="mat-tile-cat">Fabric</span>
+          <span class="mat-tile-fate">seating · curtains · cushions</span>
+        </div>
+      </div>
+
+      <div class="mat-tile">
+        <img src="https://images.pexels.com/photos/6045258/pexels-photo-6045258.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Bouclé" onerror="this.parentElement.style.background='#c0b090'">
+        <div class="mat-tile-overlay">
+          <span class="mat-tile-name">Bouclé</span>
+          <span class="mat-tile-cat">Fabric</span>
+          <span class="mat-tile-fate">upholstery · accent walls</span>
+        </div>
+      </div>
+
+      <div class="mat-tile">
+        <img src="https://images.pexels.com/photos/11255284/pexels-photo-11255284.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Wool Carpet" onerror="this.parentElement.style.background='#9a9898'">
+        <div class="mat-tile-overlay">
+          <span class="mat-tile-name">Wool Carpet</span>
+          <span class="mat-tile-cat">Flooring</span>
+          <span class="mat-tile-fate">cabin floors · saloon · corridors</span>
+        </div>
+      </div>
+
+      <div class="mat-tile">
+        <img src="https://images.pexels.com/photos/7717488/pexels-photo-7717488.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Silk" onerror="this.parentElement.style.background='#e0d8c8'">
+        <div class="mat-tile-overlay">
+          <span class="mat-tile-name">Silk</span>
+          <span class="mat-tile-cat">Textile</span>
+          <span class="mat-tile-fate">curtains · cushions · upholstery</span>
+        </div>
+      </div>
+
+      <div class="mat-tile">
+        <img src="https://images.pexels.com/photos/36346049/pexels-photo-36346049.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Woven Linen" onerror="this.parentElement.style.background='#c4b898'">
+        <div class="mat-tile-overlay">
+          <span class="mat-tile-name">Woven Linen</span>
+          <span class="mat-tile-cat">Textile</span>
+          <span class="mat-tile-fate">wall covering · curtains</span>
+        </div>
+      </div>
+
+      <div class="mat-tile">
+        <img src="https://images.pexels.com/photos/10064809/pexels-photo-10064809.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Wallpaper" onerror="this.parentElement.style.background='#c8a84a'">
+        <div class="mat-tile-overlay">
+          <span class="mat-tile-name">Wallpaper</span>
+          <span class="mat-tile-cat">Wall Covering</span>
+          <span class="mat-tile-fate">cabins · saloon · master suite</span>
+        </div>
+      </div>
+
+    </div><!-- /mat-grid -->
+  </section>
+
+  <!-- ── Stats ── -->
+  <div class="mat-grid-stats">
+    <div class="mat-grid-stat reveal">
+      <div class="mat-stat-n">30–40%</div>
+      <div class="mat-stat-l">of every premium material ordered for a superyacht fit-out becomes offcut waste — wood, leather, carbon, stone, textile</div>
+    </div>
+    <div class="mat-grid-stat reveal reveal-delay-1">
+      <div class="mat-stat-n">$190–220</div>
+      <div class="mat-stat-l">per tonne — average disposal cost for composite and finishing waste. For leather and exotic wood: no market, no recovery</div>
+    </div>
+    <div class="mat-grid-stat reveal reveal-delay-2">
+      <div class="mat-stat-n">2027</div>
+      <div class="mat-stat-l">IMO carbon levy comes into force — waste disposal liability across all shipyard material streams escalates further</div>
+    </div>
+  </div>
 
   <hr />
 
-  <!-- Material band — brand identity statement -->
+  <!-- ── Material brand statement ── -->
   <section class="material">
     <h2 class="reveal">Material<br />that has<br /><em>already lived.</em></h2>
     <div class="material-right">
