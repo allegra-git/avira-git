@@ -945,7 +945,7 @@
       box-shadow: 0 12px 40px rgba(0,0,0,0.22);
       opacity: 0;
       pointer-events: none;
-      transition: opacity 0.42s ease, transform 0.42s ease;
+      transition: opacity 0.22s ease, transform 0.22s ease;
     }
     .mkit-item.mkit-active .mkit-card,
     .mkit-item:hover .mkit-card {
@@ -2189,23 +2189,33 @@
     _mkitStarted = true;
     const items = Array.from(document.querySelectorAll('.mkit-item'));
     if (!items.length) return;
-    let current = 0;
-    let paused  = false;
 
-    function activate(idx) {
+    let cycleIdx  = 0;   // which item the auto-cycle is on
+    let hoverIdx  = -1;  // -1 = no hover
+
+    function showItem(idx) {
       items.forEach(it => it.classList.remove('mkit-active'));
-      items[idx].classList.add('mkit-active');
-      current = idx;
+      if (idx >= 0) items[idx].classList.add('mkit-active');
     }
 
-    activate(0);
+    // Start cycle
+    showItem(0);
     setInterval(() => {
-      if (!paused) activate((current + 1) % items.length);
-    }, 2800);
+      if (hoverIdx === -1) {                       // only advance when not hovering
+        cycleIdx = (cycleIdx + 1) % items.length;
+        showItem(cycleIdx);
+      }
+    }, 2600);
 
     items.forEach((item, idx) => {
-      item.addEventListener('mouseenter', () => { paused = true;  activate(idx); });
-      item.addEventListener('mouseleave', () => { paused = false; });
+      item.addEventListener('mouseenter', () => {
+        hoverIdx = idx;
+        showItem(idx);                             // immediately show this card
+      });
+      item.addEventListener('mouseleave', () => {
+        hoverIdx = -1;
+        showItem(cycleIdx);                        // immediately revert to cycle item — no lag
+      });
     });
   }
 
