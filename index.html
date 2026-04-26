@@ -16,7 +16,7 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg:    #aaacae;
+      --bg:    #8c8e90;
       --ink:   #0d0d0d;
       --mid:   #1e2022;
       --rule:  rgba(10,10,10,0.22);
@@ -32,23 +32,50 @@
       font-family: 'Jost', sans-serif;
       font-weight: 200;
       overflow-x: hidden;
-      /* Real brushed steel photo + mouse-tracking mirror reflection overlay */
-      background-color: #b2b4b6;
+      /*
+       * Layered steel: real photo handles the brushed grain,
+       * CSS gradients handle the mirror-finish oval reflections.
+       * Mouse tracking on the top highlight makes it feel live.
+       */
+      background-color: #848688;
       background-image:
-        /* Mirror highlight — follows cursor for live reflection effect */
+        /* 1 — cursor-tracking reflection: the "live mirror" effect */
         radial-gradient(
-          ellipse 50% 85% at var(--mx) var(--my),
-          rgba(255,255,255,0.52) 0%,
-          rgba(255,255,255,0.20) 20%,
-          rgba(255,255,255,0.04) 44%,
-          transparent 62%
+          ellipse 38% 75% at var(--mx) var(--my),
+          rgba(255,255,255,0.70) 0%,
+          rgba(255,255,255,0.35) 14%,
+          rgba(255,255,255,0.08) 36%,
+          transparent 56%
         ),
-        /* Real brushed stainless steel photo */
+        /* 2 — fixed left studio light (matches the bright left column in the photo) */
+        radial-gradient(
+          ellipse 20% 72% at 27% 50%,
+          rgba(255,255,255,0.80) 0%,
+          rgba(255,255,255,0.44) 14%,
+          rgba(255,255,255,0.10) 38%,
+          transparent 58%
+        ),
+        /* 3 — fixed right studio light (matches the softer right column) */
+        radial-gradient(
+          ellipse 15% 65% at 70% 50%,
+          rgba(255,255,255,0.55) 0%,
+          rgba(255,255,255,0.24) 18%,
+          rgba(255,255,255,0.05) 42%,
+          transparent 58%
+        ),
+        /* 4 — suppress the photo's own faded highlights so CSS ones dominate */
+        linear-gradient(rgba(0,0,0,0.18), rgba(0,0,0,0.18)),
+        /* 5 — real photo: provides the fine horizontal brushed grain */
         url('assets/steel-bg.jpg');
-      background-size: 100vw 100vh, cover;
-      background-attachment: fixed, fixed;
-      background-position: 0 0, center center;
-      background-repeat: no-repeat, no-repeat;
+      background-size:
+        100vw 100vh,
+        100vw 100vh,
+        100vw 100vh,
+        100vw 100vh,
+        cover;
+      background-attachment: fixed, fixed, fixed, fixed, fixed;
+      background-position: 0 0, 0 0, 0 0, 0 0, center center;
+      background-repeat: no-repeat, no-repeat, no-repeat, no-repeat, no-repeat;
     }
 
     /* ── PAGE SWITCHING ──────────────────────────────────── */
