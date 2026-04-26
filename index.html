@@ -900,6 +900,86 @@
     }
     .mat-grid-stat:last-child { border-right: none; }
 
+    /* ── KITRO-STYLE MATERIAL STAGE ─────────────────────── */
+    .mkit-stage {
+      display: flex;
+      width: 100%;
+      overflow: hidden;
+      min-height: 500px;
+      margin-top: 3rem;
+      align-items: stretch;
+    }
+    .mkit-item {
+      flex: 0 0 calc(100% / 5.4);
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+    }
+    .mkit-item img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.7s ease, filter 0.5s ease;
+      filter: brightness(0.78) saturate(0.9);
+    }
+    .mkit-item.mkit-active img,
+    .mkit-item:hover img {
+      filter: brightness(1) saturate(1);
+      transform: scale(1.04);
+    }
+    .mkit-card {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -46%);
+      width: 220px;
+      overflow: hidden;
+      border: 0.5px solid rgba(242,237,230,0.28);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.22);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.42s ease, transform 0.42s ease;
+    }
+    .mkit-item.mkit-active .mkit-card,
+    .mkit-item:hover .mkit-card {
+      opacity: 1;
+      transform: translate(-50%, -50%);
+    }
+    .mkit-blur {
+      height: 120px;
+      backdrop-filter: blur(22px) brightness(0.82) saturate(1.5);
+      -webkit-backdrop-filter: blur(22px) brightness(0.82) saturate(1.5);
+      background: rgba(255,255,255,0.06);
+    }
+    .mkit-data {
+      background: rgba(242,237,230,0.94);
+      padding: 1rem 1.2rem 1.35rem;
+    }
+    .mkit-mat-name {
+      font-family: 'Jost', sans-serif;
+      font-weight: 300;
+      font-size: 0.7rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: #0d0d0d;
+      margin-bottom: 0.6rem;
+    }
+    .mkit-sep {
+      border: none;
+      border-top: 0.5px solid rgba(10,10,10,0.16);
+      margin-bottom: 0.65rem;
+    }
+    .mkit-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      font-size: 0.55rem;
+      letter-spacing: 0.06em;
+      line-height: 1.45;
+      margin-bottom: 0.38rem;
+    }
+    .mkit-row span:first-child { color: rgba(10,10,10,0.46); }
+    .mkit-row span:last-child  { color: #0d0d0d; font-weight: 300; text-align: right; padding-left: 0.6rem; }
+
     /* ── LIFECYCLE INTERACTIVE ──────────────────────────── */
     .lifecycle {
       padding: 5rem 3rem 5rem;
@@ -1473,147 +1553,100 @@
     </div>
   </section>
 
-  <!-- ── Material texture grid — 15 tiles · 5 × 3 ── -->
-  <section>
-    <div class="mat-grid">
+  <!-- ── Kitro-style material stage — 6 items, auto-cycle, hover to pause ── -->
+  <div class="mkit-stage" id="mkit-stage">
 
-      <div class="mat-tile">
-        <img src="https://images.pexels.com/photos/326311/pexels-photo-326311.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Teak" onerror="this.parentElement.style.background='#a07848'">
-        <div class="mat-tile-overlay">
-          <span class="mat-tile-name">Teak</span>
-          <span class="mat-tile-cat">Exotic Hardwood</span>
-          <span class="mat-tile-fate">deck · joinery · flooring</span>
+    <!-- 1. TEAK -->
+    <div class="mkit-item mkit-active">
+      <img src="https://images.pexels.com/photos/326311/pexels-photo-326311.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Teak">
+      <div class="mkit-card">
+        <div class="mkit-blur"></div>
+        <div class="mkit-data">
+          <p class="mkit-mat-name">Teak</p>
+          <hr class="mkit-sep">
+          <div class="mkit-row"><span>offcut rate</span><span>30–50%</span></div>
+          <div class="mkit-row"><span>fate</span><span>incineration · landfill</span></div>
+          <div class="mkit-row"><span>source</span><span>deck · joinery · flooring</span></div>
         </div>
       </div>
+    </div>
 
-      <div class="mat-tile">
-        <img src="https://images.pexels.com/photos/37225886/pexels-photo-37225886.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Oak" onerror="this.parentElement.style.background='#c8a870'">
-        <div class="mat-tile-overlay">
-          <span class="mat-tile-name">Oak</span>
-          <span class="mat-tile-cat">Exotic Hardwood</span>
-          <span class="mat-tile-fate">cabinetry · panelling</span>
+    <!-- 2. CARBON FIBRE -->
+    <div class="mkit-item">
+      <img src="https://images.pexels.com/photos/596815/pexels-photo-596815.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Carbon Fibre">
+      <div class="mkit-card">
+        <div class="mkit-blur"></div>
+        <div class="mkit-data">
+          <p class="mkit-mat-name">Carbon Fibre</p>
+          <hr class="mkit-sep">
+          <div class="mkit-row"><span>offcut rate</span><span>30–40%</span></div>
+          <div class="mkit-row"><span>disposal cost</span><span>€100/t · 85% landfilled</span></div>
+          <div class="mkit-row"><span>source</span><span>hull · superstructure</span></div>
         </div>
       </div>
+    </div>
 
-      <div class="mat-tile">
-        <img src="https://images.pexels.com/photos/6373386/pexels-photo-6373386.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Mahogany" onerror="this.parentElement.style.background='#5c3a20'">
-        <div class="mat-tile-overlay">
-          <span class="mat-tile-name">Mahogany</span>
-          <span class="mat-tile-cat">Exotic Hardwood</span>
-          <span class="mat-tile-fate">joinery · furniture · doors</span>
+    <!-- 3. FULL-GRAIN LEATHER -->
+    <div class="mkit-item">
+      <img src="https://images.pexels.com/photos/3638008/pexels-photo-3638008.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Full-Grain Leather">
+      <div class="mkit-card">
+        <div class="mkit-blur"></div>
+        <div class="mkit-data">
+          <p class="mkit-mat-name">Leather</p>
+          <hr class="mkit-sep">
+          <div class="mkit-row"><span>offcut rate</span><span>25–40% per hide</span></div>
+          <div class="mkit-row"><span>fate</span><span>no market · landfill</span></div>
+          <div class="mkit-row"><span>source</span><span>seating · headliners · walls</span></div>
         </div>
       </div>
+    </div>
 
-      <div class="mat-tile">
-        <img src="https://images.pexels.com/photos/8337527/pexels-photo-8337527.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Wenge" onerror="this.parentElement.style.background='#2e1e10'">
-        <div class="mat-tile-overlay">
-          <span class="mat-tile-name">Wenge</span>
-          <span class="mat-tile-cat">Exotic Hardwood</span>
-          <span class="mat-tile-fate">wall panels · feature joinery</span>
+    <!-- 4. ALCANTARA -->
+    <div class="mkit-item">
+      <img src="https://images.pexels.com/photos/3721330/pexels-photo-3721330.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Alcantara">
+      <div class="mkit-card">
+        <div class="mkit-blur"></div>
+        <div class="mkit-data">
+          <p class="mkit-mat-name">Alcantara</p>
+          <hr class="mkit-sep">
+          <div class="mkit-row"><span>offcut rate</span><span>15–25%</span></div>
+          <div class="mkit-row"><span>fate</span><span>84% incinerated</span></div>
+          <div class="mkit-row"><span>source</span><span>headliners · panels · ceilings</span></div>
         </div>
       </div>
+    </div>
 
-      <div class="mat-tile">
-        <img src="https://images.pexels.com/photos/596815/pexels-photo-596815.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Carbon Fibre" onerror="this.parentElement.style.background='#1a1a1e'">
-        <div class="mat-tile-overlay">
-          <span class="mat-tile-name">Carbon Fibre</span>
-          <span class="mat-tile-cat">Composite</span>
-          <span class="mat-tile-fate">hull skin · deck panels · ceilings</span>
+    <!-- 5. WOOL CARPET -->
+    <div class="mkit-item">
+      <img src="https://images.pexels.com/photos/11255284/pexels-photo-11255284.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Wool Carpet">
+      <div class="mkit-card">
+        <div class="mkit-blur"></div>
+        <div class="mkit-data">
+          <p class="mkit-mat-name">Wool Carpet</p>
+          <hr class="mkit-sep">
+          <div class="mkit-row"><span>offcut rate</span><span>10–20%</span></div>
+          <div class="mkit-row"><span>fate</span><span>90% landfill · £152/t</span></div>
+          <div class="mkit-row"><span>source</span><span>cabin floors · saloon</span></div>
         </div>
       </div>
+    </div>
 
-      <div class="mat-tile">
-        <img src="https://images.pexels.com/photos/17709770/pexels-photo-17709770.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Brushed Steel" onerror="this.parentElement.style.background='#8a8e91'">
-        <div class="mat-tile-overlay">
-          <span class="mat-tile-name">Brushed Steel</span>
-          <span class="mat-tile-cat">Metal</span>
-          <span class="mat-tile-fate">hardware · fittings · handrails</span>
+    <!-- 6. SILK -->
+    <div class="mkit-item">
+      <img src="https://images.pexels.com/photos/7717488/pexels-photo-7717488.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Silk">
+      <div class="mkit-card">
+        <div class="mkit-blur"></div>
+        <div class="mkit-data">
+          <p class="mkit-mat-name">Silk</p>
+          <hr class="mkit-sep">
+          <div class="mkit-row"><span>offcut rate</span><span>~15%</span></div>
+          <div class="mkit-row"><span>fate</span><span>no recovery stream</span></div>
+          <div class="mkit-row"><span>source</span><span>curtains · upholstery</span></div>
         </div>
       </div>
+    </div>
 
-      <div class="mat-tile">
-        <img src="https://images.pexels.com/photos/10533148/pexels-photo-10533148.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Corian" onerror="this.parentElement.style.background='#e8e4de'">
-        <div class="mat-tile-overlay">
-          <span class="mat-tile-name">Corian</span>
-          <span class="mat-tile-cat">Solid Surface</span>
-          <span class="mat-tile-fate">galley · bathrooms · countertops</span>
-        </div>
-      </div>
-
-      <div class="mat-tile">
-        <img src="https://images.pexels.com/photos/3638008/pexels-photo-3638008.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Full-Grain Leather" onerror="this.parentElement.style.background='#7a4e2d'">
-        <div class="mat-tile-overlay">
-          <span class="mat-tile-name">Full-Grain Leather</span>
-          <span class="mat-tile-cat">Leather</span>
-          <span class="mat-tile-fate">seating · headliners · wall panels</span>
-        </div>
-      </div>
-
-      <div class="mat-tile">
-        <img src="https://images.pexels.com/photos/3721330/pexels-photo-3721330.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Alcantara" onerror="this.parentElement.style.background='#8a6a48'">
-        <div class="mat-tile-overlay">
-          <span class="mat-tile-name">Alcantara</span>
-          <span class="mat-tile-cat">Suede / Technical Textile</span>
-          <span class="mat-tile-fate">headliners · door panels · ceilings</span>
-        </div>
-      </div>
-
-      <div class="mat-tile">
-        <img src="https://images.pexels.com/photos/35974685/pexels-photo-35974685.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Velvet" onerror="this.parentElement.style.background='#2e6040'">
-        <div class="mat-tile-overlay">
-          <span class="mat-tile-name">Velvet</span>
-          <span class="mat-tile-cat">Fabric</span>
-          <span class="mat-tile-fate">seating · curtains · cushions</span>
-        </div>
-      </div>
-
-      <div class="mat-tile">
-        <img src="https://images.pexels.com/photos/6045258/pexels-photo-6045258.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Bouclé" onerror="this.parentElement.style.background='#c0b090'">
-        <div class="mat-tile-overlay">
-          <span class="mat-tile-name">Bouclé</span>
-          <span class="mat-tile-cat">Fabric</span>
-          <span class="mat-tile-fate">upholstery · accent walls</span>
-        </div>
-      </div>
-
-      <div class="mat-tile">
-        <img src="https://images.pexels.com/photos/11255284/pexels-photo-11255284.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Wool Carpet" onerror="this.parentElement.style.background='#9a9898'">
-        <div class="mat-tile-overlay">
-          <span class="mat-tile-name">Wool Carpet</span>
-          <span class="mat-tile-cat">Flooring</span>
-          <span class="mat-tile-fate">cabin floors · saloon · corridors</span>
-        </div>
-      </div>
-
-      <div class="mat-tile">
-        <img src="https://images.pexels.com/photos/7717488/pexels-photo-7717488.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Silk" onerror="this.parentElement.style.background='#e0d8c8'">
-        <div class="mat-tile-overlay">
-          <span class="mat-tile-name">Silk</span>
-          <span class="mat-tile-cat">Textile</span>
-          <span class="mat-tile-fate">curtains · cushions · upholstery</span>
-        </div>
-      </div>
-
-      <div class="mat-tile">
-        <img src="https://images.pexels.com/photos/36346049/pexels-photo-36346049.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Woven Linen" onerror="this.parentElement.style.background='#c4b898'">
-        <div class="mat-tile-overlay">
-          <span class="mat-tile-name">Woven Linen</span>
-          <span class="mat-tile-cat">Textile</span>
-          <span class="mat-tile-fate">wall covering · curtains</span>
-        </div>
-      </div>
-
-      <div class="mat-tile">
-        <img src="https://images.pexels.com/photos/10064809/pexels-photo-10064809.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Wallpaper" onerror="this.parentElement.style.background='#c8a84a'">
-        <div class="mat-tile-overlay">
-          <span class="mat-tile-name">Wallpaper</span>
-          <span class="mat-tile-cat">Wall Covering</span>
-          <span class="mat-tile-fate">cabins · saloon · master suite</span>
-        </div>
-      </div>
-
-    </div><!-- /mat-grid -->
-  </section>
+  </div><!-- /mkit-stage -->
 
   <!-- ── Stats ── -->
   <div class="mat-grid-stats">
@@ -2136,6 +2169,35 @@
     // initialise 3D viewer the first time products page is opened
     if (id === 'products') initViewer();
     // lifecycle lives on home page — already started on DOMContentLoaded
+    // start material stage when mission page opens
+    if (id === 'mission') initMkitStage();
+  }
+
+  /* ── KITRO MATERIAL STAGE ────────────────────────────────── */
+  let _mkitStarted = false;
+  function initMkitStage() {
+    if (_mkitStarted) return;
+    _mkitStarted = true;
+    const items = Array.from(document.querySelectorAll('.mkit-item'));
+    if (!items.length) return;
+    let current = 0;
+    let paused  = false;
+
+    function activate(idx) {
+      items.forEach(it => it.classList.remove('mkit-active'));
+      items[idx].classList.add('mkit-active');
+      current = idx;
+    }
+
+    activate(0);
+    setInterval(() => {
+      if (!paused) activate((current + 1) % items.length);
+    }, 2800);
+
+    items.forEach((item, idx) => {
+      item.addEventListener('mouseenter', () => { paused = true;  activate(idx); });
+      item.addEventListener('mouseleave', () => { paused = false; });
+    });
   }
 
   /* ── LIFECYCLE ANIMATION ──────────────────────────────────── */
