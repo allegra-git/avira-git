@@ -16,11 +16,13 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg:    #7e8285;
+      --bg:    #aaacae;
       --ink:   #0d0d0d;
       --mid:   #1e2022;
       --rule:  rgba(10,10,10,0.22);
       --light: #dfe1e2;
+      --mx:    30%;   /* mouse-tracking reflection X */
+      --my:    44%;   /* mouse-tracking reflection Y */
     }
 
     html { scroll-behavior: smooth; }
@@ -30,30 +32,35 @@
       font-family: 'Jost', sans-serif;
       font-weight: 200;
       overflow-x: hidden;
-      /* Brushed 316L steel — vertical grain + diagonal sheen, locked to viewport */
+      /* Realistic 316L brushed steel — horizontal grain + mouse-tracking light */
       background-color: var(--bg);
       background-image:
-        linear-gradient(
-          112deg,
-          rgba(0,0,0,0.38)        0%,
-          rgba(0,0,0,0.12)       16%,
-          rgba(255,255,255,0.30)  28%,
-          rgba(255,255,255,0.52)  40%,
-          rgba(255,255,255,0.26)  52%,
-          rgba(0,0,0,0.10)       64%,
-          rgba(255,255,255,0.14)  78%,
-          rgba(0,0,0,0.32)      100%
+        /* Primary light — tracks the mouse cursor */
+        radial-gradient(
+          ellipse 52% 88% at var(--mx) var(--my),
+          rgba(255,255,255,0.78) 0%,
+          rgba(255,255,255,0.38) 16%,
+          rgba(255,255,255,0.08) 40%,
+          transparent 60%
         ),
+        /* Secondary fixed ambient reflection — upper-right */
+        radial-gradient(
+          ellipse 34% 82% at 74% 46%,
+          rgba(255,255,255,0.40) 0%,
+          rgba(255,255,255,0.14) 26%,
+          transparent 52%
+        ),
+        /* Horizontal brushed grain */
         repeating-linear-gradient(
-          90deg,
-          rgba(255,255,255,0.055) 0px,
-          rgba(255,255,255,0.055) 1px,
-          rgba(0,0,0,0.040)       1px,
-          rgba(0,0,0,0.040)       2px,
+          0deg,
+          rgba(255,255,255,0.052) 0px,
+          rgba(255,255,255,0.052) 1px,
+          rgba(0,0,0,0.032)       1px,
+          rgba(0,0,0,0.032)       2px,
           transparent             2px,
-          transparent             3px
+          transparent             4px
         );
-      background-size: 100vw 100vh, 3px 100vh;
+      background-size: 100vw 100vh, 100vw 100vh, 4px 4px;
       background-attachment: fixed;
     }
 
@@ -69,17 +76,6 @@
     #page-mission { padding-top: 5rem; }
     #page-mission { background: #f2ede6; }
 
-    /* ── HOME PAGE — warm platinum brushed steel ─────────── */
-    #page-home {
-      background-color: #d0ccc6;
-      background-image: repeating-linear-gradient(
-        0deg,
-        rgba(255,255,255,0.068) 0px, rgba(255,255,255,0.068) 1px,
-        rgba(0,0,0,0.044)       1px, rgba(0,0,0,0.044)       2px,
-        transparent             2px, transparent             4px
-      );
-      background-attachment: fixed;
-    }
     .home-hero {
       padding: 4rem 3.5rem 6rem;
       display: grid;
@@ -1081,16 +1077,6 @@
     }
 
     /* ── CONCEPT PAGE ───────────────────────────────────── */
-    #page-concept {
-      /* Plain brushed steel — no diagonal sheen, just grain */
-      background-color: #c9cbca;
-      background-image: repeating-linear-gradient(90deg,
-        rgba(255,255,255,0.07) 0px, rgba(255,255,255,0.07) 1px,
-        rgba(0,0,0,0.048) 1px, rgba(0,0,0,0.048) 2px,
-        transparent 2px, transparent 3px
-      );
-      background-attachment: fixed;
-    }
     /* Opening hero — centered editorial */
     .cnc-hero {
       padding: 6rem 3.5rem 5rem;
@@ -1151,7 +1137,7 @@
     }
     .cnc-pillar {
       padding: 4.5rem 3.8rem 5rem;
-      background: #c9cbca;
+      background: var(--bg);
     }
     .cnc-pillar-num {
       display: block;
@@ -2088,6 +2074,8 @@
   document.addEventListener('mousemove', e => {
     cursor.style.left = e.clientX + 'px';
     cursor.style.top  = e.clientY + 'px';
+    document.documentElement.style.setProperty('--mx', (e.clientX / innerWidth  * 100).toFixed(1) + '%');
+    document.documentElement.style.setProperty('--my', (e.clientY / innerHeight * 100).toFixed(1) + '%');
   });
 
   // Intersection observer — handles scroll reveals on the home page
