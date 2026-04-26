@@ -16,13 +16,11 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg:    #8c8e90;
+      --bg:    #aaacae;
       --ink:   #0d0d0d;
       --mid:   #1e2022;
       --rule:  rgba(10,10,10,0.22);
       --light: #dfe1e2;
-      --mx:    30%;   /* mouse-tracking reflection X */
-      --my:    44%;   /* mouse-tracking reflection Y */
     }
 
     html { scroll-behavior: smooth; }
@@ -32,50 +30,29 @@
       font-family: 'Jost', sans-serif;
       font-weight: 200;
       overflow-x: hidden;
-      /*
-       * Layered steel: real photo handles the brushed grain,
-       * CSS gradients handle the mirror-finish oval reflections.
-       * Mouse tracking on the top highlight makes it feel live.
-       */
-      background-color: #848688;
+      background-color: var(--bg);
       background-image:
-        /* 1 — cursor-tracking reflection: the "live mirror" effect */
         radial-gradient(
-          ellipse 38% 75% at var(--mx) var(--my),
-          rgba(255,255,255,0.70) 0%,
-          rgba(255,255,255,0.35) 14%,
-          rgba(255,255,255,0.08) 36%,
-          transparent 56%
+          ellipse 52% 88% at 28% 50%,
+          rgba(255,255,255,0.78) 0%,
+          rgba(255,255,255,0.38) 16%,
+          rgba(255,255,255,0.08) 40%,
+          transparent 60%
         ),
-        /* 2 — fixed left studio light (matches the bright left column in the photo) */
         radial-gradient(
-          ellipse 20% 72% at 27% 50%,
-          rgba(255,255,255,0.80) 0%,
-          rgba(255,255,255,0.44) 14%,
-          rgba(255,255,255,0.10) 38%,
-          transparent 58%
+          ellipse 34% 82% at 74% 46%,
+          rgba(255,255,255,0.40) 0%,
+          rgba(255,255,255,0.14) 26%,
+          transparent 52%
         ),
-        /* 3 — fixed right studio light (matches the softer right column) */
-        radial-gradient(
-          ellipse 15% 65% at 70% 50%,
-          rgba(255,255,255,0.55) 0%,
-          rgba(255,255,255,0.24) 18%,
-          rgba(255,255,255,0.05) 42%,
-          transparent 58%
-        ),
-        /* 4 — suppress the photo's own faded highlights so CSS ones dominate */
-        linear-gradient(rgba(0,0,0,0.18), rgba(0,0,0,0.18)),
-        /* 5 — real photo: provides the fine horizontal brushed grain */
-        url('assets/steel-bg.jpg');
-      background-size:
-        100vw 100vh,
-        100vw 100vh,
-        100vw 100vh,
-        100vw 100vh,
-        cover;
-      background-attachment: fixed, fixed, fixed, fixed, fixed;
-      background-position: 0 0, 0 0, 0 0, 0 0, center center;
-      background-repeat: no-repeat, no-repeat, no-repeat, no-repeat, no-repeat;
+        repeating-linear-gradient(
+          0deg,
+          rgba(255,255,255,0.052) 0px, rgba(255,255,255,0.052) 1px,
+          rgba(0,0,0,0.032)       1px, rgba(0,0,0,0.032)       2px,
+          transparent             2px, transparent             4px
+        );
+      background-size: 100vw 100vh, 100vw 100vh, 4px 4px;
+      background-attachment: fixed;
     }
 
     /* ── PAGE SWITCHING ──────────────────────────────────── */
@@ -2119,8 +2096,6 @@
   document.addEventListener('mousemove', e => {
     cursor.style.left = e.clientX + 'px';
     cursor.style.top  = e.clientY + 'px';
-    document.documentElement.style.setProperty('--mx', (e.clientX / innerWidth  * 100).toFixed(1) + '%');
-    document.documentElement.style.setProperty('--my', (e.clientY / innerHeight * 100).toFixed(1) + '%');
   });
 
   // Intersection observer — handles scroll reveals on the home page
