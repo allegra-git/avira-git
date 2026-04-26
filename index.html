@@ -32,36 +32,23 @@
       font-family: 'Jost', sans-serif;
       font-weight: 200;
       overflow-x: hidden;
-      /* Realistic 316L brushed steel — horizontal grain + mouse-tracking light */
-      background-color: var(--bg);
+      /* Real brushed steel photo + mouse-tracking mirror reflection overlay */
+      background-color: #b2b4b6;
       background-image:
-        /* Primary light — tracks the mouse cursor */
+        /* Mirror highlight — follows cursor for live reflection effect */
         radial-gradient(
-          ellipse 52% 88% at var(--mx) var(--my),
-          rgba(255,255,255,0.78) 0%,
-          rgba(255,255,255,0.38) 16%,
-          rgba(255,255,255,0.08) 40%,
-          transparent 60%
+          ellipse 50% 85% at var(--mx) var(--my),
+          rgba(255,255,255,0.52) 0%,
+          rgba(255,255,255,0.20) 20%,
+          rgba(255,255,255,0.04) 44%,
+          transparent 62%
         ),
-        /* Secondary fixed ambient reflection — upper-right */
-        radial-gradient(
-          ellipse 34% 82% at 74% 46%,
-          rgba(255,255,255,0.40) 0%,
-          rgba(255,255,255,0.14) 26%,
-          transparent 52%
-        ),
-        /* Horizontal brushed grain */
-        repeating-linear-gradient(
-          0deg,
-          rgba(255,255,255,0.052) 0px,
-          rgba(255,255,255,0.052) 1px,
-          rgba(0,0,0,0.032)       1px,
-          rgba(0,0,0,0.032)       2px,
-          transparent             2px,
-          transparent             4px
-        );
-      background-size: 100vw 100vh, 100vw 100vh, 4px 4px;
-      background-attachment: fixed;
+        /* Real brushed stainless steel photo */
+        url('assets/steel-bg.jpg');
+      background-size: 100vw 100vh, cover;
+      background-attachment: fixed, fixed;
+      background-position: 0 0, center center;
+      background-repeat: no-repeat, no-repeat;
     }
 
     /* ── PAGE SWITCHING ──────────────────────────────────── */
