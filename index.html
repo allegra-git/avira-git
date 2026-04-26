@@ -901,6 +901,14 @@
     .mat-grid-stat:last-child { border-right: none; }
 
     /* ── KITRO-STYLE MATERIAL STAGE ─────────────────────── */
+    .mkit-hint {
+      text-align: center;
+      font-size: 0.5rem;
+      letter-spacing: 0.42em;
+      text-transform: uppercase;
+      color: rgba(10,10,10,0.28);
+      padding: 0 3.5rem 1.2rem;
+    }
     .mkit-stage {
       display: flex;
       width: 100%;
@@ -920,11 +928,11 @@
       object-fit: cover;
       display: block;
       transition: transform 0.7s ease, filter 0.5s ease;
-      filter: brightness(0.78) saturate(0.9);
+      filter: brightness(0.88) saturate(0.85);
     }
     .mkit-item.mkit-active img,
     .mkit-item:hover img {
-      filter: brightness(1) saturate(1);
+      filter: brightness(1.02) saturate(1.05);
       transform: scale(1.04);
     }
     .mkit-card {
@@ -1554,6 +1562,7 @@
   </section>
 
   <!-- ── Kitro-style material stage — 6 items, auto-cycle, hover to pause ── -->
+  <p class="mkit-hint reveal">Hover any material to explore its waste data</p>
   <div class="mkit-stage" id="mkit-stage">
 
     <!-- 1. TEAK -->
@@ -1588,7 +1597,7 @@
 
     <!-- 3. FULL-GRAIN LEATHER -->
     <div class="mkit-item">
-      <img src="https://images.pexels.com/photos/3638008/pexels-photo-3638008.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Full-Grain Leather">
+      <img src="https://images.pexels.com/photos/207300/pexels-photo-207300.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Full-Grain Leather">
       <div class="mkit-card">
         <div class="mkit-blur"></div>
         <div class="mkit-data">
