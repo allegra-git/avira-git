@@ -909,46 +909,71 @@
       display: flex;
       width: 100%;
       overflow: hidden;
-      min-height: 500px;
+      min-height: 540px;
       margin-top: 3rem;
       align-items: stretch;
     }
+    /* All panels share space equally by default */
     .mkit-item {
-      flex: 0 0 calc(100% / 5.4);
+      flex: 1 1 0;
       position: relative;
       overflow: hidden;
       cursor: pointer;
+      transition: flex 0.6s cubic-bezier(0.4, 0, 0.2, 1);
     }
+    /* Hovered or auto-active panel expands to ~30% */
+    .mkit-item:hover,
+    .mkit-item.mkit-active {
+      flex: 0 0 30%;
+    }
+    /* Label shown at bottom of every panel, fades out on hover */
+    .mkit-label {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      padding: 2.4rem 0 1rem;
+      background: linear-gradient(transparent, rgba(0,0,0,0.52));
+      font-family: 'Jost', sans-serif;
+      font-weight: 200;
+      font-size: 0.52rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.82);
+      text-align: center;
+      transition: opacity 0.35s ease;
+      pointer-events: none;
+    }
+    .mkit-item:hover .mkit-label { opacity: 0; }
     .mkit-item img {
       width: 100%; height: 100%;
       object-fit: cover;
       display: block;
       transition: transform 0.7s ease, filter 0.5s ease;
-      filter: brightness(0.88) saturate(0.85);
+      filter: brightness(0.82) saturate(0.8);
     }
     .mkit-item.mkit-active img,
     .mkit-item:hover img {
-      filter: brightness(1.02) saturate(1.05);
+      filter: brightness(1.0) saturate(1.08);
       transform: scale(1.04);
     }
+    /* Data card — appears only on :hover, delayed so panel expands first */
     .mkit-card {
       position: absolute;
       top: 50%; left: 50%;
       transform: translate(-50%, -46%);
-      width: 220px;
+      width: 200px;
       overflow: hidden;
       border: 0.5px solid rgba(242,237,230,0.28);
-      box-shadow: 0 12px 40px rgba(0,0,0,0.22);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.28);
       opacity: 0;
       pointer-events: none;
-      transition: opacity 0.22s ease, transform 0.22s ease;
+      transition: opacity 0.25s ease 0.28s, transform 0.25s ease 0.28s;
     }
     .mkit-item:hover .mkit-card {
       opacity: 1;
       transform: translate(-50%, -50%);
     }
     .mkit-blur {
-      height: 120px;
+      height: 110px;
       backdrop-filter: blur(22px) brightness(0.82) saturate(1.5);
       -webkit-backdrop-filter: blur(22px) brightness(0.82) saturate(1.5);
       background: rgba(255,255,255,0.06);
@@ -960,7 +985,7 @@
     .mkit-mat-name {
       font-family: 'Jost', sans-serif;
       font-weight: 300;
-      font-size: 0.7rem;
+      font-size: 0.68rem;
       letter-spacing: 0.22em;
       text-transform: uppercase;
       color: #0d0d0d;
@@ -975,7 +1000,7 @@
       display: flex;
       justify-content: space-between;
       align-items: baseline;
-      font-size: 0.55rem;
+      font-size: 0.54rem;
       letter-spacing: 0.06em;
       line-height: 1.45;
       margin-bottom: 0.38rem;
@@ -1553,6 +1578,7 @@
     <!-- 1. TEAK -->
     <div class="mkit-item mkit-active">
       <img src="https://images.pexels.com/photos/326311/pexels-photo-326311.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Teak">
+      <span class="mkit-label">Teak</span>
       <div class="mkit-card">
         <div class="mkit-blur"></div>
         <div class="mkit-data">
@@ -1568,6 +1594,7 @@
     <!-- 2. CARBON FIBRE -->
     <div class="mkit-item">
       <img src="https://images.pexels.com/photos/596815/pexels-photo-596815.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Carbon Fibre">
+      <span class="mkit-label">Carbon Fibre</span>
       <div class="mkit-card">
         <div class="mkit-blur"></div>
         <div class="mkit-data">
@@ -1583,6 +1610,7 @@
     <!-- 3. FULL-GRAIN LEATHER -->
     <div class="mkit-item">
       <img src="https://images.pexels.com/photos/207300/pexels-photo-207300.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Full-Grain Leather">
+      <span class="mkit-label">Leather</span>
       <div class="mkit-card">
         <div class="mkit-blur"></div>
         <div class="mkit-data">
@@ -1598,6 +1626,7 @@
     <!-- 4. ALCANTARA -->
     <div class="mkit-item">
       <img src="https://images.pexels.com/photos/3721330/pexels-photo-3721330.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Alcantara">
+      <span class="mkit-label">Alcantara</span>
       <div class="mkit-card">
         <div class="mkit-blur"></div>
         <div class="mkit-data">
@@ -1613,6 +1642,7 @@
     <!-- 5. WOOL CARPET -->
     <div class="mkit-item">
       <img src="https://images.pexels.com/photos/11255284/pexels-photo-11255284.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Wool Carpet">
+      <span class="mkit-label">Wool Carpet</span>
       <div class="mkit-card">
         <div class="mkit-blur"></div>
         <div class="mkit-data">
@@ -1628,6 +1658,7 @@
     <!-- 6. SILK -->
     <div class="mkit-item">
       <img src="https://images.pexels.com/photos/7717488/pexels-photo-7717488.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Silk">
+      <span class="mkit-label">Silk</span>
       <div class="mkit-card">
         <div class="mkit-blur"></div>
         <div class="mkit-data">
