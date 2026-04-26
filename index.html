@@ -947,7 +947,6 @@
       pointer-events: none;
       transition: opacity 0.22s ease, transform 0.22s ease;
     }
-    .mkit-item.mkit-active .mkit-card,
     .mkit-item:hover .mkit-card {
       opacity: 1;
       transform: translate(-50%, -50%);
@@ -2183,40 +2182,29 @@
   }
 
   /* ── KITRO MATERIAL STAGE ────────────────────────────────── */
+  /* Card visibility is pure CSS :hover — no JS needed for show/hide.
+     JS only drives the subtle brightness cycle (mkit-active = brighter panel). */
   let _mkitStarted = false;
   function initMkitStage() {
     if (_mkitStarted) return;
     _mkitStarted = true;
     const items = Array.from(document.querySelectorAll('.mkit-item'));
     if (!items.length) return;
+    let cycleIdx = 0;
 
-    let cycleIdx  = 0;   // which item the auto-cycle is on
-    let hoverIdx  = -1;  // -1 = no hover
-
-    function showItem(idx) {
+    function pulse(idx) {
       items.forEach(it => it.classList.remove('mkit-active'));
-      if (idx >= 0) items[idx].classList.add('mkit-active');
+      items[idx].classList.add('mkit-active');
+      cycleIdx = idx;
     }
 
-    // Start cycle
-    showItem(0);
+    pulse(0);
     setInterval(() => {
-      if (hoverIdx === -1) {                       // only advance when not hovering
-        cycleIdx = (cycleIdx + 1) % items.length;
-        showItem(cycleIdx);
+      // Only advance if no item is being hovered (CSS :hover handles that)
+      if (!document.querySelector('.mkit-item:hover')) {
+        pulse((cycleIdx + 1) % items.length);
       }
     }, 2600);
-
-    items.forEach((item, idx) => {
-      item.addEventListener('mouseenter', () => {
-        hoverIdx = idx;
-        showItem(idx);                             // immediately show this card
-      });
-      item.addEventListener('mouseleave', () => {
-        hoverIdx = -1;
-        showItem(cycleIdx);                        // immediately revert to cycle item — no lag
-      });
-    });
   }
 
   /* ── LIFECYCLE ANIMATION ──────────────────────────────────── */
