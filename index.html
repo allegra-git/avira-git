@@ -2358,8 +2358,8 @@
         ['Detail',   'Spun, open top'],
         ['Finish',   'Brushed, marine grade'],
       ],
-      camPos:    [3.2, 1.6, 3.8],
-      camTarget: [0, 0.1, 0],
+      camPos:    [3.0, 2.6, 3.6],
+      camTarget: [0, 0.2, 0],
     },
     'icebucket': {
       product: 'container', label: 'Ice Bucket',
@@ -2371,8 +2371,8 @@
         ['Base ø',   '144 mm'],
         ['Finish',   'Brushed, marine grade'],
       ],
-      camPos:    [4.2, 2.4, 4.6],
-      camTarget: [0, 0.15, 0],
+      camPos:    [4.0, 3.2, 4.4],
+      camTarget: [0, 0.2, 0],
     },
   };
 
@@ -2631,33 +2631,66 @@
       groups['coaster-circular'] = coasterCirGrp;
 
       // ── BUILD: BOTTLE CONTAINER ────────────────────────────
+      // Hollow 316L sleeve — outer wall + inner wall + annular top face
       const contGrp = new THREE.Group();
-      const contWall = new THREE.Mesh(new THREE.CylinderGeometry(0.40, 0.37, 1.50, 48, 1, true), steelMat);
-      contWall.castShadow = true; contGrp.add(contWall);
-      const contBase = new THREE.Mesh(new THREE.CylinderGeometry(0.37, 0.37, 0.018, 48), steelMat);
-      contBase.position.y = -0.759; contBase.castShadow = true; contGrp.add(contBase);
-      const contRim = new THREE.Mesh(new THREE.CylinderGeometry(0.415, 0.405, 0.022, 48), steelMat);
-      contRim.position.y = 0.761; contRim.castShadow = true; contGrp.add(contRim);
+      const C_H=1.50, C_RO=0.40, C_ROB=0.37, C_RI=0.344, C_RIB=0.316, C_SEG=72;
+      // outer wall
+      const cOuter = new THREE.Mesh(new THREE.CylinderGeometry(C_RO, C_ROB, C_H, C_SEG, 1, true), steelMat);
+      cOuter.castShadow = true; contGrp.add(cOuter);
+      // inner wall (wall thickness ≈ 5 mm each side)
+      const cInner = new THREE.Mesh(new THREE.CylinderGeometry(C_RI, C_RIB, C_H - 0.002, C_SEG, 1, true), steelMat);
+      contGrp.add(cInner);
+      // annular top face — the ring you look down into
+      const cTopFace = new THREE.Mesh(new THREE.RingGeometry(C_RI, C_RO, C_SEG), steelMat);
+      cTopFace.rotation.x = -Math.PI / 2;
+      cTopFace.position.y = C_H / 2;
+      contGrp.add(cTopFace);
+      // inner base disc (visible when looking into container)
+      const cInnerFloor = new THREE.Mesh(new THREE.CircleGeometry(C_RIB, C_SEG), steelMat);
+      cInnerFloor.rotation.x = -Math.PI / 2;
+      cInnerFloor.position.y = -C_H / 2 + 0.002;
+      contGrp.add(cInnerFloor);
+      // outer base plate
+      const cBase = new THREE.Mesh(new THREE.CylinderGeometry(C_ROB, C_ROB, 0.020, C_SEG), steelMat);
+      cBase.position.y = -C_H / 2 - 0.010; cBase.castShadow = true; contGrp.add(cBase);
+      // rolled lip at rim
+      const cRim = new THREE.Mesh(new THREE.CylinderGeometry(C_RO + 0.016, C_RO + 0.008, 0.024, C_SEG), steelMat);
+      cRim.position.y = C_H / 2 + 0.012; cRim.castShadow = true; contGrp.add(cRim);
       contGrp.visible = false;
       scene.add(contGrp);
       groups['container'] = contGrp;
 
       // ── BUILD: ICE BUCKET ─────────────────────────────────
-      // 200mm tall = 2.0 units, top ø 180mm = r 0.90, base ø 144mm = r 0.72
+      // Hollow tapered ice bucket — bottle + ice fit inside
       const ibGrp = new THREE.Group();
-      const ibWall = new THREE.Mesh(new THREE.CylinderGeometry(0.90, 0.72, 2.0, 64, 1, true), steelMat);
-      ibWall.castShadow = true; ibGrp.add(ibWall);
-      const ibBase = new THREE.Mesh(new THREE.CylinderGeometry(0.72, 0.72, 0.020, 64), steelMat);
-      ibBase.position.y = -1.01; ibBase.castShadow = true; ibGrp.add(ibBase);
+      const IB_H=2.0, IB_RO=0.90, IB_ROB=0.72, IB_RI=0.836, IB_RIB=0.658, IB_SEG=72;
+      // outer wall
+      const ibOuter = new THREE.Mesh(new THREE.CylinderGeometry(IB_RO, IB_ROB, IB_H, IB_SEG, 1, true), steelMat);
+      ibOuter.castShadow = true; ibGrp.add(ibOuter);
+      // inner wall
+      const ibInner = new THREE.Mesh(new THREE.CylinderGeometry(IB_RI, IB_RIB, IB_H - 0.002, IB_SEG, 1, true), steelMat);
+      ibGrp.add(ibInner);
+      // annular top face — shows the hollow opening
+      const ibTopFace = new THREE.Mesh(new THREE.RingGeometry(IB_RI, IB_RO, IB_SEG), steelMat);
+      ibTopFace.rotation.x = -Math.PI / 2;
+      ibTopFace.position.y = IB_H / 2;
+      ibGrp.add(ibTopFace);
+      // inner base disc
+      const ibInnerFloor = new THREE.Mesh(new THREE.CircleGeometry(IB_RIB, IB_SEG), steelMat);
+      ibInnerFloor.rotation.x = -Math.PI / 2;
+      ibInnerFloor.position.y = -IB_H / 2 + 0.002;
+      ibGrp.add(ibInnerFloor);
+      // outer base plate
+      const ibBase = new THREE.Mesh(new THREE.CylinderGeometry(IB_ROB, IB_ROB, 0.022, IB_SEG), steelMat);
+      ibBase.position.y = -IB_H / 2 - 0.011; ibBase.castShadow = true; ibGrp.add(ibBase);
       // rolled top rim
-      const ibRim = new THREE.Mesh(new THREE.CylinderGeometry(0.925, 0.905, 0.030, 64), steelMat);
-      ibRim.position.y = 1.015; ibRim.castShadow = true; ibGrp.add(ibRim);
-      // two horizontal grip bands
-      [0.35, -0.20].forEach(y => {
-        const band = new THREE.Mesh(new THREE.CylinderGeometry(
-          0.72 + (0.90-0.72)*(y+1.0)/2.0 + 0.012,
-          0.72 + (0.90-0.72)*(y+1.0)/2.0,
-          0.028, 64), steelMat);
+      const ibRim = new THREE.Mesh(new THREE.CylinderGeometry(IB_RO + 0.026, IB_RO + 0.012, 0.032, IB_SEG), steelMat);
+      ibRim.position.y = IB_H / 2 + 0.016; ibRim.castShadow = true; ibGrp.add(ibRim);
+      // two horizontal grip bands (radius matched to taper)
+      [0.38, -0.18].forEach(y => {
+        const t = (y + IB_H/2) / IB_H;
+        const rAtY = IB_ROB + (IB_RO - IB_ROB) * t;
+        const band = new THREE.Mesh(new THREE.CylinderGeometry(rAtY + 0.022, rAtY + 0.010, 0.030, IB_SEG), steelMat);
         band.position.y = y; ibGrp.add(band);
       });
       ibGrp.position.y = -0.8;
