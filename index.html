@@ -2358,8 +2358,8 @@
         ['Detail',   'Spun, open top'],
         ['Finish',   'Brushed, marine grade'],
       ],
-      camPos:    [2.0, 3.8, 2.0],
-      camTarget: [0, 0.4, 0],
+      camPos:    [3.0, 3.6, 3.0],
+      camTarget: [0, 0.1, 0],
     },
     'icebucket': {
       product: 'container', label: 'Ice Bucket',
@@ -2371,8 +2371,8 @@
         ['Base ø',   '144 mm'],
         ['Finish',   'Brushed, marine grade'],
       ],
-      camPos:    [2.8, 4.0, 2.8],
-      camTarget: [0, 0.1, 0],
+      camPos:    [3.5, 3.8, 3.5],
+      camTarget: [0, -0.2, 0],
     },
   };
 
@@ -2503,9 +2503,9 @@
       const steelMat = new THREE.MeshStandardMaterial({
         color: new THREE.Color(0xd0d4d0), metalness: 0.88, roughness: 0.18, side: THREE.DoubleSide,
       });
-      // Darker interior mat — makes hollow depth visible
+      // Near-black interior — strong contrast so hollow is unmistakable
       const innerMat = new THREE.MeshStandardMaterial({
-        color: new THREE.Color(0x8a8e8a), metalness: 0.82, roughness: 0.28, side: THREE.DoubleSide,
+        color: new THREE.Color(0x111412), metalness: 0.2, roughness: 0.9, side: THREE.DoubleSide,
       });
       const footMat = new THREE.MeshStandardMaterial({ color: 0xb8bcb8, metalness: 0.75, roughness: 0.3 });
 
@@ -2657,8 +2657,8 @@
       // outer base plate
       const cBase = new THREE.Mesh(new THREE.CylinderGeometry(C_ROB, C_ROB, 0.020, C_SEG), steelMat);
       cBase.position.y = -C_H / 2 - 0.010; cBase.castShadow = true; contGrp.add(cBase);
-      // rolled lip — wider flange so it's clearly not a solid top
-      const cRim = new THREE.Mesh(new THREE.CylinderGeometry(C_RO + 0.028, C_RO + 0.012, 0.030, C_SEG), steelMat);
+      // rolled lip — open-ended tube so it doesn't cap the hollow opening
+      const cRim = new THREE.Mesh(new THREE.CylinderGeometry(C_RO + 0.028, C_RO + 0.012, 0.030, C_SEG, 1, true), steelMat);
       cRim.position.y = C_H / 2 + 0.015; cRim.castShadow = true; contGrp.add(cRim);
       contGrp.visible = false;
       scene.add(contGrp);
@@ -2687,8 +2687,8 @@
       // outer base plate
       const ibBase = new THREE.Mesh(new THREE.CylinderGeometry(IB_ROB, IB_ROB, 0.022, IB_SEG), steelMat);
       ibBase.position.y = -IB_H / 2 - 0.011; ibBase.castShadow = true; ibGrp.add(ibBase);
-      // rolled top rim
-      const ibRim = new THREE.Mesh(new THREE.CylinderGeometry(IB_RO + 0.038, IB_RO + 0.016, 0.036, IB_SEG), steelMat);
+      // rolled top rim — open-ended so hollow stays visible
+      const ibRim = new THREE.Mesh(new THREE.CylinderGeometry(IB_RO + 0.038, IB_RO + 0.016, 0.036, IB_SEG, 1, true), steelMat);
       ibRim.position.y = IB_H / 2 + 0.018; ibRim.castShadow = true; ibGrp.add(ibRim);
       // two horizontal grip bands (radius matched to taper)
       [0.38, -0.18].forEach(y => {
